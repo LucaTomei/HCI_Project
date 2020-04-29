@@ -6,13 +6,10 @@
   <img src="files/screenshot/photo_2020-04-29 15.58.23.jpeg" />
 </p>
 
-<div align="center">
-
 Done? | Yes/No
 :---:| ---
 ⬜️| Yes
 ✅| No
-</div>
 
 ---
 
@@ -22,13 +19,10 @@ Done? | Yes/No
   <img src="files/screenshot/photo_2020-04-29 15.58.25.jpeg" />
 </p>
 
-<div align="center">
-
 Done? | Yes/No
 :---:| ---
 ⬜️| Yes
 ✅| No
-</div>
 
 ---
 
@@ -38,13 +32,10 @@ Done? | Yes/No
   <img src="files/screenshot/photo_2020-04-29 15.58.26.jpeg" />
 </p>
 
-<div align="center">
-
 Done? | Yes/No
 :---:| ---
 ⬜️| Yes
 ✅| No
-</div>
 
 ---
 
@@ -54,13 +45,10 @@ Done? | Yes/No
   <img src="files/screenshot/photo_2020-04-29 15.58.27.jpeg" />
 </p>
 
-<div align="center">
-
 Done? | Yes/No
 :---:| ---
 ⬜️| Yes
 ✅| No
-</div>
 
 ---
 
@@ -70,13 +58,10 @@ Done? | Yes/No
   <img src="files/screenshot/photo_2020-04-29 15.58.28.jpeg" />
 </p>
 
-<div align="center">
-
 Done? | Yes/No
 :---:| ---
 ⬜️| Yes
 ✅| No
-</div>
 
 ---
 
@@ -86,11 +71,9 @@ Done? | Yes/No
   <img src="files/screenshot/photo_2020-04-29 15.58.29.jpeg" />
 </p>
 
-<div align="center">
-
 Done? | Yes/No
 :---:| ---
 ⬜️| Yes
 ✅| No
-</div>
+
 ---
