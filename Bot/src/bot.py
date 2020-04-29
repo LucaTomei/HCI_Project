@@ -1,6 +1,6 @@
 from bot_replies import *
 
-from Dealer_Interaction import dealer_handlers
+from Dealer_Interaction.src import dealer_handlers
 
 
 class Bot(object):
