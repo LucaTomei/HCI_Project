@@ -1,0 +1,70 @@
+[
+    {
+        "natural_key": "alimentari",
+        "products": []
+    },
+    {
+        "natural_key": "bioequo",
+        "products": []
+    },
+    {
+        "natural_key": "birroteca",
+        "products": []
+    },
+    {
+        "natural_key": "cioccolateria",
+        "products": []
+    },
+    {
+        "natural_key": "enoteca",
+        "products": []
+    },
+    {
+        "natural_key": "formaggeria",
+        "products": []
+    },
+    {
+        "natural_key": "frutteria",
+        "products": []
+    },
+    {
+        "natural_key": "gastronomia",
+        "products": []
+    },
+    {
+        "natural_key": "gelateria",
+        "products": []
+    },
+    {
+        "natural_key": "macelleria",
+        "products": []
+    },
+    {
+        "natural_key": "oleoteca",
+        "products": []
+    },
+    {
+        "natural_key": "panificio",
+        "products": ["Filone Casareccio", "Rosette", "Schiacciatine", "Panini all'Olio", "Pane in Cassetta", "Pizza Bianca"]
+    },
+    {
+        "natural_key": "pasticceria",
+        "products": []
+    },
+    {
+        "natural_key": "pastificio",
+        "products": []
+    },
+    {
+        "natural_key": "pescheria",
+        "products": []
+    },
+    {
+        "natural_key": "teeria",
+        "products": []
+    },
+    {
+        "natural_key": "torrefazione",
+        "products": []
+    }
+]
