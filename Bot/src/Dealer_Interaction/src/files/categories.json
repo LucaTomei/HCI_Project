@@ -21,19 +21,19 @@
     },
     {
         "natural_key": "formaggeria",
-        "products": []
+        "products": ["PArmiggiano reggiano", "Pecorino", "Yogurt greco", "Primo sale", "Stracchino", "Provola", "Stracciatella", "Ricotta di pecora", "Ricotta di capra", "Ricotta bovina", "Gorgonzola"]
     },
     {
         "natural_key": "frutteria",
-        "products": []
+        "products": ["Mela", "Pera", "Arancia", "Susina", "Ananas", "Melone", "Melone bianco", "Cocomero", "Mandarino", "Kiwi", "Papaja", "Pompelmo", "Uva", "Fragole", "Lamponi", "Frutti di bosco", "Amarena", "Albicocca", "Prugna", "Pesca", "Pesca noce"]
     },
     {
         "natural_key": "gastronomia",
-        "products": []
+        "products": ["Culatello", "Prosciutto Parma", "Prociutto San Daniele", "Prosciutto Toscano", "Prosciutto di Norcia", "Prosciutto dei Castelli", "Prosciutto di Carpegna", "Prosciutto Bassiano", "Gran Biscotto", "Ferrarini", "Prosciutto Praga", "Cotto alle erbe", "Mortadella", "Mortadella con pistacchio", "Fesa di Tacchino", "Pagnotta di Tacchino", "Coppa Piacentina", "Speck", "Bresaola", "Bresaola equina", "Salame Napoli", "Salame Milano", "Salame Ungherese", "Coppa", "Prochetta"]
     },
     {
         "natural_key": "gelateria",
-        "products": []
+        "products": ["Cioccolata", "Stracciatella", "Variegato Nutella", "Kinder", "Pistacchio", "Crema", "Vaniglia", "Zabbaglione", "Puffo", "Caffè", "Banana", "Fragola", "Limone", "Cocco", "Frutti di bosco", "Melone", "Cassata"]
     },
     {
         "natural_key": "macelleria",
