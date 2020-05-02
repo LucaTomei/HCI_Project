@@ -25,8 +25,10 @@ class Bot(object):
 	def register_all_handlers(self, dp):
 		dp.add_handler(CommandHandler('start', self.start))
 		dp.add_handler(MessageHandler(Filters.status_update, self.start))
-		dp.add_handler(self.Dealer_Handlers_Obj.preamble_conversation_handler())
-		dp.add_handler(self.Dealer_Handlers_Obj.main_conversation_handler())
+		#dp.add_handler(self.Dealer_Handlers_Obj.preamble_register_shop_handler())
+		#dp.add_handler(self.Dealer_Handlers_Obj.register_shop_handler())
+		dp.add_handler(self.Dealer_Handlers_Obj.register_shop_handler_test())
+		#dp.add_handler(self.Dealer_Handlers_Obj.register_shop_window_handler())
 		dp.add_handler(MessageHandler(Filters.text, unknown_function))
 
 	def main(self):

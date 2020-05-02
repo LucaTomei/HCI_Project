@@ -1,7 +1,9 @@
 from bot_replies import *
+from . import shop_window_handler
 
 class Dealer_Handlers(object):
-	def __init__(self):	pass
+	def __init__(self):
+		self.Shop_Window_Handler_Obj = shop_window_handler.Shop_Window_Handler()
 
 	#---------[You have pressed YES WEBSITE BUTTON]---------
 	def you_have_website(self, update, context):
@@ -175,8 +177,8 @@ class Dealer_Handlers(object):
 			update.message.reply_text(bot_replies['location_error_message'], parse_mode=ParseMode.MARKDOWN, reply_markup = ReplyKeyboardRemove(), disable_web_page_preview=True)
 			return 3
 
-	def main_conversation_handler(self):
-		main_conversation_handler = ConversationHandler(
+	def register_shop_handler(self):
+		register_shop_handler = ConversationHandler(
             [	# Entry Points
             	MessageHandler(Filters.regex('^' + bot_buttons['category'] +'$'),self.category_main_handler),
             	MessageHandler(Filters.regex('^' + bot_buttons['location'] +'$'),self.location_main_handler),
@@ -202,12 +204,33 @@ class Dealer_Handlers(object):
             		MessageHandler(Filters.location,self.set_user_location_handler),
             	]  	
             },[])
-		return main_conversation_handler
+		return register_shop_handler
+
+	
+	def register_shop_handler_test(self):
+		register_shop_handler = ConversationHandler(
+            [	# Entry Points
+            	MessageHandler(Filters.regex('^' + bot_buttons['category'] +'$'),self.Shop_Window_Handler_Obj.test_entry_point_main_handler),
+            	MessageHandler(Filters.regex('^' + bot_buttons['location'] +'$'),self.Shop_Window_Handler_Obj.test_entry_point_main_handler),
+        		MessageHandler(Filters.text,unknown_function),
+            ], 
+            {
+            	0: [	# Starting main handler
+            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.choice_your_product_handler),
+            	],
+            	1: [
+            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.insert_price_handler),
+            	],
+            	2: [
+            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.set_product_in_shopping_window_handler),
+            	]
+            },[])
+		return register_shop_handler
 
 
 
-	def preamble_conversation_handler(self):
-		preamble_conversation_handler = ConversationHandler(
+	def preamble_register_shop_handler(self):
+		preamble_register_shop_handler = ConversationHandler(
             [	# Entry Points
             	MessageHandler(Filters.regex('^' + bot_buttons['yes'] +'$'),self.you_have_website),
             	MessageHandler(Filters.regex('^' + bot_buttons['no'] +'$'),self.yout_dont_have_website),
@@ -218,7 +241,12 @@ class Dealer_Handlers(object):
             	],
             	1:[	# state for register website
             		MessageHandler(Filters.text,self.register_website_handler)
-            	],         	
+            	],
+            	2:[	# Are you sure insert product
+           #  		MessageHandler(Filters.regex('^' + bot_buttons['category'] +'$'),self.Shop_Window_Handler_Obj.test_entry_point_main_handler),
+           #  		MessageHandler(Filters.regex('^' + bot_buttons['category'] +'$'),self.Shop_Window_Handler_Obj.test_entry_point_main_handler),
+        			# MessageHandler(Filters.text,unknown_function),
+            	]      	
             },[])
-		return preamble_conversation_handler
+		return preamble_register_shop_handler
 

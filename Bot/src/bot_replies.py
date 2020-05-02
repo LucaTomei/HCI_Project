@@ -10,7 +10,7 @@ from utilities import Utility
 Utility_Obj = Utility()
 
 
-BOT_TOKEN = "1114441197:AAFJ0w7kUPtacw0DuFJzDaa_0BHqfbAmj8k"		# t.me/ColligoBot
+BOT_TOKEN = ""		# t.me/ColligoBot
 BOT_DEV_TOKEN = "1140474924:AAEEt2LD6Hg0TRXZDZU7HoHullUtEqNQAPc"	# t.me/Colligo_Development_Bot
 
 
@@ -43,8 +43,18 @@ bot_replies = {
 
 	"all_done": "Tutto impostato con successo:\nCategorie del negozio: *%s*\nPosizione del negozio: *%s*.",
 
-	"no_access_here": "*Mi dispiace ma il bot può essere utilizzato solamente all'interno di gruppi o supergruppi*"
+	"no_access_here": "*Mi dispiace ma il bot può essere utilizzato solamente all'interno di gruppi o supergruppi*",
 
+
+
+	#---------[After Registration Show Categories]---------
+	"choice_your_category": "*Attraverso i pannelli sottostanti potrai selezionare la categoria di prodotti da inserire in vetrina per i tuoi clienti*",
+	"insert_product": "*Inserisci ora il prodotto che desideri far visionare ai tuoi clienti*",
+	"insert_price": "*Inserisci ora il prezzo a cui desideri vendere 1 unità di %s*",
+	"are_you_sure_price":"*Sei sicuro di voler vendere %s a %s€?*",
+	"shop_window": "*%s* inserito correttamente nella tua vetrina. Desideri inserire altro o visionare la tua vetrina?",
+	"shop_window_done": "Questa è la vetrina della tua bottega con il riepilogo dei prodotti:\n\n%s",
+	"want_to_send": "*Vuoi che la invio ai tuoi clienti o desideri apportare ulteriori modifiche?*",
 }
 
 #---------[Keyboard Buttons]---------
@@ -59,6 +69,18 @@ bot_buttons = {
 	"no_category": "NO 👎",
 
 	"stop_button": "Fine",
+
+	#---------[Message: insert_price]---------
+	"yes_sure_price": "SI👍",
+	"no_sure_price": "NO👎",
+
+	#---------[Message: shop_window]---------
+	"yes_insert_new_product": "Inserisci nuovo prodotto",
+	"no_show_shop_window": "Fine (vedi vetrina)",
+
+	#---------[Message: shop_window_done]---------
+	"yes_send_shop_window": "👍 SI",
+	"no_send_shop_window": "👎 NO",
 }
 
 def makeAKeyboard(alist, parti):
@@ -67,6 +89,20 @@ def makeAKeyboard(alist, parti):
     keyboard.append([bot_buttons['stop_button']])
     return ReplyKeyboardMarkup(keyboard)
 
+send_shop_window_keyboard = ReplyKeyboardMarkup([
+	[bot_buttons['yes_send_shop_window']],
+	[bot_buttons['no_send_shop_window']]
+])
+
+other_product_main_keyboard = ReplyKeyboardMarkup([
+	[bot_buttons['yes_insert_new_product']],
+	[bot_buttons['no_show_shop_window']]
+])
+
+yes_no_sure_price = ReplyKeyboardMarkup([
+	[bot_buttons['yes_sure_price']],
+	[bot_buttons['no_sure_price']]
+])
 
 main_keyboard = ReplyKeyboardMarkup([
 	[bot_buttons['category']],

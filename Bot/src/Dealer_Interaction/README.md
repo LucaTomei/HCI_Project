@@ -7,14 +7,14 @@
 
 Done? | Yes/No
 :---:| ---
-⬜️| Yes
-✅| No
+✅| Yes
+⬜️| No
 
 ---
 
 <h2>Second Task:</h2>
 
-<p>After creating the list by clicking the buttons, the bot sends a token.</p>
+<!-- <p>After creating the list by clicking the buttons, the bot sends a token.</p> -->
 
 <p align="center">
   <img src="files/screenshot/photo_2020-04-29 17.53.22.jpeg" />
@@ -22,8 +22,8 @@ Done? | Yes/No
 
 Done? | Yes/No
 :---:| ---
-⬜️| Yes
-✅| No
+✅| Yes
+⬜️|	No
 
 ---
 
@@ -35,8 +35,8 @@ Done? | Yes/No
 
 Done? | Yes/No
 :---:| ---
-⬜️| Yes
-✅| No
+✅| Yes
+⬜️|	No
 
 ---
 

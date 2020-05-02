@@ -15,6 +15,7 @@ class Utility(object):
 	        r'(?::\d+)?'  # optional port
 	        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 	    return url is not None and regex.search(url)
+	
 	#---------[CATEGORIES FUNCTIONS]---------
 	def retrieve_merchant_categories(self):
 		url = self.base_request_url + '/categories'
@@ -52,8 +53,35 @@ class Utility(object):
 				"tmp_category":None,
 				"user_location":(None, None), 
 				"user_website":"",
-				"all_done":False
+				"all_done":False,
+
+				#---------[SHOPPING WINDOW]---------
+				"tmp_product": "", 	# to add temp product
+				"tmp_price": 0, 	# to add temp product price
+				"shopping_window_list": [], # shopping_window_list structure: [{"name":"", "price":""}]
 			}
+	#---------[SHOPPING WINDOW]---------
+	def get_tmp_product(self, chat_id, context):
+		return context.user_data[chat_id]['tmp_product']
+	
+	def set_tmp_product(self, chat_id, context, product):
+		context.user_data[chat_id]['tmp_product'] = product
+
+	def get_tmp_product_price(self, chat_id, context):
+		return context.user_data[chat_id]['tmp_price']
+	
+	def set_tmp_product_price(self, chat_id, context, price):
+		context.user_data[chat_id]['tmp_price'] = price
+
+
+	def get_shopping_window_list_by_chat_id(self, chat_id, context):
+		return context.user_data[chat_id]['shopping_window_list']
+
+	def append_into_shopping_window_list(self, chat_id, context, product_price):	# product_price = {"name":"", "price":""}
+		context.user_data[chat_id]['shopping_window_list'].append(product_price)
+	#---------[END SHOPPING WINDOW]---------
+	
+
 
 	def get_user_data(self, chat_id, context):
 		return context.user_data[chat_id]
@@ -65,6 +93,7 @@ class Utility(object):
 
 	def get_user_categories(self, chat_id, context):
 		return list(set(context.user_data[chat_id]['categories_list']))
+	
 	def set_user_category(self, chat_id, category, context):
 		context.user_data[chat_id]['categories_list'].append(category)
 

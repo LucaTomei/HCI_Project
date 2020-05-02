@@ -10,12 +10,12 @@
 
 ### Checkout the [Youtube Video](https://www.youtube.com/watch?v=dgwotDhMSyo&feature=youtu.be)
 
-### Checkout on [Telegram](https://t.me/ColliGoBot) 
+### Checkout on [Telegram](t.me/Colligo_Development_Bot) 
 
 ## Installazione
 
 ```shell
-	cd Bot
+	cd Bot/src
 	pip install -r requirements.txt
 	python bot.py
 ```
