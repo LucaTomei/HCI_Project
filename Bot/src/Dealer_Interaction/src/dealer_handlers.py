@@ -223,6 +223,9 @@ class Dealer_Handlers(object):
             	],
             	2: [
             		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.set_product_in_shopping_window_handler),
+            	],
+            	3: [
+            		MessageHandler(Filters.text,self.Shop_Window_Handler_Obj.yes_no_sure_price_handler),
             	]
             },[])
 		return register_shop_handler
@@ -241,12 +244,7 @@ class Dealer_Handlers(object):
             	],
             	1:[	# state for register website
             		MessageHandler(Filters.text,self.register_website_handler)
-            	],
-            	2:[	# Are you sure insert product
-           #  		MessageHandler(Filters.regex('^' + bot_buttons['category'] +'$'),self.Shop_Window_Handler_Obj.test_entry_point_main_handler),
-           #  		MessageHandler(Filters.regex('^' + bot_buttons['category'] +'$'),self.Shop_Window_Handler_Obj.test_entry_point_main_handler),
-        			# MessageHandler(Filters.text,unknown_function),
-            	]      	
+            	]   	
             },[])
 		return preamble_register_shop_handler
 

@@ -9,9 +9,9 @@ class Shop_Window_Handler(object):
 		try:
 			## TEST - TO REMOVE
 			chat_id = update.message.chat.id
-			tmp_category = "panificio"	# TAKE THEM FROM get_user_categories IN UTILS
+			tmp_category = "panificio"		# TAKE THEM FROM get_user_categories IN UTILS
 			Utility_Obj.set_user_category(chat_id, tmp_category, context)
-			tmp_category = "oleoteca" 	# TAKE THEM FROM get_user_categories IN UTILS
+			tmp_category = "gastronomia" 	# TAKE THEM FROM get_user_categories IN UTILS
 			Utility_Obj.set_user_category(chat_id, tmp_category, context)
 			# END TEST - TO REMOVE
 			
@@ -75,5 +75,26 @@ class Shop_Window_Handler(object):
 			keyboard_to_show = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
 			context.bot.send_message(chat_id=chat_id, text = bot_replies['insert_price'] % product, reply_markup=keyboard_to_show,  parse_mode = ParseMode.MARKDOWN)
 			return 2
-		
+	
+	def yes_no_sure_price_handler(self, update, context):
+		chat_id = update.message.chat.id
+		chat_message = update.message.text
+
+		if chat_message in [j for i in yes_no_sure_price.keyboard for j in i]:
+			if chat_message == bot_buttons['yes_sure_price']:
+				pass
+			else:
+				user_categories = Utility_Obj.get_user_categories(chat_id, context)
+				keyboard_to_show = self.Utils_Obj.make_keyboard(user_categories, len(user_categories))
+
+				Utility_Obj.set_main_keyboard_by_chat_id(chat_id, keyboard_to_show, context)
+				update.message.reply_text(bot_replies['choice_your_category'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
+				return 0
+
+		else:	# loop until tou press yes or not
+			keyboard_to_show = yes_no_sure_price
+			Utility_Obj.set_main_keyboard_by_chat_id(chat_id, keyboard_to_show, context)
+			update.message.reply_text(bot_replies['are_you_sure_price'] % (this_product, str(this_price)), parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
+			return 3
+
 		
