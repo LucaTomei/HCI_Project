@@ -21,7 +21,7 @@
     },
     {
         "natural_key": "formaggeria",
-        "products": ["PArmiggiano reggiano", "Pecorino", "Yogurt greco", "Primo sale", "Stracchino", "Provola", "Stracciatella", "Ricotta di pecora", "Ricotta di capra", "Ricotta bovina", "Gorgonzola"]
+        "products": ["Parmiggiano reggiano", "Pecorino", "Yogurt greco", "Primo sale", "Stracchino", "Provola", "Stracciatella", "Ricotta di pecora", "Ricotta di capra", "Ricotta bovina", "Gorgonzola"]
     },
     {
         "natural_key": "frutteria",
