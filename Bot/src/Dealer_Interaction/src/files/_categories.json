@@ -1,0 +1,523 @@
+[
+    {
+        "natural_key": "alimentari",
+        "sub_categories": [
+            {
+                "Acqua": [
+                    {
+                        "Nepi": "1.5L"
+                    },
+                    {
+                        "Panna": "1.5L"
+                    },
+                    {
+                        "Ferrarelle": "1.5L"
+                    },
+                    {
+                        "Levissima": "1.5L"
+                    },
+                    {
+                        "Lilia": "1.5L"
+                    },
+                    {
+                        "Brio Blu": "1.5L"
+                    },
+                    {
+                        "Nestlè Vera": "1.5L"
+                    },
+                    {
+                        "Sant'Anna": "1.5L"
+                    },
+                    {
+                        "San Benedetto": "1.5L"
+                    }
+                ]
+            },
+            {
+                "Caffè Macinato": [
+                    {
+                        "Illy": "250g"
+                    },
+                    {
+                        "Lavazza Q. Rossa": "250g"
+                    },
+                    {
+                        "Lavazza Crema e Gusto": "250g"
+                    },
+                    {
+                        "Hag": "250g"
+                    }
+                ]
+            },
+            {
+                "Cereali": [
+                    {
+                        "Nesquik": "950g"
+                    },
+                    {
+                        "Nesquik Duo": "450g"
+                    },
+                    {
+                        "Lion": "400g"
+                    },
+                    {
+                        "Kellogs Coco Pops": "400g"
+                    },
+                    {
+                        "Kellogs Special Classic": "400g"
+                    },
+                    {
+                        "Kellogs Miel Pops": "400g"
+                    },
+                    {
+                        "Cheerios": "400g"
+                    },
+                    {
+                        "Nestlè Fitness": "400g"
+                    },
+                    {
+                        "Gran Cereale": "350g"
+                    }
+                ]
+            },
+            {
+                "Dolci": [
+                    {
+                        "Sfogliatine Glassate": "200g"
+                    },
+                    {
+                        "Crostata Cioccolata": "200g"
+                    },
+                    {
+                        "Crostata Albicocche": "200g"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "natural_key": "bioequo",
+        "sub_categories": []
+    },
+    {
+        "natural_key": "birroteca",
+        "sub_categories": [
+            {
+                "Pilsner": [
+                    {
+                        "Pilsner Urquell": "0.33l"
+                    },
+                    {
+                        "Green's Pilsner": "0.33l"
+                    },
+                    {
+                        "MALL": "0.33l"
+                    }
+                ]
+            },
+            {
+                "Bock": [
+                    {
+                        "Amstel": "0.33l"
+                    },
+                    {
+                        "Paulaner": "0.33l"
+                    },
+                    {
+                        "Super Bock": "0.33l"
+                    },
+                    {
+                        "Engel": "0.33l"
+                    },
+                    {
+                        "DB": "0.33l"
+                    }
+                ]
+            },
+            {
+                "Trappista": [
+                    {
+                        "La Trappe Isid'or": "0.33l"
+                    },
+                    {
+                        "Westmalle Dubbel": "0.33l"
+                    },
+                    {
+                        "La Trappe Quadrupel": "0.33l"
+                    },
+                    {
+                        "Rochefort 8'": "0.33l"
+                    },
+                    {
+                        "Westmalle Tripel'": "0.33l"
+                    },
+                    {
+                        "La Trappe Tripel'": "0.33l"
+                    },
+                    {
+                        "Tre Fontane'": "0.33l"
+                    }
+                ]
+            },
+            {
+                "Strong Belgian Ale": [
+                    {
+                        "Malheur 12": "0.33l"
+                    },
+                    {
+                        "Duvel": "0.33l"
+                    },
+                    {
+                        "La Trappe Tripel": "0.33l"
+                    },
+                    {
+                        "Bloemenbier": "0.33l"
+                    },
+                    {
+                        "St. Bernardus": "0.33l"
+                    },
+                    {
+                        "Ama Bruna": "0.33l"
+                    }
+                ]
+            },
+            {
+                "Saison": [
+                    {
+                        "Surfine Saison": "0.33l"
+                    },
+                    {
+                        "Saison 1858": "0.33l"
+                    },
+                    {
+                        "Urthel Saisonniere": "0.33l"
+                    },
+                    {
+                        "Saison 1900": "0.33l"
+                    },
+                    {
+                        "Krab": "0.33l"
+                    },
+                    {
+                        "St Feuillien Saison": "0.33l"
+                    },
+                    {
+                        "Saison Voisin": "0.33l"
+                    },
+                    {
+                        "Silly Saison": "0.33l"
+                    },
+                    {
+                        "Koekedam": "0.33l"
+                    },
+                    {
+                        "Saison Dupont": "0.33l"
+                    }
+                ]
+            },
+            {
+                "Weisse": [
+                    {
+                        "Maisel's Weisse": "0.33l"
+                    },
+                    {
+                        "HB": "0.33l"
+                    },
+                    {
+                        "Ayinger": "0.33l"
+                    },
+                    {
+                        "Schneider Weisse": "0.5l"
+                    },
+                    {
+                        "Maisel's Weisse": "0.33l"
+                    },
+                    {
+                        "Paulaner Munchen": "0.33l"
+                    }
+                ]
+            },
+            {
+                "Blanche": [
+                    {
+                        "Blanche de Namur": "0.33l"
+                    },
+                    {
+                        "Hoegarden": "0.33l"
+                    },
+                    {
+                        "Blanche de Bruxelles": "0.33l"
+                    },
+                    {
+                        "Lupus Blanche": "0.33l"
+                    }
+                ]
+            },
+            {
+                "IPA": [
+                    {
+                        "Lagunitas IPA": "0.33l"
+                    },
+                    {
+                        "Corsican IPA": "0.33l"
+                    },
+                    {
+                        "Pink Almond IPA": "0.33l"
+                    },
+                    {
+                        "Moretti la Rossa": "0.5l"
+                    },
+                    {
+                        "Martin's IPA": "0.33l"
+                    },
+                    {
+                        "Lagunitas IPA": "0.33l"
+                    },
+                    {
+                        "Brewdog Punk": "0.33l"
+                    },
+                    {
+                        "Birra Morena": "0.5l"
+                    }
+                ]
+            },
+            {
+                "Stout": [
+                    {
+                        "Mikkeller Black Imperial": "0.33l"
+                    },
+                    {
+                        "Guinness": "0.33l"
+                    },
+                    {
+                        "Ardenne Stout": "0.33l"
+                    },
+                    {
+                        "Kunzi Stout": "0.33l"
+                    },
+                    {
+                        "KBS": "0.33l"
+                    },
+                    {
+                        "LION": "0.33l"
+                    }
+                ]
+            },
+            {
+                "Porter": [
+                    {
+                        "London Porter": "0.33l"
+                    },
+                    {
+                        "Edge Padrino": "0.33l"
+                    },
+                    {
+                        "Payback": "0.33l"
+                    },
+                    {
+                        "Graham Porter": "0.33l"
+                    },
+                    {
+                        "War Babau Porter": "0.33l"
+                    }
+                ]
+            },
+            {
+                "Lambic": [
+                    {
+                        "Mort Subite Geuze": "0.33l"
+                    },
+                    {
+                        "Duchesse de Borgogne": "0.33l"
+                    },
+                    {
+                        "Lindemass Gueuze": "0.33l"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "natural_key": "cioccolateria",
+        "sub_categories": []
+    },
+    {
+        "natural_key": "enoteca",
+        "sub_categories": []
+    },
+    {
+        "natural_key": "formaggeria",
+        "sub_categories": []
+    },
+    {
+        "natural_key": "frutteria",
+        "sub_categories": []
+    },
+    {
+        "natural_key": "gastronomia",
+        "sub_categories": []
+    },
+    {
+        "natural_key": "gelateria",
+        "sub_categories": []
+    },
+    {
+        "natural_key": "macelleria",
+        "sub_categories": []
+    },
+    {
+        "natural_key": "oleoteca",
+        "sub_categories": []
+    },
+    {
+        "natural_key": "panificio",
+        "sub_categories": [
+            {
+                "Biscotti": []
+            },
+            {
+                "Cracker": []
+            },
+            {
+                "Dolci Al Forno": []
+            },
+            {
+                "Focacce": []
+            },
+            {
+                "Pizza": []
+            },
+            {
+                "Torte": []
+            },
+            {
+                "Torte Salate": []
+            }
+        ]
+    },
+    {
+        "natural_key": "pasticceria",
+        "sub_categories": []
+    },
+    {
+        "natural_key": "pastificio",
+        "sub_categories": []
+    },
+    {
+        "natural_key": "pescheria",
+        "sub_categories": []
+    },
+    {
+        "natural_key": "teeria",
+        "sub_categories": [
+            {
+                "Tè": [
+                    {
+                        "20 bustine alla fragola": "40g"
+                    },
+                    {
+                        "20 bustine allo zenzero": "40g"
+                    },
+                    {
+                        "30 bustine alla menta": "40g"
+                    },
+                    {
+                        "20 bustine alla cannella": "40g"
+                    },
+                    {
+                        "60 bustine alla liquirizia": "40g"
+                    },
+                    {
+                        "20 bustine al limone": "40g"
+                    },
+                    {
+                        "40 bustine alla camomilla": "40g"
+                    },
+                    {
+                        "20 bustine all' arancia": "40g"
+                    },
+                    {
+                        "20 bustine alle erbe": "40g"
+                    },
+                    {
+                        "20 bustine Tè Verde": "40g"
+                    },
+                    {
+                        "20 bustine Tè Nero": "40g"
+                    }
+                ]
+            },
+            {
+                "Miscele": [
+                    {
+                        "Flowers N 108": "100g"
+                    },
+                    {
+                        "Oolong Da Hong Pao": "50g"
+                    },
+                    {
+                        "Filtri Kusmi Tea": "150g"
+                    }
+                ]
+            },
+            {
+                "Infusi": [
+                    {
+                        "Multigusto 22 filtri Bio": "40g"
+                    },
+                    {
+                        "Melagrana e Mango": "40g"
+                    },
+                    {
+                        "Tè verde biologico in polvere": "40g"
+                    },
+                    {
+                        "Tè alla frutta miscela": "100g"
+                    },
+                    {
+                        "Tè al gelsomino": "100g"
+                    }
+                ]
+            },
+            {
+                "Tisane": [
+                    {
+                        "Choco Tea": "49g"
+                    },
+                    {
+                        "Drenaforma": "40g"
+                    },
+                    {
+                        "Mirtillo di Bosco": "40g"
+                    },
+                    {
+                        "Limone e Zenzero": "40g"
+                    },
+                    {
+                        "Melograno": "40g"
+                    },
+                    {
+                        "Malva Sylvestris": "40g"
+                    }
+                ]
+            },
+            {
+                "Oggettistica": [
+                    {
+                        "Filtro da Tè": "1u"
+                    },
+                    {
+                        "Teiera Fonte nero": "1u"
+                    },
+                    {
+                        "Tazza per Tisana": "1u"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "natural_key": "torrefazione",
+        "sub_categories": []
+    }
+]
