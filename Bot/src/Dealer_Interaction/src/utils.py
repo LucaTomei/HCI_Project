@@ -3,8 +3,8 @@ import json, re
 
 class Utils(object):
 	def __init__(self):
-		self.categories_file = "Dealer_Interaction/src/files/categories.json"
-		#self.categories_file = "files/categories.json"	#<--- only for test and __main__
+		#self.categories_file = "Dealer_Interaction/src/files/_categories.json"
+		self.categories_file = "files/_categories.json"	#<--- only for test and __main__
 
 	def isDigit(self, string):
 		p = re.compile(r'\d+(\.\d+)?$')
@@ -23,9 +23,6 @@ class Utils(object):
 		file.close()
 		return file_content
 
-	def get_product_list_by_category_name(self, category_name):
-		content = self.get_content_of_file()
-		return [item['products'] for item in content if item['natural_key'] == category_name][0]
 
 	def all_natural_keys_in_file(self):
 		content = self.get_content_of_file()
@@ -35,10 +32,35 @@ class Utils(object):
 		if category_name in self.all_natural_keys_in_file():	return True
 		return False
 
-	def is_product_in_categories(self, product_name):
-		for item in self.get_content_of_file():
-			for product in item['products']:
-				if product == product_name:	return True
+	
+	"""
+		Ritorna una lista contenente tutti i nomi delle sottocategorie
+	"""
+	def get_subcategories_name_by_category(self, category_name):
+		to_ret = []
+		if self.is_category_in_file(category_name):
+			content = self.get_content_of_file()
+			for item in content:
+				if item['natural_key'].lower() == category_name.lower():
+					for sub_cat in item['sub_categories']:	to_ret.append(list(sub_cat.keys())[0])
+			return to_ret
+		else:
+			return	to_ret
+
+
+	""" 
+	Ritorna una lista di dizionari!
+	Utils.get_subcategory_products("alimentari", "Acqua") = [{'Nepi': '1.5L'}, {'Panna': '1.5L'}, {'Ferrarelle': '1.5L'},...]
+	"""
+	def get_subcategory_products(self, category_name, subcategory_name):
+		if self.is_category_in_file(category_name):
+			content = self.get_content_of_file()
+			for item in content:
+				if item['natural_key'].lower() == category_name.lower():
+					for sub_cat in item['sub_categories']:
+						if list(sub_cat.keys())[0].lower() == subcategory_name.lower():	return list(sub_cat.values())[0]
+		return []
+
 
 	def make_keyboard(self, alist, parti): 
 	    length = len(alist)
@@ -48,10 +70,8 @@ class Utils(object):
 
 if __name__ == '__main__':
 	Utils = Utils()
-	# content = Utils.is_category_in_file("panificio")
-	# print(content)
-	stringa = "0.1022222"
-	isDigit = Utils.isDigit(stringa)
-	print(isDigit)
+	content = Utils.get_subcategory_products("alimentari", "Acqua")
+	print(content)
+	
 
 
