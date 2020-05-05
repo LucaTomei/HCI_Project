@@ -26,10 +26,10 @@ class Utils(object):
 
 	def all_natural_keys_in_file(self):
 		content = self.get_content_of_file()
-		return [item['natural_key'] for item in content]
+		return [item['natural_key'].lower() for item in content]
 
 	def is_category_in_file(self, category_name):
-		if category_name in self.all_natural_keys_in_file():	return True
+		if category_name.lower() in self.all_natural_keys_in_file():	return True
 		return False
 
 	
@@ -44,8 +44,7 @@ class Utils(object):
 				if item['natural_key'].lower() == category_name.lower():
 					for sub_cat in item['sub_categories']:	to_ret.append(list(sub_cat.keys())[0])
 			return to_ret
-		else:
-			return	to_ret
+		else:	return	to_ret
 
 
 	""" 
@@ -70,7 +69,11 @@ class Utils(object):
 
 if __name__ == '__main__':
 	Utils = Utils()
-	content = Utils.get_subcategory_products("alimentari", "Acqua")
+	import random
+	content = Utils.get_subcategories_name_by_category("alimentari")
+	subcategory = random.choice(content)
+	print(subcategory)
+	content = Utils.get_subcategory_products("alimentari", subcategory)
 	print(content)
 	
 
