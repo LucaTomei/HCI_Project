@@ -405,7 +405,101 @@
     },
     {
         "natural_key": "pescheria",
-        "sub_categories": []
+        "sub_categories": [
+         {
+                "Crostacei" : [
+                    {
+                        "Aragosta": "0.5kg"
+                    },
+                    {
+                        "Astice" : "0.5kg"
+                    },
+                    {
+                        "Mazzancolla" : "50g"
+                    },
+                    {
+                        "Gambero rosso" : "50g"
+                    },
+                    {
+                        "Scampo" : "50g"
+                    },
+                    {
+                        "Cannocchia" : "50g"
+                    },
+                    {
+                        "Granchio" : "0.4kg"
+                    }
+                ]
+            },
+            {
+                "Molluschi" : [
+                    {
+                        "Vongole" : "0.5kg"
+                    },
+                    {
+                        "Ostriche" : "0.5kg"
+                    },
+                    {
+                        "Cannolicchi" : "0.5kg"
+                    },
+                    {
+                        "Capesante" : "0.5kg"
+                    },
+                    {
+                        "Cozze" : "0.5kg"
+                    },
+                    {
+                        "Patelle" : "0.5kg"
+                    },
+                    {
+                        "Telline" : "0.5kg"
+                    }
+                ]
+            },
+            {
+                "Pesce" : [
+                    {
+                        "Alici" : "0.2kg"
+                    },
+                    {
+                        "Cefalo" : "0.3kg"
+                    },
+                    {
+                        "Cernia" : "0.3kg"
+                    },
+                    {
+                        "Dentice" : "0.3kg"
+                    },
+                    {
+                        "Merluzzo" : "0.3kg"
+                    },
+                    {
+                        "Nasello" : "0.3kg"
+                    },
+                    {
+                        "Orata" : "0.3kg"
+                    },
+                    {
+                        "Rombo" : "0.3kg"
+                    },
+                    {
+                        "Salmone" : "0.3kg"
+                    },
+                    {
+                        "Sgombro" : "0.3kg"
+                    },
+                    {
+                        "Sogliola" : "0.3kg"
+                    },
+                    {
+                        "Spigola" : "0.3kg"
+                    },
+                    {
+                        "Tonno" : "0.3kg"
+                    }
+                ]
+            }
+        ]
     },
     {
         "natural_key": "teeria",
