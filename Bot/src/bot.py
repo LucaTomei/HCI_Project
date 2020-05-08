@@ -38,6 +38,7 @@ class Bot(object):
 		self.register_all_handlers(dp)
 		
 		print("In Loop")
+
 		updater.start_polling()
 		updater.idle()
 
