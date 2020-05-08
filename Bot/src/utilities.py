@@ -56,11 +56,19 @@ class Utility(object):
 				"all_done":False,
 
 				#---------[SHOPPING WINDOW]---------
-				"tmp_product": "", 	# to add temp product
+				"tmp_subcategory":"",
+				"tmp_product": {}, 	# to add temp product {"name":"kg"}
 				"tmp_price": 0, 	# to add temp product price
 				"shopping_window_list": [], # shopping_window_list structure: [{"name":"", "price":""}]
 			}
 	#---------[SHOPPING WINDOW]---------
+	def get_tmp_subcategory(self, chat_id, context):
+		return context.user_data[chat_id]['tmp_subcategory']
+	
+	def set_tmp_subcategory(self, chat_id, context, subcategory):
+		context.user_data[chat_id]['tmp_subcategory'] = subcategory 
+
+
 	def get_tmp_product(self, chat_id, context):
 		return context.user_data[chat_id]['tmp_product']
 	
@@ -99,6 +107,7 @@ class Utility(object):
 
 	def get_tmp_category(self, chat_id, context):
 		return context.user_data[chat_id]['tmp_category']
+	
 	def set_tmp_category(self, chat_id, category, context):
 		context.user_data[chat_id]['tmp_category'] = category
 

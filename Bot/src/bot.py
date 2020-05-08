@@ -7,7 +7,6 @@ class Bot(object):
 	def __init__(self):
 		self.Dealer_Handlers_Obj = dealer_handlers.Dealer_Handlers()
 
-
 	def start(self, update, context):
 		chat_id = update.message.chat_id
 		group_title = update.message.chat.title

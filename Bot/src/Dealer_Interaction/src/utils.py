@@ -3,8 +3,9 @@ import json, re
 
 class Utils(object):
 	def __init__(self):
-		#self.categories_file = "Dealer_Interaction/src/files/_categories.json"
-		self.categories_file = "files/_categories.json"	#<--- only for test and __main__
+		self.back_button = "🔙Indietro🔙"
+		try:	self.categories_file = "Dealer_Interaction/src/files/_categories.json"
+		except:	self.categories_file = "files/_categories.json"	#<--- only for test and __main__
 
 	def isDigit(self, string):
 		p = re.compile(r'\d+(\.\d+)?$')
@@ -47,6 +48,7 @@ class Utils(object):
 		else:	return	to_ret
 
 
+
 	""" 
 	Ritorna una lista di dizionari!
 	Utils.get_subcategory_products("alimentari", "Acqua") = [{'Nepi': '1.5L'}, {'Panna': '1.5L'}, {'Ferrarelle': '1.5L'},...]
@@ -61,20 +63,38 @@ class Utils(object):
 		return []
 
 
+	"""
+		Return two tuple lists
+		(['Nesquik', 'Nesquik Duo', 'Lion', 'Kellogs Coco Pops', 'Kellogs Special Classic', ...] 
+		['950g', '450g', '400g', '400g', '400g', ...])
+	"""
+	def from_subcat_prod_dict_to_list(self, sub_cat_prod_list):
+		names = []
+		units = []
+		for item in sub_cat_prod_list:
+			names.append(*item)
+			units.append(list(item.values())[0])
+		return (names, units)
+
+
 	def make_keyboard(self, alist, parti): 
 	    length = len(alist)
 	    keyboard =  [alist[i*length // parti: (i+1)*length // parti] for i in range(parti)]
 	    return ReplyKeyboardMarkup(keyboard)
 
 
+	def make_back_keyboard(self, alist, parti): 
+	    length = len(alist)
+	    keyboard =  [alist[i*length // parti: (i+1)*length // parti] for i in range(parti)]
+	    keyboard.append([self.back_button])
+	    return ReplyKeyboardMarkup(keyboard)
+
 if __name__ == '__main__':
 	Utils = Utils()
-	import random
-	content = Utils.get_subcategories_name_by_category("alimentari")
-	subcategory = random.choice(content)
-	print(subcategory)
-	content = Utils.get_subcategory_products("alimentari", subcategory)
-	print(content)
-	
+	sub_cat_prod_list = [{'Nesquik': '950g'}, {'Nesquik Duo': '450g'}, {'Lion': '400g'}, {'Kellogs Coco Pops': '400g'}, {'Kellogs Special Classic': '400g'}, {'Kellogs Miel Pops': '400g'}, {'Cheerios': '400g'}, {'Nestlè Fitness': '400g'}, {'Gran Cereale': '350g'}]
+	Utils.from_subcat_prod_dict_to_list(sub_cat_prod_list)
+
+
+
 
 

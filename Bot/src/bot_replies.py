@@ -49,6 +49,7 @@ bot_replies = {
 
 	#---------[After Registration Show Categories]---------
 	"choice_your_category": "*Attraverso i pannelli sottostanti potrai selezionare la categoria di prodotti da inserire in vetrina per i tuoi clienti*",
+	"choice_your_subcategory": "*Inserisci ora la sotto-categoria di prodotti*",
 	"insert_product": "*Inserisci ora il prodotto che desideri far visionare ai tuoi clienti*",
 	"insert_price": "*Inserisci ora il prezzo a cui desideri vendere 1 unità di %s*",
 	"are_you_sure_price":"*Sei sicuro di voler vendere %s a %s€?*",
@@ -81,6 +82,8 @@ bot_buttons = {
 	#---------[Message: shop_window_done]---------
 	"yes_send_shop_window": "👍 SI",
 	"no_send_shop_window": "👎 NO",
+
+	"back_button":"🔙Indietro🔙",
 }
 
 def makeAKeyboard(alist, parti):
