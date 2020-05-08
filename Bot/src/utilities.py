@@ -56,12 +56,32 @@ class Utility(object):
 				"all_done":False,
 
 				#---------[SHOPPING WINDOW]---------
+				"categries_keyboard":None,
+				"subcategries_keyboard":None,
+				"products_keyboard":None,
 				"tmp_subcategory":"",
 				"tmp_product": {}, 	# to add temp product {"name":"kg"}
 				"tmp_price": 0, 	# to add temp product price
 				"shopping_window_list": [], # shopping_window_list structure: [{"name":"", "price":""}]
 			}
 	#---------[SHOPPING WINDOW]---------
+	def get_categories_keyboard_by_chat_id(self, chat_id, context):
+		return context.user_data[chat_id]['categries_keyboard']
+	def set_categories_keyboard_by_chat_id(self, chat_id, context, categries_keyboard):
+		context.user_data[chat_id]['categries_keyboard'] = categries_keyboard
+
+	def get_subcategories_keyboard_by_chat_id(self, chat_id, context):
+		return context.user_data[chat_id]['subcategries_keyboard']
+	def set_subcategories_keyboard_by_chat_id(self, chat_id, context, subcategries_keyboard):
+		context.user_data[chat_id]['subcategries_keyboard'] = subcategries_keyboard
+
+	def get_products_keyboard_by_chat_id(self, chat_id, context):
+		return context.user_data[chat_id]['products_keyboard']
+	def set_products_keyboard_by_chat_id(self, chat_id, context, products_keyboard):
+		context.user_data[chat_id]['products_keyboard'] = products_keyboard
+
+	
+
 	def get_tmp_subcategory(self, chat_id, context):
 		return context.user_data[chat_id]['tmp_subcategory']
 	

@@ -215,17 +215,16 @@ class Dealer_Handlers(object):
         		MessageHandler(Filters.text,unknown_function),
             ], 
             {
-            	0: [ # Starting sub category
+            	0: [ # Choice sub category
             		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.choice_your_subcategory_handler),
             	],
-            	1: [ # Choice product
-            		PrefixHandler(bot_buttons['back_button'][0], bot_buttons['back_button'][1:], self.Shop_Window_Handler_Obj.test_entry_point_main_handler),
-            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.choice_product_handler)
+            	1: [ # Choice Product
+            		MessageHandler(Filters.regex('^' + bot_buttons['back_button'] +'$'),self.Shop_Window_Handler_Obj.choice_your_subcategory_handler),
+            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.choice_your_product_handler),
             	],
             	2: [
-            		PrefixHandler(bot_buttons['back_button'][0], bot_buttons['back_button'][1:], self.Shop_Window_Handler_Obj.back_to_choice_product_handler),
-            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.insert_price_handler)
-            	
+            		MessageHandler(Filters.regex('^' + bot_buttons['back_button'] +'$'),self.Shop_Window_Handler_Obj.choice_your_product_handler),
+            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.pre_insert_product_handler),
             	]
             },[])
 		return register_shop_handler

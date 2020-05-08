@@ -20,7 +20,7 @@ class Shop_Window_Handler(object):
 			user_categories = Utility_Obj.get_user_categories(chat_id, context)
 			keyboard_to_show = self.Utils_Obj.make_keyboard(user_categories, 1)
 
-			Utility_Obj.set_main_keyboard_by_chat_id(chat_id, keyboard_to_show, context)
+			Utility_Obj.set_categories_keyboard_by_chat_id(chat_id, context, keyboard_to_show)
 			
 			update.message.reply_text(bot_replies['choice_your_category'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
 			
@@ -33,66 +33,66 @@ class Shop_Window_Handler(object):
 	
 	def choice_your_subcategory_handler(self, update, context):
 		try:
+			print("0: " + update.message.text)
 			chat_id = update.message.chat.id
-			print("0: " + update.message.text, Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context).keyboard)
-			chat_message = update.message.text
-			if self.Utils_Obj.is_category_in_file(chat_message):	# if is really a category
-				Utility_Obj.set_tmp_category(chat_id, chat_message, context)	# set category in context
-				subcategories = self.Utils_Obj.get_subcategories_name_by_category(chat_message)
-				
-				keyboard_to_show = self.Utils_Obj.make_back_keyboard(subcategories, 3)
-
-				Utility_Obj.set_main_keyboard_by_chat_id(chat_id, keyboard_to_show, context)
+			chat_message = this_category = update.message.text 		# Category name (eg. alimentari)
+			if self.Utils_Obj.is_category_in_file(this_category):
+				subcategories_list = self.Utils_Obj.get_subcategories_name_by_category(this_category)
+				keyboard_to_show = self.Utils_Obj.make_back_keyboard(subcategories_list, 3)
+				Utility_Obj.set_tmp_category(chat_id, chat_message, context)
+				Utility_Obj.set_subcategories_keyboard_by_chat_id(chat_id, context, keyboard_to_show)
 				update.message.reply_text(bot_replies['choice_your_subcategory'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
 				return 1
-			else:	# Blocking loop if not valid category
-				print("sono qui")
-				keyboard_to_show = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
+			else:
+				print("indietro in choice_your_subcategory_handler")
+				keyboard_to_show = Utility_Obj.get_categories_keyboard_by_chat_id(chat_id, context)
 				update.message.reply_text(bot_replies['choice_your_category'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
 				return 0
 		except Exception as e: 	print(str(e))
 
 
-	def choice_product_handler(self, update, context):
+	def choice_your_product_handler(self, update, context):
 		try:
+			print("\n1: " + update.message.text)
 			chat_id = update.message.chat.id
-			print("1: " + update.message.text, Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context).keyboard)
-			chat_message = update.message.text
+			chat_message = this_subcategory = update.message.text 		# SubCategory name (eg. Cereali)
 			
-			if chat_message in [j for i in Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context).keyboard for j in i]:
+			subcategories_keyboard = Utility_Obj.get_subcategories_keyboard_by_chat_id(chat_id, context)
+			if chat_message in [j for i in subcategories_keyboard.keyboard for j in i] and chat_message != bot_buttons['back_button']:
+				Utility_Obj.set_tmp_subcategory(chat_id, context, this_subcategory)
+
 				category_name = Utility_Obj.get_tmp_category(chat_id, context)
-				Utility_Obj.set_tmp_subcategory(chat_id, context, chat_message)
-				subcategory_products = self.Utils_Obj.get_subcategory_products(category_name, chat_message)
-				
-				(name, units) = self.Utils_Obj.from_subcat_prod_dict_to_list(subcategory_products)
+				products_by_subcategory = self.Utils_Obj.get_subcategory_products(category_name, this_subcategory)
 
-				keyboard_to_show = self.Utils_Obj.make_back_keyboard(name, 3)
-				print("sono qui ioooo", Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context).keyboard)
-				Utility_Obj.set_main_keyboard_by_chat_id(chat_id, keyboard_to_show, context)
-				print("\nsono qui ioooo", Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context).keyboard)
-
+				(product_names, product_units) = self.Utils_Obj.from_subcat_prod_dict_to_list(products_by_subcategory)
+				keyboard_to_show = self.Utils_Obj.make_back_keyboard(product_names, 3)
 				update.message.reply_text(bot_replies['insert_product'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
 				return 2
 			else:
-				keyboard_to_show = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
+				print("indietro in choice_your_product_handler")
+				keyboard_to_show = subcategories_keyboard
 				update.message.reply_text(bot_replies['choice_your_subcategory'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
 				return 1
 		except Exception as e: 	print(str(e))
 
 
-	def back_to_choice_product_handler(self, update, context):
-		chat_id = update.message.chat.id
-		chat_message = update.message.text
-		print("\nqui con: ")
-		print(Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context))
-	
-	
-	def insert_price_handler(self, update, context):
-		chat_id = update.message.chat.id
-		chat_message = update.message.text
-		print("2: " + update.message.text)
-		print("\n\n", Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context).keyboard)
+	def pre_insert_product_handler(self, update, context):
 		try:
-			pass
+			print("\n2: " + update.message.text)
+			chat_id = update.message.chat.id
+			chat_message = this_product = update.message.text 		# product name name (eg. Kellogs ...)
+			
+			products_keyboard = Utility_Obj.get_products_keyboard_by_chat_id(chat_id, context)
+
+			if chat_message in [j for i in products_keyboard.keyboard for j in i]:
+				print("Ci sono")
+			else:
+				print("indietro in pre_insert_product_handler")
+
+
 		except Exception as e: 	print(str(e))
-	
+
+
+
+
+
