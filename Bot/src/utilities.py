@@ -62,9 +62,17 @@ class Utility(object):
 				"tmp_subcategory":"",
 				"tmp_product": {}, 	# to add temp product {"name":"kg"}
 				"tmp_price": 0, 	# to add temp product price
-				"shopping_window_list": [], # shopping_window_list structure: [{"name":"", "price":""}]
+				"shopping_window_list": [], # shopping_window_list structure: [{'name': 'Nepi', 'price': 10.0, 'units':'1.5L'}, {...}]
 			}
 	#---------[SHOPPING WINDOW]---------
+	def reset_shopping_window(self, chat_id, context):
+		context.user_data[chat_id]['categries_keyboard'] = None
+		context.user_data[chat_id]['subcategries_keyboard'] = None
+		context.user_data[chat_id]['products_keyboard'] = None
+		context.user_data[chat_id]['tmp_subcategory'] = ""
+		context.user_data[chat_id]['tmp_product'] = {}
+		context.user_data[chat_id]['tmp_price'] = 0
+
 	def get_categories_keyboard_by_chat_id(self, chat_id, context):
 		return context.user_data[chat_id]['categries_keyboard']
 	def set_categories_keyboard_by_chat_id(self, chat_id, context, categries_keyboard):
@@ -105,8 +113,8 @@ class Utility(object):
 	def get_shopping_window_list_by_chat_id(self, chat_id, context):
 		return context.user_data[chat_id]['shopping_window_list']
 
-	def append_into_shopping_window_list(self, chat_id, context, product_price):	# product_price = {"name":"", "price":""}
-		context.user_data[chat_id]['shopping_window_list'].append(product_price)
+	def append_to_shopping_window_list(self, chat_id, context, product_and_price):	# product_price =  [{'name': 'Nepi', 'price': 10.0, 'units':'1.5L'}, {...}]
+		context.user_data[chat_id]['shopping_window_list'].append(product_and_price)
 	#---------[END SHOPPING WINDOW]---------
 	
 

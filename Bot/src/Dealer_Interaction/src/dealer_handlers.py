@@ -224,7 +224,20 @@ class Dealer_Handlers(object):
             	],
             	2: [
             		MessageHandler(Filters.regex('^' + bot_buttons['back_button'] +'$'),self.Shop_Window_Handler_Obj.choice_your_product_handler),
-            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.pre_insert_product_handler),
+            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.pre_insert_product_price_handler),
+            	],
+            	3: [	# insert product price
+            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.insert_product_price_handler),
+            	],
+            	4: [	# yes no insert product price
+            		MessageHandler(Filters.regex('^' + bot_buttons['no_sure_price'] +'$'),self.Shop_Window_Handler_Obj.no_back_to_shopping_window_handler),
+            		MessageHandler(Filters.regex('^' + bot_buttons['yes_sure_price'] +'$'),self.Shop_Window_Handler_Obj.yes_insert_other_products_handler),
+            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.loop_in_yes_no_sure_price_handler),
+            	],
+            	5:[
+            		MessageHandler(Filters.regex('^' + bot_buttons['no_show_shop_window'] +'$'),self.Shop_Window_Handler_Obj.dont_go_show_shop_window_handler),
+            		MessageHandler(Filters.regex('^' + bot_buttons['yes_insert_new_product'] +'$'),self.Shop_Window_Handler_Obj.insert_new_products_handler),
+            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.loop_in_shopping_window_go_end_handler),
             	]
             },[])
 		return register_shop_handler

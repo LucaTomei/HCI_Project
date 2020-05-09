@@ -51,7 +51,7 @@ bot_replies = {
 	"choice_your_category": "*Attraverso i pannelli sottostanti potrai selezionare la categoria di prodotti da inserire in vetrina per i tuoi clienti*",
 	"choice_your_subcategory": "*Inserisci ora la sotto-categoria di prodotti*",
 	"insert_product": "*Inserisci ora il prodotto che desideri far visionare ai tuoi clienti*",
-	"insert_price": "*Inserisci ora il prezzo a cui desideri vendere 1 unità di %s*",
+	"insert_price": "*Inserisci ora il prezzo a cui desideri vendere %s di %s*",
 	"are_you_sure_price":"*Sei sicuro di voler vendere %s a %s€?*",
 	"shop_window": "*%s* inserito correttamente nella tua vetrina. Desideri inserire altro o visionare la tua vetrina?",
 	"shop_window_done": "Questa è la vetrina della tua bottega con il riepilogo dei prodotti:\n\n%s",
@@ -77,7 +77,7 @@ bot_buttons = {
 
 	#---------[Message: shop_window]---------
 	"yes_insert_new_product": "Inserisci nuovo prodotto",
-	"no_show_shop_window": "Fine (vedi vetrina)",
+	"no_show_shop_window": "Fine - vedi vetrina",
 
 	#---------[Message: shop_window_done]---------
 	"yes_send_shop_window": "👍 SI",

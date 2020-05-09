@@ -76,6 +76,11 @@ class Utils(object):
 			units.append(list(item.values())[0])
 		return (names, units)
 
+	def from_product_name_to_units(self, product_name, tupla_from_subcat_prod_lists):
+		(names, units) = tupla_from_subcat_prod_lists
+		for i in range(len(names)):
+			if names[i].lower() == product_name.lower():	return units[i]
+		return ''
 
 	def make_keyboard(self, alist, parti): 
 	    length = len(alist)
@@ -92,9 +97,10 @@ class Utils(object):
 if __name__ == '__main__':
 	Utils = Utils()
 	sub_cat_prod_list = [{'Nesquik': '950g'}, {'Nesquik Duo': '450g'}, {'Lion': '400g'}, {'Kellogs Coco Pops': '400g'}, {'Kellogs Special Classic': '400g'}, {'Kellogs Miel Pops': '400g'}, {'Cheerios': '400g'}, {'Nestlè Fitness': '400g'}, {'Gran Cereale': '350g'}]
-	Utils.from_subcat_prod_dict_to_list(sub_cat_prod_list)
+	tupla = Utils.from_subcat_prod_dict_to_list(sub_cat_prod_list)
 
-
+	x = Utils.from_product_name_to_units("Kellogs Coco Pops", tupla)
+	print(x)
 
 
 
