@@ -1,9 +1,11 @@
 from bot_replies import *
 from Dealer_Interaction.src.utils import Utils
+from Dealer_Interaction.src.dealer_persistence import Dealer_Persistence
 
 class Shop_Window_Handler(object):
 	def __init__(self):
 		self.Utils_Obj = Utils()
+		self.Dealer_Persistence_Obj = Dealer_Persistence()
 
 	def test_entry_point_main_handler(self, update, context):
 		try:
@@ -246,6 +248,9 @@ class Shop_Window_Handler(object):
 
 			Utility_Obj.set_main_keyboard_by_chat_id(chat_id, keyboard_to_show, context)
 			Utility_Obj.set_shopping_window_date(chat_id, context, datetime.now())
+
+			dealer_infos = Utility_Obj.prepare_persistence(chat_id, context)
+			self.Dealer_Persistence_Obj.append_dealer_persistence(user_token, dealer_infos)
 			return ConversationHandler.END
 		except Exception as e: 	print(str(e))
 

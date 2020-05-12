@@ -62,7 +62,7 @@ bot_replies = {
 	"shop_window_send_done": "*Il mio compito per oggi è terminato.\nDomani potrai effettuare nuove modifiche oppure allestire una nuova vetrina per la tua bottega!*",
 	"all_done_shopping_window": "*Tutto impostato con successo*",
 
-	"edit_shopping_window": "*Seleziona la categoria di prodotto che desideri modificare/eliminare.*",
+	"edit_shopping_window": "*Seleziona il prodotto che desideri modificare/eliminare.*",
 	"edit_action":"*Hai selezionato %s. Che azione desideri effettuare?*",
 
 	"sure_delete_product": "*Sei sicuro di voler eleminare %s dalla tua vetrina?*",

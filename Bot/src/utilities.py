@@ -66,6 +66,19 @@ class Utility(object):
 				"shopping_window_list": [], 	# shopping_window_list structure: [{'name': 'Nepi', 'price': 10.0, 'units':'1.5L'}, {...}]
 				"shopping_window_date": None,	# this will contains the in which that we have stored the shopping window
 			}
+
+	#---------[SHOPPING WINDOW PERSISTENCE]---------
+	def format_datetime(self, datetime_obj):
+		return datetime_obj.strftime("%d/%m/%YCOLLIGO%H:%M")
+	
+	def prepare_persistence(self, chat_id, context):
+		dealer_infos = {
+			"shopping_window_list": self.get_shopping_window_list_by_chat_id(chat_id, context),
+			"shopping_window_date": self.format_datetime(self.get_shopping_window_date(chat_id, context))
+		}
+		return dealer_infos
+
+
 	#---------[SHOPPING WINDOW]---------
 	def reset_shopping_window(self, chat_id, context):
 		context.user_data[chat_id]['categries_keyboard'] = None
