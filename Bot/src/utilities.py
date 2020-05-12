@@ -59,10 +59,12 @@ class Utility(object):
 				"categries_keyboard":None,
 				"subcategries_keyboard":None,
 				"products_keyboard":None,
+				"shopping_window_keyboard":None,	# contains all names in shopping window
 				"tmp_subcategory":"",
 				"tmp_product": {}, 	# to add temp product {"name":"kg"}
 				"tmp_price": 0, 	# to add temp product price
-				"shopping_window_list": [], # shopping_window_list structure: [{'name': 'Nepi', 'price': 10.0, 'units':'1.5L'}, {...}]
+				"shopping_window_list": [], 	# shopping_window_list structure: [{'name': 'Nepi', 'price': 10.0, 'units':'1.5L'}, {...}]
+				"shopping_window_date": None,	# this will contains the in which that we have stored the shopping window
 			}
 	#---------[SHOPPING WINDOW]---------
 	def reset_shopping_window(self, chat_id, context):
@@ -72,6 +74,18 @@ class Utility(object):
 		context.user_data[chat_id]['tmp_subcategory'] = ""
 		context.user_data[chat_id]['tmp_product'] = {}
 		context.user_data[chat_id]['tmp_price'] = 0
+
+	def get_shopping_window_keyboard(self, chat_id, context):
+		return context.user_data[chat_id]['shopping_window_keyboard']
+	def set_shopping_window_keyboard(self, chat_id, context, shopping_window_keyboard): 
+		context.user_data[chat_id]['shopping_window_keyboard'] = shopping_window_keyboard
+
+	def get_shopping_window_date(self, chat_id, context):
+		return context.user_data[chat_id]['shopping_window_date']
+	def set_shopping_window_date(self, chat_id, context, shopping_window_date): #shopping_window_date is a datetime object
+		context.user_data[chat_id]['shopping_window_date'] = shopping_window_date
+
+
 
 	def get_categories_keyboard_by_chat_id(self, chat_id, context):
 		return context.user_data[chat_id]['categries_keyboard']
@@ -113,8 +127,23 @@ class Utility(object):
 	def get_shopping_window_list_by_chat_id(self, chat_id, context):
 		return context.user_data[chat_id]['shopping_window_list']
 
+	def format_shopping_window(self, a_list):	#a_list = [{'name': 'Amstel', 'price': 12.0, 'unit': '0.33l'}, ...]
+		to_ret = ''
+		for dictionary in a_list:
+			(name, price, unit) = (dictionary['name'], dictionary['price'], dictionary['unit'])
+			to_ret += '• %s %s: %s€\n' %(unit, name.capitalize(), str(price))
+		return to_ret
+	def get_all_shopping_window_names(self, a_list):
+		to_ret = []
+		for dictionary in a_list:	to_ret.append(dictionary['name'])
+		return to_ret
+	
 	def append_to_shopping_window_list(self, chat_id, context, product_and_price):	# product_price =  [{'name': 'Nepi', 'price': 10.0, 'units':'1.5L'}, {...}]
-		context.user_data[chat_id]['shopping_window_list'].append(product_and_price)
+		if product_and_price not in context.user_data[chat_id]['shopping_window_list']: context.user_data[chat_id]['shopping_window_list'].append(product_and_price)
+	
+	def manually_set_shopping_window(self, chat_id, context, shopping_window_list):
+		context.user_data[chat_id]['shopping_window_list'] = shopping_window_list
+
 	#---------[END SHOPPING WINDOW]---------
 	
 

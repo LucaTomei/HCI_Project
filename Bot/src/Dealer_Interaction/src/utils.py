@@ -1,5 +1,5 @@
 from telegram import ReplyKeyboardMarkup
-import json, re 
+import json, re, base64, zlib
 
 class Utils(object):
 	def __init__(self):
@@ -94,13 +94,45 @@ class Utils(object):
 	    keyboard.append([self.back_button])
 	    return ReplyKeyboardMarkup(keyboard)
 
+	def make_upper_back_keyboard(self, alist, parti): 
+	   	length = len(alist)
+	   	keyboard = []
+	   	keyboard.append([self.back_button])
+	   	keyboard =  keyboard + [alist[i*length // parti: (i+1)*length // parti] for i in range(parti)]
+	   	return ReplyKeyboardMarkup(keyboard)
+
+
+	def make_token(self, chat_id):	# make token by group chat_id
+		chat_id = str(chat_id).encode("utf-8")
+		return base64.encodebytes(zlib.compress(chat_id)).decode("utf-8").replace('\n', '')
+
+	def decrypt_token(self, token):
+		token = str(token).encode("utf-8")
+		return zlib.decompress(base64.decodebytes(token)).decode("utf-8").replace('\n', '')
+
+	def get_idx_in_shopping_window(self, shopping_window, product_name):
+		for i in range(len(shopping_window)):
+			if shopping_window[i]['name'].lower() == product_name.lower(): return i
+		return -2
+
+	def edit_shopping_window_price(self, shopping_window, product_name, new_price):	# return new shopping_window
+		idx_in_shopping_window = self.get_idx_in_shopping_window(shopping_window, product_name)
+		shopping_window[idx_in_shopping_window]['price'] = self.truncate_float(new_price)
+		return shopping_window 	# now you have to save the new shopping window
+
+	def get_product_infos(self, shopping_window, product_name):
+		idx = self.get_idx_in_shopping_window(shopping_window, product_name)
+		return shopping_window[idx]
+
+	def tmp_remove_product_from_shopping_window(self,shopping_window, product_name):
+		idx = self.get_idx_in_shopping_window(shopping_window, product_name)
+		shopping_window.remove(self.get_product_infos(shopping_window, product_name))
+		return shopping_window
+
 if __name__ == '__main__':
 	Utils = Utils()
-	sub_cat_prod_list = [{'Nesquik': '950g'}, {'Nesquik Duo': '450g'}, {'Lion': '400g'}, {'Kellogs Coco Pops': '400g'}, {'Kellogs Special Classic': '400g'}, {'Kellogs Miel Pops': '400g'}, {'Cheerios': '400g'}, {'Nestlè Fitness': '400g'}, {'Gran Cereale': '350g'}]
-	tupla = Utils.from_subcat_prod_dict_to_list(sub_cat_prod_list)
-
-	x = Utils.from_product_name_to_units("Kellogs Coco Pops", tupla)
-	print(x)
-
-
-
+	
+	shopping_window =  [{'name': 'Panna', 'price': 1.0, 'unit': '1.5L'}, {'name': 'Ferrarelle', 'price': 1.0, 'unit': '1.5L'}]
+	Utils.tmp_remove_product_from_shopping_window(shopping_window, 'Panna')
+	#Utils.edit_shopping_window_price(shopping_window, 'Ferrarelle', "20.1")
+	

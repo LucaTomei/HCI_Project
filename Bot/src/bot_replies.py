@@ -56,6 +56,21 @@ bot_replies = {
 	"shop_window": "*%s* inserito correttamente nella tua vetrina. Desideri inserire altro o visionare la tua vetrina?",
 	"shop_window_done": "Questa è la vetrina della tua bottega con il riepilogo dei prodotti:\n\n%s",
 	"want_to_send": "*Vuoi che la invio ai tuoi clienti o desideri apportare ulteriori modifiche?*",
+
+	"shop_window_send": "*La vetrina del tuo negozio è stata inoltrata correttamente a tutti i tuoi clienti.\nDi seguito ti invio il token di accesso che i tuoi clienti dovranno inserire nella chat privata con ColliGo al fine di poter visualizzare la tua vetrina e cominciare così a creare la propria lista della spesa.*",
+	"shop_window_send_token": "*Il token di accesso è il seguente:*\n```%s```",
+	"shop_window_send_done": "*Il mio compito per oggi è terminato.\nDomani potrai effettuare nuove modifiche oppure allestire una nuova vetrina per la tua bottega!*",
+	"all_done_shopping_window": "*Tutto impostato con successo*",
+
+	"edit_shopping_window": "*Seleziona la categoria di prodotto che desideri modificare/eliminare.*",
+	"edit_action":"*Hai selezionato %s. Che azione desideri effettuare?*",
+
+	"sure_delete_product": "*Sei sicuro di voler eleminare %s dalla tua vetrina?*",
+	"deletion_done": "*Prodotto %s eliminato correttamente*",
+
+	"edit_product_price": "*Modifica ora il prezzo a cui desideri vendere %s di %s*", # %(size, product_name)
+	"sure_edit_price": "*Sei sicuro di voler inserire %s al prezzo di %s€?*",
+	"edit_product_price_done": "*Prodotto modificato correttamente.*",
 }
 
 #---------[Keyboard Buttons]---------
@@ -80,8 +95,17 @@ bot_buttons = {
 	"no_show_shop_window": "Fine - vedi vetrina",
 
 	#---------[Message: shop_window_done]---------
-	"yes_send_shop_window": "👍 SI",
-	"no_send_shop_window": "👎 NO",
+	"yes_send_shop_window": "SI - Invia ai clienti",
+	"no_send_shop_window": "NO - Modifica Prodotti",
+
+	#---------[Message: edit_action]---------
+	"delete_product":"Eliminare il Prodotto",
+	"edit_product_price": "Modificare il Prezzo",
+
+	"sure_delete_product": "Si - Elimina Prodotto",
+	"not_sure_delete_product": "No - Torna a Vetrina",
+
+	"yes_edit_price": "Si - Modifica Prezzo",
 
 	"back_button":"🔙Indietro🔙",
 }
@@ -91,6 +115,21 @@ def makeAKeyboard(alist, parti):
     keyboard =  [alist[i*length // parti: (i+1)*length // parti] for i in range(parti)]
     keyboard.append([bot_buttons['stop_button']])
     return ReplyKeyboardMarkup(keyboard)
+
+edit_product_price_keyboard = ReplyKeyboardMarkup([
+	[bot_buttons['yes_edit_price']],
+	[bot_buttons['not_sure_delete_product']]
+])
+
+delete_product_sure_keyboard = ReplyKeyboardMarkup([
+	[bot_buttons['sure_delete_product']],
+	[bot_buttons['not_sure_delete_product']]
+])
+
+delete_edit_keyboard = ReplyKeyboardMarkup([
+	[bot_buttons['edit_product_price']],
+	[bot_buttons['delete_product']]
+])
 
 send_shop_window_keyboard = ReplyKeyboardMarkup([
 	[bot_buttons['yes_send_shop_window']],
@@ -149,13 +188,21 @@ def unknown_function(update, context):
 		#print("has_done", Utility_Obj.check_if_user_has_done(chat_id, context))
 		if not Utility_Obj.check_if_user_has_done(chat_id, context):
 			if 'group' in update.message.chat.type:
-				if Utility_Obj.has_done_location(chat_id, context) and Utility_Obj.has_done_categories(chat_id, context):
+				#if Utility_Obj.has_done_location(chat_id, context) and Utility_Obj.has_done_categories(chat_id, context):
+				
+				# Verify if is passed a day
+				if Utility_Obj.get_shopping_window_date(chat_id, context) != None and Utility_Obj.get_shopping_window_date(chat_id, context).day != datetime.now().day:
 					user_categories = Utility_Obj.get_user_categories(chat_id, context)
 					user_location = Utility_Obj.get_user_location(chat_id, context)
 					message_to_send = bot_replies['all_done'] % (str(user_categories), str(user_location))
 					context.bot.send_message(chat_id=chat_id, text = message_to_send, reply_markup=Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context),  parse_mode = ParseMode.MARKDOWN)
 				else:
-					context.bot.send_message(chat_id=chat_id, text = bot_replies['main_message'], reply_markup=Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context),  parse_mode = ParseMode.MARKDOWN)
+					keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
+					if keyboard == ReplyKeyboardRemove():
+						message = bot_replies['all_done_shopping_window']
+					else:
+						message = bot_replies['main_message']
+					context.bot.send_message(chat_id=chat_id, text = message, reply_markup=keyboard,  parse_mode = ParseMode.MARKDOWN)
 			else:
 				context.bot.send_message(chat_id=chat_id, text = bot_replies['no_access_here'], reply_markup=ReplyKeyboardRemove(),  parse_mode = ParseMode.MARKDOWN)
 			return ConversationHandler.END
