@@ -40,7 +40,7 @@ class Shop_Window_Handler(object):
 			chat_message = this_category = update.message.text 		# Category name (eg. alimentari)
 			if self.Utils_Obj.is_category_in_file(this_category):
 				subcategories_list = self.Utils_Obj.get_subcategories_name_by_category(this_category)
-				keyboard_to_show = self.Utils_Obj.make_back_keyboard(subcategories_list, 3)
+				keyboard_to_show = self.Utils_Obj.make_upper_back_keyboard(subcategories_list, 3)
 				Utility_Obj.set_tmp_category(chat_id, chat_message, context)
 				Utility_Obj.set_subcategories_keyboard_by_chat_id(chat_id, context, keyboard_to_show)
 				update.message.reply_text(bot_replies['choice_your_subcategory'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)

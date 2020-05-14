@@ -6,9 +6,12 @@ import re, os, requests, sys, time, json
 from datetime import datetime
 
 from utilities import Utility
+from Dealer_Interaction.src import utils
+from Dealer_Interaction.src import dealer_persistence
 
 Utility_Obj = Utility()
-
+Utils_Obj = utils.Utils()
+Dealer_Persistence_Obj = dealer_persistence.Dealer_Persistence()
 
 BOT_TOKEN = ""		# t.me/ColligoBot
 BOT_DEV_TOKEN = "1140474924:AAEEt2LD6Hg0TRXZDZU7HoHullUtEqNQAPc"	# t.me/Colligo_Development_Bot
@@ -188,22 +191,39 @@ def unknown_function(update, context):
 		#print("has_done", Utility_Obj.check_if_user_has_done(chat_id, context))
 		if not Utility_Obj.check_if_user_has_done(chat_id, context):
 			if 'group' in update.message.chat.type:
-				#if Utility_Obj.has_done_location(chat_id, context) and Utility_Obj.has_done_categories(chat_id, context):
 				
 				# Verify if is passed a day
-				if Utility_Obj.get_shopping_window_date(chat_id, context) != None and Utility_Obj.get_shopping_window_date(chat_id, context).day != datetime.now().day:
-					user_categories = Utility_Obj.get_user_categories(chat_id, context)
-					user_location = Utility_Obj.get_user_location(chat_id, context)
-					message_to_send = bot_replies['all_done'] % (str(user_categories), str(user_location))
-					context.bot.send_message(chat_id=chat_id, text = message_to_send, reply_markup=Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context),  parse_mode = ParseMode.MARKDOWN)
-				else:
-					keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
-					if keyboard == ReplyKeyboardRemove():
+				group_token = Utils_Obj.make_token(chat_id)
+				#group_token = group_token.replace('=', "god")	# @ForTest
+				#print(Dealer_Persistence_Obj.is_token_in_persistence(group_token))
+				if Dealer_Persistence_Obj.is_token_in_persistence(group_token):
+					if Dealer_Persistence_Obj.get_shopping_window_date_day_by_token(group_token) == datetime.now().day:
 						message = bot_replies['all_done_shopping_window']
+						keyboard = ReplyKeyboardRemove()
 					else:
 						message = bot_replies['main_message']
+						keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
 					context.bot.send_message(chat_id=chat_id, text = message, reply_markup=keyboard,  parse_mode = ParseMode.MARKDOWN)
-			else:
+				else:	#if dealer is not in persistence file
+					keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
+					message = bot_replies['main_message']
+					context.bot.send_message(chat_id=chat_id, text = message, reply_markup=keyboard,  parse_mode = ParseMode.MARKDOWN)
+					
+				# if Utility_Obj.get_shopping_window_date(chat_id, context) != None and Utility_Obj.get_shopping_window_date(chat_id, context).day != datetime.now().day:
+				# 	print("qui")
+				# 	user_categories = Utility_Obj.get_user_categories(chat_id, context)
+				# 	user_location = Utility_Obj.get_user_location(chat_id, context)
+				# 	message_to_send = bot_replies['all_done'] % (str(user_categories), str(user_location))
+				# 	context.bot.send_message(chat_id=chat_id, text = message_to_send, reply_markup=Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context),  parse_mode = ParseMode.MARKDOWN)
+				# else:
+				# 	print("qua")
+				# 	keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
+				# 	if keyboard == ReplyKeyboardRemove():
+				# 		message = bot_replies['all_done_shopping_window']
+				# 	else:
+				# 		message = bot_replies['main_message']
+				# 	context.bot.send_message(chat_id=chat_id, text = message, reply_markup=keyboard,  parse_mode = ParseMode.MARKDOWN)
+			else:	# if i'm an User and not a customer
 				context.bot.send_message(chat_id=chat_id, text = bot_replies['no_access_here'], reply_markup=ReplyKeyboardRemove(),  parse_mode = ParseMode.MARKDOWN)
 			return ConversationHandler.END
 		else:

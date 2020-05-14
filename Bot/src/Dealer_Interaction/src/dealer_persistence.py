@@ -5,7 +5,6 @@ class Dealer_Persistence(object):
 		try:
 			self.persistence_filename = "Dealer_Interaction/src/files/dealer_persistence.json"
 			self.read_persistence()
-			print("ok")
 		except:	self.persistence_filename = "files/dealer_persistence.json"	#<--- only for test and __main__
 
 	
@@ -29,6 +28,13 @@ class Dealer_Persistence(object):
 	def format_datetime(self, datetime_obj):
 		return datetime_obj.strftime("%d/%m/%YCOLLIGO%H:%M")	#"12/05/2020COLLIGO18:53"
 
+	def is_token_in_persistence(self, token):
+		content = self.read_persistence()
+		return token in content
+
+	def get_shopping_window_date_day_by_token(self, token):
+		content = self.read_persistence()
+		return int(content[token]['shopping_window_date'].split('/')[0])
 
 
 if __name__ == '__main__':

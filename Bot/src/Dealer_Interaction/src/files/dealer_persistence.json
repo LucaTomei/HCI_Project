@@ -2,11 +2,36 @@
     "eJzTNTQwMDQ0M7W0NDA0MAYAFHACwg==": {
         "shopping_window_list": [
             {
-                "name": "Maisel's Weisse",
-                "price": 8.0,
+                "name": "La Trappe Isid'or",
+                "price": 1.0,
                 "unit": "0.33l"
+            },
+            {
+                "name": "Westmalle Dubbel",
+                "price": 6.0,
+                "unit": "0.33l"
+            },
+            {
+                "name": "Pilsner Urquell",
+                "price": 3.0,
+                "unit": "0.33l"
+            },
+            {
+                "name": "Panna",
+                "price": 5.0,
+                "unit": "1.5L"
+            },
+            {
+                "name": "Ferrarelle",
+                "price": 3.0,
+                "unit": "1.5L"
+            },
+            {
+                "name": "Nesquik Duo",
+                "price": 8.0,
+                "unit": "450g"
             }
         ],
-        "shopping_window_date": "12/05/2020COLLIGO19:10"
+        "shopping_window_date": "14/05/2020COLLIGO11:50"
     }
 }
