@@ -1,11 +1,13 @@
 from bot_replies import *
 
 from Dealer_Interaction.src import dealer_handlers
+from User_Interaction.src import user_handlers
 
 
 class Bot(object):
 	def __init__(self):
 		self.Dealer_Handlers_Obj = dealer_handlers.Dealer_Handlers()
+		self.User_Handlers_Obj = user_handlers.User_Handlers()
 
 	def start(self, update, context):
 		chat_id = update.message.chat_id
@@ -17,7 +19,9 @@ class Bot(object):
 		if 'group' in update.message.chat.type:
 			context.bot.send_message(chat_id=update.effective_chat.id, text = bot_replies['dealer_welcome_message'] % (first_name, group_title), reply_markup=yes_no_keyboard,  parse_mode = ParseMode.MARKDOWN)
 		else:
-			context.bot.send_message(chat_id=update.effective_chat.id, text = bot_replies['no_access_here'], reply_markup=ReplyKeyboardRemove(),  parse_mode = ParseMode.MARKDOWN)
+			context.bot.send_message(chat_id=chat_id, text = bot_replies['pre_insert_token'] % first_name, reply_markup=ReplyKeyboardRemove(),  parse_mode = ParseMode.MARKDOWN)
+
+			#context.bot.send_message(chat_id=update.effective_chat.id, text = bot_replies['no_access_here'], reply_markup=ReplyKeyboardRemove(),  parse_mode = ParseMode.MARKDOWN)
 		
 
 	
@@ -26,6 +30,7 @@ class Bot(object):
 		dp.add_handler(MessageHandler(Filters.status_update, self.start))
 		#dp.add_handler(self.Dealer_Handlers_Obj.preamble_register_shop_handler())
 		#dp.add_handler(self.Dealer_Handlers_Obj.register_shop_handler())
+		dp.add_handler(self.User_Handlers_Obj.register_user_handlers())
 		dp.add_handler(self.Dealer_Handlers_Obj.register_shop_handler_test())	# to merge with the upper line
 		#dp.add_handler(self.Dealer_Handlers_Obj.register_shop_window_handler())
 		dp.add_handler(MessageHandler(Filters.text, unknown_function))

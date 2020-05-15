@@ -218,7 +218,9 @@ class Utility(object):
 
 
 	def check_if_user_has_done(self, chat_id, context):
-		return context.user_data[chat_id]['all_done']
+		try:
+			return context.user_data[chat_id]['all_done']
+		except:return False
 
 	def set_all_done(self, chat_id, context):
 		context.user_data[chat_id]['all_done'] = True
