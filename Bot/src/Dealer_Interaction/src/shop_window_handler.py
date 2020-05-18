@@ -27,8 +27,6 @@ class Shop_Window_Handler(object):
 			update.message.reply_text(bot_replies['choice_your_category'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
 			
 			# Test cancellazione messaggio
-			# import time
-			# time.sleep(2)
 			# Bot_Obj.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
 			return 0
 		except Exception as e: 	print(str(e))

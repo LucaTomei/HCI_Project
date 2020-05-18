@@ -167,7 +167,7 @@ def makeAKeyboard(alist, parti):
 def make_back_keyboard(alist, parti):
 	length = len(alist)
 	keyboard =  [alist[i*length // parti: (i+1)*length // parti] for i in range(parti)]
-	keyboard.append([bot_buttons['stop_button']])
+	keyboard.append([bot_buttons['back_button']])
 	return ReplyKeyboardMarkup(keyboard)
 
 def make_upper_back_keyboard(alist, parti): 

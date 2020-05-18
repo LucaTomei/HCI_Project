@@ -135,7 +135,7 @@ class Utils(object):
 if __name__ == '__main__':
 	Utils = Utils()
 	
-	shopping_window =  [{'name': 'Panna', 'price': 1.0, 'unit': '1.5L'}, {'name': 'Ferrarelle', 'price': 1.0, 'unit': '1.5L'}]
-	Utils.tmp_remove_product_from_shopping_window(shopping_window, 'Panna')
+	# shopping_window =  [{'name': 'Panna', 'price': 1.0, 'unit': '1.5L'}, {'name': 'Ferrarelle', 'price': 1.0, 'unit': '1.5L'}]
+	# Utils.tmp_remove_product_from_shopping_window(shopping_window, 'Panna')
 	#Utils.edit_shopping_window_price(shopping_window, 'Ferrarelle', "20.1")
 	

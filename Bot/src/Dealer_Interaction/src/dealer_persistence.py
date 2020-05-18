@@ -71,7 +71,7 @@ class Dealer_Persistence(object):
 		to_ret = self.how_many_units(new_shopping_window_list)
 		return to_ret
 	
-	def get_original_product_details(self, product_name):
+	def get_original_product_details(self, product_name):	# pass its token
 		content = self.read_persistence()
 		for item in content:
 			for item in content[item]['shopping_window_list']:

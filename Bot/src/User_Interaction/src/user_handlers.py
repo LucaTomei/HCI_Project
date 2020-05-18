@@ -196,13 +196,22 @@ class User_Handlers(object):
 			chat_id = update.message.chat.id
 			token = self.User_Utils_obj.get_used_token(chat_id, context)
 			dealer_chat_id = self.User_Utils_obj.decrypt_token(token)
-			print(dealer_chat_id)
-
+			
 			update.message.reply_text("*Lista della spesa inviata con successo*",parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
 
 			message = bot_replies['arrived_new_shopping_cart'] % update.message.chat.first_name
 			context.bot.send_message(chat_id=dealer_chat_id, text = message, reply_markup=ReplyKeyboardRemove(),  parse_mode = ParseMode.MARKDOWN)
-		except Exception as e:	print(str(e)) 
+			
+
+			shopping_cart = self.User_Utils_obj.get_shopping_cart(chat_id, context)
+			products_sum = self.Dealer_Persistence_Obj.sum_up_all_shopping_window_prices(shopping_cart)
+			total = str(self.User_Utils_obj.make_total(products_sum))
+			formatted_cart = self.User_Utils_obj.better_print_shopping_cart(products_sum)
+
+			message = formatted_cart + bot_replies['show_shopping_cart'] % ("", str(total))
+			context.bot.send_message(chat_id=dealer_chat_id, text = message, reply_markup=ReplyKeyboardRemove(),  parse_mode = ParseMode.MARKDOWN)
+			
+		except Exception as e:	print("Eccezione: " + str(e)) 
 
 	def delete_product_main_handler(self, update, context):
 		try:
