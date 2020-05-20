@@ -275,40 +275,86 @@ categories_names_list = Utility_Obj.get_all_merchant_categories()	# Contains all
 
 categories_keyboard = makeAKeyboard(categories_names_list, 5)
 
-#---------[Useful Functions]---------
+## ---------[Useful Functions]---------
+# def unknown_function(update, context):
+# 	try:
+# 		chat_id = update.message.chat_id
+# 		first_name = update.message.chat.first_name
+# 		first_name = first_name if first_name != None else update.message.from_user.first_name
+# 		group_title = update.message.chat.title
+		
+# 		#print("has_done", Utility_Obj.check_if_user_has_done(chat_id, context))
+# 		if not Utility_Obj.check_if_user_has_done(chat_id, context):
+# 			if 'group' in update.message.chat.type:
+# 				Utility_Obj.set_user_data(chat_id, context, main_keyboard, group_title)
+# 				telegram_link = Utility_Obj.set_telegram_link(update, context)
+# 				# Verify if is passed a day
+# 				group_token = Utils_Obj.make_token(chat_id)
+# 				#group_token = group_token.replace('=', "god")	# @ForTest
+# 				#print(Dealer_Persistence_Obj.is_token_in_persistence(group_token))
+# 				if Dealer_Persistence_Obj.is_token_in_persistence(group_token):
+# 					if Dealer_Persistence_Obj.get_shopping_window_date_day_by_token(group_token) == datetime.now().day:
+# 						message = bot_replies['all_done_shopping_window']
+# 						keyboard = ReplyKeyboardRemove()
+# 					else:
+# 						message = bot_replies['main_message']
+# 						keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
+# 					context.bot.send_message(chat_id=chat_id, text = message, reply_markup=keyboard,  parse_mode = ParseMode.MARKDOWN)
+# 				else:	#if dealer is not in persistence file
+# 					keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
+# 					message = bot_replies['main_message']
+# 					context.bot.send_message(chat_id=chat_id, text = message, reply_markup=keyboard,  parse_mode = ParseMode.MARKDOWN)
+					
+# 			else:	# if i'm an User and not a customer
+				
+# 				context.bot.send_message(chat_id=chat_id, text = bot_replies['insert_token'] % first_name, reply_markup=ReplyKeyboardRemove(),  parse_mode = ParseMode.MARKDOWN)
+# 			return ConversationHandler.END
+# 		else:
+# 			return ConversationHandler.END
+# 	except Exception as e:	print(str(e))
+
+
+
 def unknown_function(update, context):
 	try:
 		chat_id = update.message.chat_id
 		first_name = update.message.chat.first_name
 		first_name = first_name if first_name != None else update.message.from_user.first_name
 		group_title = update.message.chat.title
-		Utility_Obj.set_user_data(chat_id, context, main_keyboard, group_title)
-		#print("has_done", Utility_Obj.check_if_user_has_done(chat_id, context))
-		if not Utility_Obj.check_if_user_has_done(chat_id, context):
-			if 'group' in update.message.chat.type:
-				telegram_link = Utility_Obj.set_telegram_link(update, context)
-				# Verify if is passed a day
-				group_token = Utils_Obj.make_token(chat_id)
-				#group_token = group_token.replace('=', "god")	# @ForTest
-				#print(Dealer_Persistence_Obj.is_token_in_persistence(group_token))
-				if Dealer_Persistence_Obj.is_token_in_persistence(group_token):
-					if Dealer_Persistence_Obj.get_shopping_window_date_day_by_token(group_token) == datetime.now().day:
-						message = bot_replies['all_done_shopping_window']
-						keyboard = ReplyKeyboardRemove()
-					else:
-						message = bot_replies['main_message']
-						keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
-					context.bot.send_message(chat_id=chat_id, text = message, reply_markup=keyboard,  parse_mode = ParseMode.MARKDOWN)
-				else:	#if dealer is not in persistence file
-					keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
-					message = bot_replies['main_message']
-					context.bot.send_message(chat_id=chat_id, text = message, reply_markup=keyboard,  parse_mode = ParseMode.MARKDOWN)
-					
-			else:	# if i'm an User and not a customer
-				
-				context.bot.send_message(chat_id=chat_id, text = bot_replies['insert_token'] % first_name, reply_markup=ReplyKeyboardRemove(),  parse_mode = ParseMode.MARKDOWN)
-			
-			return ConversationHandler.END
-		else:
-			return ConversationHandler.END
+		print("ooooo")
+		context.bot.send_message(chat_id=chat_id, text = bot_replies['insert_token'] % first_name, reply_markup=ReplyKeyboardRemove(),  parse_mode = ParseMode.MARKDOWN)
 	except Exception as e:	print(str(e))
+
+def unknown_function_for_groups(update, context):
+	try:
+		chat_id = update.message.chat_id
+		first_name = update.message.chat.first_name
+		first_name = first_name if first_name != None else update.message.from_user.first_name
+		group_title = update.message.chat.title
+		
+		Utility_Obj.set_user_data(chat_id, context, main_keyboard, group_title)
+		telegram_link = Utility_Obj.set_telegram_link(update, context)
+		# Verify if is passed a day
+		group_token = Utils_Obj.make_token(chat_id)
+		#group_token = group_token.replace('=', "god")	# @ForTest
+		#print(Dealer_Persistence_Obj.is_token_in_persistence(group_token))
+		if not Utility_Obj.check_if_user_has_done(chat_id, context):
+			if Dealer_Persistence_Obj.is_token_in_persistence(group_token):
+				if Dealer_Persistence_Obj.get_shopping_window_date_day_by_token(group_token) == datetime.now().day:
+					message = bot_replies['all_done_shopping_window']
+					keyboard = ReplyKeyboardRemove()
+				else:
+					message = bot_replies['main_message']
+					keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
+				context.bot.send_message(chat_id=chat_id, text = message, reply_markup=keyboard,  parse_mode = ParseMode.MARKDOWN)
+			else:	#if dealer is not in persistence file
+				keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
+				message = bot_replies['main_message']
+				context.bot.send_message(chat_id=chat_id, text = message, reply_markup=keyboard,  parse_mode = ParseMode.MARKDOWN)	
+		else:	return ConversationHandler.END
+	except Exception as e:	print(str(e))
+
+
+
+
+

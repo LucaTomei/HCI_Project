@@ -182,7 +182,9 @@ class Utility(object):
 		context.user_data[chat_id]['tmp_category'] = category
 
 	def get_telegram_link(self, context, chat_id):
-		return context.user_data[chat_id]['telegram_link']
+		try:
+			return context.user_data[chat_id]['telegram_link']
+		except:	return ''
 
 	def set_telegram_link(self, update, context):
 		chat_id = update.message.chat.id

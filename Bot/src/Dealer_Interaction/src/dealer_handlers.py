@@ -182,7 +182,7 @@ class Dealer_Handlers(object):
             [	# Entry Points
             	MessageHandler(Filters.regex('^' + bot_buttons['category'] +'$'),self.category_main_handler),
             	MessageHandler(Filters.regex('^' + bot_buttons['location'] +'$'),self.location_main_handler),
-        		MessageHandler(Filters.text,unknown_function),
+        		MessageHandler(Filters.group & Filters.text,unknown_function_for_groups),
         		MessageHandler(Filters.location,self.set_user_location_handler),
             ], 
             {
@@ -196,7 +196,7 @@ class Dealer_Handlers(object):
             		MessageHandler(Filters.text, self.filter_categories_handler),
             	],
             	2:[		# Location
-            		MessageHandler(Filters.text,unknown_function),
+            		MessageHandler(Filters.text,unknown_function_for_groups),
             		MessageHandler(Filters.location,self.set_user_location_handler),
             	],
             	3: [# error on location - manual insertion
@@ -212,7 +212,7 @@ class Dealer_Handlers(object):
             [	# Entry Points
             	MessageHandler(Filters.regex('^' + bot_buttons['category'] +'$'),self.Shop_Window_Handler_Obj.test_entry_point_main_handler),
             	MessageHandler(Filters.regex('^' + bot_buttons['location'] +'$'),self.Shop_Window_Handler_Obj.test_entry_point_main_handler),
-        		MessageHandler(Filters.text,unknown_function),
+        		MessageHandler(Filters.text,unknown_function_for_groups),
             ], 
             {
             	0: [ # Choice sub category
@@ -265,7 +265,7 @@ class Dealer_Handlers(object):
             		MessageHandler(Filters.regex('^' + bot_buttons['yes_edit_price'] +'$'),self.Shop_Window_Handler_Obj.edit_product_price_done_handler),
             		MessageHandler(Filters.regex('^' + bot_buttons['not_sure_delete_product'] +'$'),self.Shop_Window_Handler_Obj.dont_edit_price_handler),
             	]
-            },[])
+            },[], Filters.group)
 		return register_shop_handler
 
 
@@ -293,7 +293,7 @@ class Dealer_Handlers(object):
             ], 
             {
             	0:[	
-            		MessageHandler(Filters.text,unknown_function),
+            		MessageHandler(Filters.text,unknown_function_for_groups),
             	],
             	1:[	# state for register website
             		MessageHandler(Filters.text,self.register_website_handler)

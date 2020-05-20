@@ -267,7 +267,7 @@ class User_Handlers(object):
 	def register_user_handlers(self):
 		register_user_handlers  = ConversationHandler(
 			[
-        		MessageHandler(Filters.text, self.insert_token_main_handler),
+        		MessageHandler(Filters.text & (~ Filters.group), self.insert_token_main_handler),
 
             	#MessageHandler(Filters.regex('^' + bot_buttons['insert_token'] +'$'),self.insert_token_main_handler),
 			],
