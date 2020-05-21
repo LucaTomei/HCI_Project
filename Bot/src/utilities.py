@@ -71,8 +71,13 @@ class Utility(object):
 	def format_datetime(self, datetime_obj):
 		return datetime_obj.strftime("%d/%m/%YCOLLIGO%H:%M")
 	
+	def get_group_title(self, chat_id, context):
+		return context.user_data[chat_id]['group_title']
+	
 	def prepare_persistence(self, chat_id, context):
 		dealer_infos = {
+			"group_title": self.get_group_title(chat_id, context),
+			"categories_list": self.get_user_categories(chat_id, context),
 			"shopping_window_list": self.get_shopping_window_list_by_chat_id(chat_id, context),
 			"shopping_window_date": self.format_datetime(self.get_shopping_window_date(chat_id, context))
 		}

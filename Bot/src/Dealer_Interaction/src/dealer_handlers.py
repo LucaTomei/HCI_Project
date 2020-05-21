@@ -37,6 +37,7 @@ class Dealer_Handlers(object):
 
 
 	def category_main_handler(self, update, context):
+		print("-1 (location_main_handler) : ", update.message.text)
 		Utility_Obj.set_telegram_link(update, context)
 		user_categories = Utility_Obj.get_user_categories(update.message.chat.id, context)
 		#print("[category_main_handler] categorie utente: ", user_categories)
@@ -44,6 +45,7 @@ class Dealer_Handlers(object):
 		return 0
 
 	def filter_categories_handler(self, update, context):
+		print("0 (filter_categories_handler): ", update.message.text)
 		Utility_Obj.set_telegram_link(update, context)
 		chat_message = update.message.text
 		chat_id = update.message.chat_id
@@ -65,12 +67,14 @@ class Dealer_Handlers(object):
 			else:
 				Utility_Obj.set_main_keyboard_by_chat_id(chat_id, main_keyboard_only_location, context)
 				message_to_send = bot_replies['catagories_done'] % (str(user_categories))
+				return ConversationHandler.END
 			main_keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
 			update.message.reply_text(message_to_send, parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard, disable_web_page_preview=True)
-			return ConversationHandler.END
-
+			return self.Shop_Window_Handler_Obj.test_entry_point_main_handler(update, context)#return 4#ConversationHandler.END
+			
 
 	def add_category_handler(self, update, context):
+		print("1 (add_category_handler) : ", update.message.text)
 		Utility_Obj.set_telegram_link(update, context)
 		chat_id = update.message.chat_id
 		category = Utility_Obj.get_tmp_category(update.message.chat_id, context)
@@ -85,6 +89,7 @@ class Dealer_Handlers(object):
 				Utility_Obj.set_main_keyboard_by_chat_id(chat_id, main_keyboard_only_location, context)
 				
 				message_to_send = bot_replies['catagories_done'] % (str(user_categories))
+				return ConversationHandler.END
 			else:
 				Utility_Obj.set_main_keyboard_by_chat_id(chat_id, main_keyboard_empty, context)
 				tupla_location = Utility_Obj.get_user_location(chat_id, context)
@@ -92,10 +97,11 @@ class Dealer_Handlers(object):
 				Utility_Obj.post_shop_details(chat_id, context)
 			main_keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
 			update.message.reply_text(message_to_send, parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard, disable_web_page_preview=True)
-			return ConversationHandler.END
+			return self.Shop_Window_Handler_Obj.test_entry_point_main_handler(update, context)#return 4#ConversationHandler.END
 
 
 	def check_user_categories_handler(self, update, context):
+		print("0 (check_user_categories_handler) : ", update.message.text)
 		chat_id = update.message.chat_id
 		user_categories = Utility_Obj.get_user_categories(chat_id, context)
 		try:
@@ -114,19 +120,23 @@ class Dealer_Handlers(object):
 					user_location = Utility_Obj.get_user_location(chat_id, context)
 					update.message.reply_text(bot_replies['all_done'] % (str(user_categories), str(user_location)), parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard, disable_web_page_preview=True)
 					Utility_Obj.post_shop_details(chat_id, context)
-				return ConversationHandler.END
+					return self.Shop_Window_Handler_Obj.test_entry_point_main_handler(update, context)#return 4#ConversationHandler.END
+				else:
+					return ConversationHandler.END
 			else:
 				update.message.reply_text(bot_replies['category_error_message'], parse_mode=ParseMode.MARKDOWN, reply_markup=categories_keyboard, disable_web_page_preview=True)
 				return 0
-		except Exception as e:	print(str(e))
+		except Exception as e:	print("Eccezione in check_user_categories_handler:",str(e))
 
 	def location_main_handler(self, update, context):
+		print("-1 (location_main_handler) : ", update.message.text)
 		Utility_Obj.set_telegram_link(update, context)
 		update.message.reply_text(bot_replies['position_message'], parse_mode=ParseMode.MARKDOWN, reply_markup = ReplyKeyboardRemove(), disable_web_page_preview=True)
 		return 2
 
 
 	def set_user_location_handler(self, update, context):
+		print("2 (set_user_location_handler) : ", update.message.text)
 		try:
 			Utility_Obj.set_telegram_link(update, context)
 			chat_id = update.message.chat_id
@@ -145,15 +155,17 @@ class Dealer_Handlers(object):
 				else:
 					Utility_Obj.set_main_keyboard_by_chat_id(chat_id, main_keyboard_only_categories, context)
 					message_to_send = bot_replies['location_done'] % (address + " ("+ cap +")", city)
+					return ConversationHandler.END
 				main_keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
 				update.message.reply_text(message_to_send, parse_mode=ParseMode.MARKDOWN, reply_markup = main_keyboard, disable_web_page_preview=True)
-				return ConversationHandler.END
+				return self.Shop_Window_Handler_Obj.test_entry_point_main_handler(update, context)#4#ConversationHandler.END
 			else:
 				update.message.reply_text(bot_replies['location_error_message'], parse_mode=ParseMode.MARKDOWN, reply_markup = ReplyKeyboardRemove(), disable_web_page_preview=True)
 				return 3
-		except Exception as e:	print(str(e))
+		except Exception as e:	print("Eccezione in set_user_location_handler:", str(e))
 
 	def manual_location_insertion_handler(self, update, context):
+		print("3 (manual_location_insertion_handler) : ", update.message.text)
 		Utility_Obj.set_telegram_link(update, context)
 		chat_message = update.message.text
 		chat_id = update.message.chat.id
@@ -170,9 +182,12 @@ class Dealer_Handlers(object):
 			else:
 				Utility_Obj.set_main_keyboard_by_chat_id(chat_id, main_keyboard_only_categories, context)
 				message_to_send = bot_replies['location_done'] % (address + " ("+ cap +")", city)
+				main_keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
+				update.message.reply_text(message_to_send, parse_mode=ParseMode.MARKDOWN, reply_markup = main_keyboard, disable_web_page_preview=True)
+				return ConversationHandler.END
 			main_keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
 			update.message.reply_text(message_to_send, parse_mode=ParseMode.MARKDOWN, reply_markup = main_keyboard, disable_web_page_preview=True)
-			return ConversationHandler.END
+			return self.Shop_Window_Handler_Obj.test_entry_point_main_handler(update, context)#return 4#ConversationHandler.END
 		except:	# cannot retrieve tupla_location text
 			update.message.reply_text(bot_replies['location_error_message'], parse_mode=ParseMode.MARKDOWN, reply_markup = ReplyKeyboardRemove(), disable_web_page_preview=True)
 			return 3
@@ -180,10 +195,10 @@ class Dealer_Handlers(object):
 	def register_shop_handler(self):
 		register_shop_handler = ConversationHandler(
             [	# Entry Points
-            	MessageHandler(Filters.regex('^' + bot_buttons['category'] +'$'),self.category_main_handler),
-            	MessageHandler(Filters.regex('^' + bot_buttons['location'] +'$'),self.location_main_handler),
+            	MessageHandler(Filters.regex('^' + bot_buttons['category'] +'$') & (Filters.group),self.category_main_handler),
+            	MessageHandler(Filters.regex('^' + bot_buttons['location'] +'$') & (Filters.group),self.location_main_handler),
         		MessageHandler(Filters.group & Filters.text,unknown_function_for_groups),
-        		MessageHandler(Filters.location,self.set_user_location_handler),
+        		MessageHandler(Filters.group & Filters.location,self.set_user_location_handler),
             ], 
             {
             	0: [	# Starting main handler
@@ -202,16 +217,69 @@ class Dealer_Handlers(object):
             	3: [# error on location - manual insertion
             		MessageHandler(Filters.text,self.manual_location_insertion_handler),
             		MessageHandler(Filters.location,self.set_user_location_handler),
-            	]  	
-            },[])
+            	],
+            	#########
+            	#NEW
+            	#########
+            	0+4: [ # Choice sub category
+            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.choice_your_subcategory_handler),
+            	],
+            	1+4: [ # Choice Product
+            		MessageHandler(Filters.regex('^' + bot_buttons['back_button'] +'$'),self.Shop_Window_Handler_Obj.choice_your_subcategory_handler),
+            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.choice_your_product_handler),
+            	],
+            	2+4: [
+            		MessageHandler(Filters.regex('^' + bot_buttons['back_button'] +'$'),self.Shop_Window_Handler_Obj.choice_your_product_handler),
+            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.pre_insert_product_price_handler),
+            	],
+            	3+4: [	# insert product price
+            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.insert_product_price_handler),
+            	],
+            	4+4: [	# yes no insert product price
+            		MessageHandler(Filters.regex('^' + bot_buttons['no_sure_price'] +'$'),self.Shop_Window_Handler_Obj.no_back_to_shopping_window_handler),
+            		MessageHandler(Filters.regex('^' + bot_buttons['yes_sure_price'] +'$'),self.Shop_Window_Handler_Obj.yes_insert_other_products_handler),
+            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.loop_in_yes_no_sure_price_handler),
+            	],
+            	5+4:[
+            		MessageHandler(Filters.regex('^' + bot_buttons['no_show_shop_window'] +'$'),self.Shop_Window_Handler_Obj.show_shopping_window_handler),
+            		MessageHandler(Filters.regex('^' + bot_buttons['yes_insert_new_product'] +'$'),self.Shop_Window_Handler_Obj.insert_new_products_handler),
+            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.loop_in_shopping_window_go_end_handler),
+            	],
+            	6+4:[
+            		MessageHandler(Filters.regex('^' + bot_buttons['no_send_shop_window'] +'$'),self.Shop_Window_Handler_Obj.dont_send_shopping_window_handler),
+            		MessageHandler(Filters.regex('^' + bot_buttons['yes_send_shop_window'] +'$'),self.Shop_Window_Handler_Obj.yes_send_shopping_window_handler),
+            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.loop_in_end_shopping_window_handler),
+            	],
+            	7+4:[
+            		MessageHandler(Filters.regex('^' + bot_buttons['back_button'] +'$'),self.Shop_Window_Handler_Obj.loop_in_end_shopping_window_handler),
+            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.edit_your_products_main_handler),
+            	],
+            	8+4:[
+            		MessageHandler(Filters.regex('^' + bot_buttons['edit_product_price'] +'$'),self.Shop_Window_Handler_Obj.edit_this_product_handler),
+            		MessageHandler(Filters.regex('^' + bot_buttons['delete_product'] +'$'),self.Shop_Window_Handler_Obj.delete_product_handler),
+            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.edit_your_products_main_handler),
+            	],
+            	9+4:[	# delete product
+            		MessageHandler(Filters.regex('^' + bot_buttons['sure_delete_product'] +'$'),self.Shop_Window_Handler_Obj.delete_product_done_handler),
+            		MessageHandler(Filters.regex('^' + bot_buttons['not_sure_delete_product'] +'$'),self.Shop_Window_Handler_Obj.dont_delete_product_handler),
+            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.back_to_are_you_sure_delete_product_handler),
+            	],
+            	10+4:[	# edit product price
+            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.set_new_product_price_handler),
+            	],
+            	11+4: [	# Set editedp product price
+            		MessageHandler(Filters.regex('^' + bot_buttons['yes_edit_price'] +'$'),self.Shop_Window_Handler_Obj.edit_product_price_done_handler),
+            		MessageHandler(Filters.regex('^' + bot_buttons['not_sure_delete_product'] +'$'),self.Shop_Window_Handler_Obj.dont_edit_price_handler),
+            	]
+            },[], map_to_parent= ConversationHandler.END)
 		return register_shop_handler
 
 	
 	def register_shop_handler_test(self):
 		register_shop_handler = ConversationHandler(
             [	# Entry Points
-            	MessageHandler(Filters.regex('^' + bot_buttons['category'] +'$'),self.Shop_Window_Handler_Obj.test_entry_point_main_handler),
-            	MessageHandler(Filters.regex('^' + bot_buttons['location'] +'$'),self.Shop_Window_Handler_Obj.test_entry_point_main_handler),
+            	MessageHandler(Filters.regex('^' + bot_buttons['category'] +'$') & (Filters.group),self.Shop_Window_Handler_Obj.test_entry_point_main_handler),
+            	MessageHandler(Filters.regex('^' + bot_buttons['location'] +'$') & (Filters.group),self.Shop_Window_Handler_Obj.test_entry_point_main_handler),
         		MessageHandler(Filters.text,unknown_function_for_groups),
             ], 
             {
@@ -288,8 +356,8 @@ class Dealer_Handlers(object):
 	def preamble_register_shop_handler(self):
 		preamble_register_shop_handler = ConversationHandler(
             [	# Entry Points
-            	MessageHandler(Filters.regex('^' + bot_buttons['yes'] +'$'),self.you_have_website),
-            	MessageHandler(Filters.regex('^' + bot_buttons['no'] +'$'),self.yout_dont_have_website),
+            	MessageHandler(Filters.regex('^' + bot_buttons['yes'] +'$') & (Filters.group),self.you_have_website),
+            	MessageHandler(Filters.regex('^' + bot_buttons['no'] +'$') & (Filters.group),self.yout_dont_have_website),
             ], 
             {
             	0:[	

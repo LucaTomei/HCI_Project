@@ -33,5 +33,20 @@
             }
         ],
         "shopping_window_date": "15/05/2020COLLIGO11:31"
+    },
+    "eJzTNTE0MDE1NjMxAgAKwQH7": {
+        "group_title": "Negozio di Test",
+        "categories_list": [
+            "Alimentari",
+            "Birroteca"
+        ],
+        "shopping_window_list": [
+            {
+                "name": "Amstel",
+                "price": 2.0,
+                "unit": "0.33l"
+            }
+        ],
+        "shopping_window_date": "21/05/2020COLLIGO18:13"
     }
 }

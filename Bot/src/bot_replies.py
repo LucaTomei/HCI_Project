@@ -44,7 +44,7 @@ bot_replies = {
 	"website_error": "*Il sito %s non rispecchia lo schema di un sito web: Sei sicuro che il messaggio contenga 'http://'?\nInserisci di nuovo il link al tuo sito web [q per uscire].*",
 	"website_not_insert": "*Sito web non inserito.*",
 
-	"all_done": "Tutto impostato con successo:\nCategorie del negozio: *%s*\nPosizione del negozio: *%s*.",
+	"all_done": "*Registrazione del negozio completata con successo*:\nCategorie del negozio: *%s*\nPosizione del negozio: *%s*.",
 
 	"no_access_here": "*Mi dispiace ma il bot può essere utilizzato solamente all'interno di gruppi o supergruppi*",
 
