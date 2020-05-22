@@ -32,6 +32,10 @@ class Bot(object):
 		
 		dp.add_handler(self.Dealer_Handlers_Obj.register_shop_handler())
 		dp.add_handler(self.User_Handlers_Obj.register_user_handlers())
+		
+		dp.add_handler(self.Dealer_Handlers_Obj.Edit_Shop_Window_Handler_Obj.edit_shop_handler())
+
+
 		#dp.add_handler(self.Dealer_Handlers_Obj.register_shop_handler_test())	# to merge with the upper line
 		
 

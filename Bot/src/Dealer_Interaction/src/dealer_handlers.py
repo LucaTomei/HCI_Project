@@ -1,45 +1,63 @@
 from bot_replies import *
-from . import shop_window_handler
+from . import shop_window_handler, edit_shop_window_handler
 
 class Dealer_Handlers(object):
 	def __init__(self):
 		self.Shop_Window_Handler_Obj = shop_window_handler.Shop_Window_Handler()
+		self.Edit_Shop_Window_Handler_Obj = edit_shop_window_handler.Edit_Shop_Window_Handler()
 
 	#---------[You have pressed YES WEBSITE BUTTON]---------
 	def you_have_website(self, update, context):
+		chat_id = update.message.chat_id
+		Utility_Obj.append_messages_to_delete(chat_id, context, update.message.message_id)
+
 		Utility_Obj.set_telegram_link(update, context)
-		update.message.reply_text(bot_replies['insert_website'], parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove(), disable_web_page_preview=True)
+		
+		reply_message = update.message.reply_text(bot_replies['insert_website'], parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove(), disable_web_page_preview=True)
+		Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
 		return 1
 	
 	#---------[You have pressed NO WEBSITE BUTTON]---------
 	def yout_dont_have_website(self, update, context):	# if you don't have website return 2
+		chat_id = update.message.chat_id
+		Utility_Obj.append_messages_to_delete(chat_id, context, update.message.message_id)
+
 		Utility_Obj.set_telegram_link(update, context)
-		update.message.reply_text(bot_replies['description_message'], parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard, disable_web_page_preview=True)
+		
+		reply_message = update.message.reply_text(bot_replies['description_message'], parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard, disable_web_page_preview=True)
+		Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
 		return ConversationHandler.END
 
 	def register_website_handler(self, update, context):
 		Utility_Obj.set_telegram_link(update, context)
 		chat_id = update.message.chat_id
+		Utility_Obj.append_messages_to_delete(chat_id, context, update.message.message_id)
+
 		website = update.message.text
 		if website.lower() != 'q': 
 			if Utility_Obj.is_really_a_website(website):
 				Utility_Obj.set_user_website(chat_id, website, context)	# Save user website in user_data
-				update.message.reply_text(bot_replies['website_added'] % (website), parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard, disable_web_page_preview=True)
-				update.message.reply_text(bot_replies['description_message'], parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard, disable_web_page_preview=True)
+				
+				reply_message = update.message.reply_text(bot_replies['website_added'] % (website), parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard, disable_web_page_preview=True)
+				Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+				reply_message = update.message.reply_text(bot_replies['description_message'], parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard, disable_web_page_preview=True)
+				Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
 				return ConversationHandler.END
 			else:
-				update.message.reply_text(bot_replies['website_error'] % website, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove(), disable_web_page_preview=True)
+				reply_message = update.message.reply_text(bot_replies['website_error'] % website, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove(), disable_web_page_preview=True)
+				Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
 				return 1	# loop until you add a valid website
 		else:
-			update.message.reply_text(bot_replies['website_not_insert'], parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard, disable_web_page_preview=True)
+			reply_message = update.message.reply_text(bot_replies['website_not_insert'], parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard, disable_web_page_preview=True)
+			Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
 			return ConversationHandler.END
 
 
 	def deleteMessages(self, context):
-		try:
-			chat_id, messages_to_delete = context.job.context
-			for message_id in messages_to_delete:	context.bot.delete_message(chat_id=chat_id, message_id=message_id)
-		except Exception as e: print(str(e))
+		chat_id, messages_to_delete = context.job.context
+		for message_id in messages_to_delete:
+			try:	context.bot.delete_message(chat_id=chat_id, message_id=message_id)
+			except Exception as e:	continue
 
 		
 		
@@ -48,16 +66,14 @@ class Dealer_Handlers(object):
 	def category_main_handler(self, update, context):
 		print("-1 (category_main_handler) : ", update.message.text)
 		chat_id = update.message.chat.id
+		Utility_Obj.append_messages_to_delete(chat_id, context, update.message.message_id)
+
 		chat_message = update.message.text
 		Utility_Obj.set_telegram_link(update, context)
 		user_categories = Utility_Obj.get_user_categories(update.message.chat.id, context)
 		
 		reply_message = update.message.reply_text(bot_replies['category_message'], parse_mode=ParseMode.MARKDOWN, reply_markup=categories_keyboard, disable_web_page_preview=True)
-		
-		#job = context.job_queue.run_once(self.deleteMessage, 10, context=update.message)
-		Utility_Obj.append_messages_to_delete(chat_id, context, update.message.message_id)
 		Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
-		#job.context = (chat_id, reply_message.message_id, update.message.message_id)
 		return 0
 
 	def filter_categories_handler(self, update, context):
@@ -90,7 +106,7 @@ class Dealer_Handlers(object):
 				main_keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
 				
 				reply_message = update.message.reply_text(message_to_send, parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard, disable_web_page_preview=True)
-				Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+				#Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
 				
 				return ConversationHandler.END
 			main_keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
@@ -139,7 +155,7 @@ class Dealer_Handlers(object):
 			main_keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
 			
 			reply_message = update.message.reply_text(message_to_send, parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard, disable_web_page_preview=True)
-			Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+			#Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
 
 
 			# Remove old messages
@@ -176,7 +192,7 @@ class Dealer_Handlers(object):
 					user_location = Utility_Obj.get_user_location(chat_id, context)
 					
 					reply_message = update.message.reply_text(bot_replies['all_done'] % (str(user_categories), str(user_location)), parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard, disable_web_page_preview=True)
-					Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+					#Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
 
 					Utility_Obj.post_shop_details(chat_id, context)
 
@@ -237,7 +253,7 @@ class Dealer_Handlers(object):
 				
 				main_keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
 				reply_message = update.message.reply_text(message_to_send, parse_mode=ParseMode.MARKDOWN, reply_markup = main_keyboard, disable_web_page_preview=True)
-				Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+				#Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
 
 
 				# Remove old messages
@@ -284,7 +300,7 @@ class Dealer_Handlers(object):
 			main_keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
 			
 			reply_message = update.message.reply_text(message_to_send, parse_mode=ParseMode.MARKDOWN, reply_markup = main_keyboard, disable_web_page_preview=True)
-			Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+			#Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
 			
 
 			# Remove old messages
@@ -304,7 +320,7 @@ class Dealer_Handlers(object):
             [	# Entry Points
             	MessageHandler(Filters.regex('^' + bot_buttons['category'] +'$') & (Filters.group),self.category_main_handler),
             	MessageHandler(Filters.regex('^' + bot_buttons['location'] +'$') & (Filters.group),self.location_main_handler),
-        		MessageHandler(Filters.group & Filters.text,unknown_function_for_groups),
+        		#MessageHandler(Filters.group & Filters.text,unknown_function_for_groups),
         		MessageHandler(Filters.group & Filters.location,self.set_user_location_handler),
             ], 
             {

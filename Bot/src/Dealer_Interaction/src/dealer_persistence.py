@@ -26,6 +26,12 @@ class Dealer_Persistence(object):
 
 		self.write_persistence(content)
 
+
+	def set_now_date_by_token(self, token):
+		content = self.read_persistence()
+		content[token]['shopping_window_date'] = self.format_datetime(datetime.now())
+		self.write_persistence(content)
+
 	def format_datetime(self, datetime_obj):
 		return datetime_obj.strftime("%d/%m/%YCOLLIGO%H:%M")	#"12/05/2020COLLIGO18:53"
 

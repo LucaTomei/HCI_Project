@@ -1,33 +1,3 @@
 {
-    "eJzTNTE0MDE1NjMxAgAKwQH7": {
-        "group_title": "Negozio di Test",
-        "categories_list": [
-            "Enoteca",
-            "Bio & Equo",
-            "Alimentari"
-        ],
-        "shopping_window_list": [
-            {
-                "name": "Lilia",
-                "price": 2.3,
-                "unit": "1.5L"
-            },
-            {
-                "name": "Nepi",
-                "price": 3.0,
-                "unit": "1.5L"
-            },
-            {
-                "name": "Nesquik",
-                "price": 4.0,
-                "unit": "950g"
-            },
-            {
-                "name": "Sfogliatine Glassate",
-                "price": 5.0,
-                "unit": "200g"
-            }
-        ],
-        "shopping_window_date": "2/05/2020COLLIGO10:31"
-    }
+   
 }

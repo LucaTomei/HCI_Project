@@ -61,7 +61,7 @@ bot_replies = {
 	"want_to_send": "*Vuoi che la invio ai tuoi clienti o desideri apportare ulteriori modifiche?*",
 
 	"shop_window_send": "*La vetrina del tuo negozio è stata inoltrata correttamente a tutti i tuoi clienti.\nDi seguito ti invio il token di accesso che i tuoi clienti dovranno inserire nella chat privata con ColliGo al fine di poter visualizzare la tua vetrina e cominciare così a creare la propria lista della spesa.*",
-	"shop_window_send_token": "*Il token di accesso è il seguente:*\n```%s```",
+	"shop_window_send_token": "*Il token di accesso è il seguente:*\n`%s`",
 	"shop_window_send_done": "*Il mio compito per oggi è terminato.\nDomani potrai effettuare nuove modifiche oppure allestire una nuova vetrina per la tua bottega!*",
 	"all_done_shopping_window": "*Tutto impostato con successo*",
 
@@ -100,6 +100,13 @@ bot_replies = {
 
 	"arrived_new_shopping_cart":"*È arrivata una nuova lista della spesa dal cliente %s.*",
 	"show_shopping_cart": "*%s\n\nIl costo complessivo è pari a: %s€*",
+
+
+
+	#---------[Editing shopping window]--------
+	"edit_old_shopping_window": "*Questa è l'ultima vetrina presente:\n%s\n\nDesideri modificarla?*",
+	"what_do_you_want": "Cosa desideri effettuare?"
+
 }
 
 #---------[Keyboard Buttons]---------
@@ -155,6 +162,15 @@ bot_buttons = {
 
 	"delete_product":"ELIMINA PRODOTTO",
 	"send_shopping_cart": "INVIA LISTA DELLA SPESA",
+
+
+	#---------[New Buttons - Editing shopping window]---------
+	"edit_shopping_window":"MODIFICA VETRINA",
+	
+	"add_some_products": "INSERISCI NUOVI PRODOTTI",
+	"delete_some_products":"ELIMINA PRODOTTI",
+	"edit_shopping_window_prices": "MODIFICA PREZZI",
+
 }
 
 def makeAKeyboard(alist, parti):
@@ -176,6 +192,20 @@ def make_upper_back_keyboard(alist, parti):
    	keyboard.append([bot_buttons['back_button']])
    	keyboard =  keyboard + [alist[i*length // parti: (i+1)*length // parti] for i in range(parti)]
    	return ReplyKeyboardMarkup(keyboard)
+
+
+#---------[New Keyboard - Editing shopping window]---------
+edit_shopping_window_keyboard = ReplyKeyboardMarkup([
+	[bot_buttons['edit_shopping_window']],
+	[bot_buttons['stop_button']]
+])
+
+edit_shopping_window_execute_keyboard = ReplyKeyboardMarkup([
+	[bot_buttons['add_some_products']],
+	[bot_buttons['delete_some_products']],
+	[bot_buttons['edit_shopping_window_prices']],
+	[bot_buttons['back_button']]
+])
 
 
 #---------[Customer Keyboard]---------
@@ -321,7 +351,6 @@ def unknown_function(update, context):
 		first_name = update.message.chat.first_name
 		first_name = first_name if first_name != None else update.message.from_user.first_name
 		group_title = update.message.chat.title
-		print("ooooo")
 		context.bot.send_message(chat_id=chat_id, text = bot_replies['insert_token'] % first_name, reply_markup=ReplyKeyboardRemove(),  parse_mode = ParseMode.MARKDOWN)
 	except Exception as e:	print(str(e))
 
@@ -332,27 +361,37 @@ def unknown_function_for_groups(update, context):
 		first_name = first_name if first_name != None else update.message.from_user.first_name
 		group_title = update.message.chat.title
 		
+
+		
 		Utility_Obj.set_user_data(chat_id, context, main_keyboard, group_title)
+		Utility_Obj.append_messages_to_delete(chat_id, context, update.message.message_id)
 		telegram_link = Utility_Obj.set_telegram_link(update, context)
-		# Verify if is passed a day
+		
+
 		group_token = Utils_Obj.make_token(chat_id)
-		#group_token = group_token.replace('=', "god")	# @ForTest
-		#print(Dealer_Persistence_Obj.is_token_in_persistence(group_token))
 		if not Utility_Obj.check_if_user_has_done(chat_id, context):
 			if Dealer_Persistence_Obj.is_token_in_persistence(group_token):
 				if Dealer_Persistence_Obj.get_shopping_window_date_day_by_token(group_token) == datetime.now().day:
 					message = bot_replies['all_done_shopping_window']
 					keyboard = ReplyKeyboardRemove()
 				else:
-					message = bot_replies['main_message']
-					keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
-				context.bot.send_message(chat_id=chat_id, text = message, reply_markup=keyboard,  parse_mode = ParseMode.MARKDOWN)
+					old_shopping_window = Dealer_Persistence_Obj.get_shopping_window_by_token(group_token)
+					old_shopping_window_str = Utility_Obj.format_shopping_window(old_shopping_window)
+					message = bot_replies['edit_old_shopping_window'] % old_shopping_window_str #bot_replies['main_message']
+					keyboard = edit_shopping_window_keyboard#Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
+					Utility_Obj.set_main_keyboard_by_chat_id(chat_id, keyboard, context)
+				
+				reply_message = update.message.reply_text(message, parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard)
+				Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+				return ConversationHandler.END
 			else:	#if dealer is not in persistence file
 				keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
 				message = bot_replies['main_message']
-				context.bot.send_message(chat_id=chat_id, text = message, reply_markup=keyboard,  parse_mode = ParseMode.MARKDOWN)	
-		else:	return ConversationHandler.END
-	except Exception as e:	print(str(e))
+
+				reply_message = update.message.reply_text(message, parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard)
+				Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+				return ConversationHandler.END
+	except Exception as e:	print("Quiiii:", str(e))
 
 
 
