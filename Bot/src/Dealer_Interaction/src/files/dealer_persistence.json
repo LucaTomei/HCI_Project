@@ -1,52 +1,33 @@
 {
-    "eJzTNTQwMDQ0M7W0NDA0MAYAFHACwg==": {
+    "eJzTNTE0MDE1NjMxAgAKwQH7": {
+        "group_title": "Negozio di Test",
+        "categories_list": [
+            "Enoteca",
+            "Bio & Equo",
+            "Alimentari"
+        ],
         "shopping_window_list": [
             {
-                "name": "Panna",
-                "price": 2.0,
+                "name": "Lilia",
+                "price": 2.3,
                 "unit": "1.5L"
             },
             {
-                "name": "Ferrarelle",
+                "name": "Nepi",
                 "price": 3.0,
                 "unit": "1.5L"
             },
             {
-                "name": "Illy",
+                "name": "Nesquik",
                 "price": 4.0,
-                "unit": "250g"
+                "unit": "950g"
             },
             {
-                "name": "Lavazza Crema e Gusto",
+                "name": "Sfogliatine Glassate",
                 "price": 5.0,
-                "unit": "250g"
-            },
-            {
-                "name": "La Trappe Isid'or",
-                "price": 5.0,
-                "unit": "0.33l"
-            },
-            {
-                "name": "Krab",
-                "price": 10.0,
-                "unit": "0.33l"
+                "unit": "200g"
             }
         ],
-        "shopping_window_date": "15/05/2020COLLIGO11:31"
-    },
-    "eJzTNTE0MDE1NjMxAgAKwQH7": {
-        "group_title": "Negozio di Test",
-        "categories_list": [
-            "Alimentari",
-            "Birroteca"
-        ],
-        "shopping_window_list": [
-            {
-                "name": "Amstel",
-                "price": 2.0,
-                "unit": "0.33l"
-            }
-        ],
-        "shopping_window_date": "21/05/2020COLLIGO18:13"
+        "shopping_window_date": "2/05/2020COLLIGO10:31"
     }
 }

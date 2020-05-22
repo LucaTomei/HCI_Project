@@ -9,6 +9,7 @@ class Shop_Window_Handler(object):
 
 	def test_entry_point_main_handler(self, update, context):
 		try:
+			print("test_entry_point_main_handler:",update.message.text)
 			# ## TEST - TO REMOVE
 			# chat_id = update.message.chat.id
 			# print("-1: " + update.message.text)
@@ -29,14 +30,12 @@ class Shop_Window_Handler(object):
 			
 			update.message.reply_text(bot_replies['choice_your_category'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
 			
-			# Test cancellazione messaggio
-			# Bot_Obj.deleteMessage(chat_id=update.message.chat.id, message_id=update.message.message_id)
-			return 0 + 4
+			return 4
 		except Exception as e: 	print("Eccezione in test_entry_point_main_handler :",str(e))
 	
 	def choice_your_subcategory_handler(self, update, context):
 		try:
-			print("0: " + update.message.text)
+			print("4: " + update.message.text)
 			chat_id = update.message.chat.id
 			chat_message = this_category = update.message.text 		# Category name (eg. alimentari)
 			if self.Utils_Obj.is_category_in_file(this_category):
@@ -45,18 +44,18 @@ class Shop_Window_Handler(object):
 				Utility_Obj.set_tmp_category(chat_id, chat_message, context)
 				Utility_Obj.set_subcategories_keyboard_by_chat_id(chat_id, context, keyboard_to_show)
 				update.message.reply_text(bot_replies['choice_your_subcategory'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
-				return 1 + 4
+				return 5
 			else:
 				print("indietro in choice_your_subcategory_handler")
 				keyboard_to_show = Utility_Obj.get_categories_keyboard_by_chat_id(chat_id, context)
 				update.message.reply_text(bot_replies['choice_your_category'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
-				return 0 + 4
+				return 4
 		except Exception as e: 	print("Eccezione in choice_your_subcategory_handler:",str(e))
 
 
 	def choice_your_product_handler(self, update, context):
 		try:
-			print("\n1: " + update.message.text)
+			print("\n5: " + update.message.text)
 			chat_id = update.message.chat.id
 			chat_message = this_subcategory = update.message.text 		# SubCategory name (eg. Cereali)
 			
@@ -71,18 +70,18 @@ class Shop_Window_Handler(object):
 				keyboard_to_show = self.Utils_Obj.make_upper_back_keyboard(product_names, 3)
 				Utility_Obj.set_products_keyboard_by_chat_id(chat_id, context, keyboard_to_show)
 				update.message.reply_text(bot_replies['insert_product'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
-				return 2 + 4
+				return 6
 			else:
 				print("indietro in choice_your_product_handler")
 				keyboard_to_show = subcategories_keyboard
 				update.message.reply_text(bot_replies['choice_your_subcategory'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
-				return 1 + 4
+				return 5
 		except Exception as e: 	print("Eccezione in choice_your_product_handler:", str(e))
 
 
 	def pre_insert_product_price_handler(self, update, context):
 		try:
-			print("\n2: " + update.message.text)
+			print("\n6: " + update.message.text)
 			chat_id = update.message.chat.id
 			chat_message = this_product = update.message.text 		# product name name (eg. Kellogs ...)
 			
@@ -100,18 +99,18 @@ class Shop_Window_Handler(object):
 
 				keyboard_to_show = ReplyKeyboardRemove()
 				update.message.reply_text(bot_replies['insert_price'] %(this_product_units, this_product), parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
-				return 3 + 4
+				return 7
 			else:
 				print("indietro in pre_insert_product_handler")
 				keyboard_to_show = products_keyboard
 				update.message.reply_text(bot_replies['insert_product'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
-				return 2 + 4
+				return 6
 		except Exception as e: 	print("Eccezione in pre_insert_product_price_handler:",str(e))
 
 
 	def insert_product_price_handler(self, update, context):
 		try:
-			print("\n3: " + update.message.text)
+			print("\n7: " + update.message.text)
 			chat_id = update.message.chat.id
 			chat_message = update.message.text 		# 1.3 (price)
 			
@@ -126,18 +125,18 @@ class Shop_Window_Handler(object):
 				keyboard_to_show = yes_no_sure_price
 				
 				update.message.reply_text(bot_replies['are_you_sure_price'] %(this_product_name, str(this_product_price)), parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
-				return 4  + 4
+				return 8
 			else:	# if is not a price
 				products_keyboard = Utility_Obj.get_products_keyboard_by_chat_id(chat_id, context)
 				keyboard_to_show = products_keyboard
 				update.message.reply_text(bot_replies['insert_product'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
-				return 2 + 4
+				return 6
 		except Exception as e: 	print("Eccezione in insert_product_price_handler:",str(e))
 
 #---------[_yes_no_sure_price_handler]---------
 	def loop_in_yes_no_sure_price_handler(self, update, context):
 		try:
-			print("\n4.1: " + update.message.text)
+			print("\n8.1: " + update.message.text)
 			chat_id = update.message.chat.id
 			chat_message = update.message.text 		# you have insert something different from yes or no sure price
 
@@ -148,12 +147,12 @@ class Shop_Window_Handler(object):
 
 			keyboard_to_show = yes_no_sure_price
 			update.message.reply_text(bot_replies['are_you_sure_price'] %(this_product_name, str(this_product_price)), parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
-			return 4 + 4
+			return 8
 		except Exception as e: 	print("Eccezione in loop_in_yes_no_sure_price_handler:",str(e))
 
 	def yes_insert_other_products_handler(self, update, context):
 		try:
-			print("\n4.2: " + update.message.text)
+			print("\n8.2: " + update.message.text)
 			chat_id = update.message.chat.id
 			chat_message = update.message.text 		# you have pressed yes
 
@@ -166,13 +165,13 @@ class Shop_Window_Handler(object):
 
 			keyboard_to_show = other_product_main_keyboard
 			update.message.reply_text(bot_replies['shop_window'] %(product_name), parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
-			print("\tAppena salvato, lista: ",  Utility_Obj.get_shopping_window_list_by_chat_id(chat_id, context))
+			print("\tLista: ",  Utility_Obj.get_shopping_window_list_by_chat_id(chat_id, context))
 			return 5 + 4
 		except Exception as e: 	print("Eccezione in yes_insert_other_products_handler:",str(e))
 
 	def no_back_to_shopping_window_handler(self, update, context):
 		try:
-			print("\n4.3: " + update.message.text)
+			print("\n8.3: " + update.message.text)
 			chat_id = update.message.chat.id
 			chat_message = update.message.text 		# you have pressed no
 
@@ -184,14 +183,14 @@ class Shop_Window_Handler(object):
 			keyboard_to_show = Utility_Obj.get_products_keyboard_by_chat_id(chat_id, context)
 			
 			update.message.reply_text(bot_replies['choice_your_category'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
-			return 2 + 4
+			return 6
 		except Exception as e: 	print("Eccezione in no_back_to_shopping_window_handler:",str(e))
 
 
 #---------[insert_new_product or end]---------
 	def loop_in_shopping_window_go_end_handler(self, update, context):
 		try:
-			print("\n5.1: " + update.message.text)
+			print("\n9.1: " + update.message.text)
 			chat_id = update.message.chat.id
 			chat_message = update.message.text 		# some text different from (Inserisci nuovo prodotto, Fine - vedi vetrina)
 			
@@ -200,12 +199,12 @@ class Shop_Window_Handler(object):
 			
 			keyboard_to_show = other_product_main_keyboard
 			update.message.reply_text(bot_replies['shop_window'] %(product_name), parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
-			return 5 + 4
+			return 9
 		except Exception as e: 	print("Eccezione in loop_in_shopping_window_go_end_handler:",str(e))
 
 	def show_shopping_window_handler(self, update, context):
 		try:
-			print("\n5.2: " + update.message.text)
+			print("\n9.2: " + update.message.text)
 			chat_id = update.message.chat.id
 			chat_message = update.message.text 		# Fine - vedi vetrina
 			
@@ -215,12 +214,12 @@ class Shop_Window_Handler(object):
 			keyboard_to_show = send_shop_window_keyboard
 			update.message.reply_text(bot_replies['shop_window_done'] %(formatted_shopping_window), parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
 			update.message.reply_text(bot_replies['want_to_send'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
-			return 6 + 4
+			return 10
 		except Exception as e: 	print("Eccezione in show_shopping_window_handler:",str(e))
 
 	def insert_new_products_handler(self, update, context):
 		try:
-			print("\n5.3: " + update.message.text)	# Inserisci nuovo prodotto
+			print("\n9.3: " + update.message.text)	# Inserisci nuovo prodotto
 			return self.no_back_to_shopping_window_handler(update, context)
 		except Exception as e: 	print("Eccezione in insert_new_products_handler:",str(e))
 
@@ -229,13 +228,13 @@ class Shop_Window_Handler(object):
 #---------[Send Shopping window]---------
 	def loop_in_end_shopping_window_handler(self, update, context):
 		try:
-			print("\n6.1: " + update.message.text)# some text different from ("SI - Invia ai clienti" or "NO - Modifica Prodotti")
+			print("\n10.1: " + update.message.text)# some text different from ("SI - Invia ai clienti" or "NO - Modifica Prodotti")
 			return self.show_shopping_window_handler(update, context)
 		except Exception as e: 	print("Eccezione in loop_in_end_shopping_window_handler:",str(e))
 
 	def yes_send_shopping_window_handler(self, update, context):
 		try:
-			print("\n6.2: " + update.message.text)
+			print("\n10.2: " + update.message.text)
 			chat_id = update.message.chat.id
 			chat_message = update.message.text 		# "SI - Invia ai clienti"
 			
@@ -250,7 +249,7 @@ class Shop_Window_Handler(object):
 			keyboard_to_show = ReplyKeyboardRemove()# <--- dovrà essere la tastiera della modifica del negozio
 			Utility_Obj.set_main_keyboard_by_chat_id(chat_id, keyboard_to_show, context)
 			Utility_Obj.set_shopping_window_date(chat_id, context, datetime.now())
-			print("\n\n\nFine\n", context.user_data[chat_id],"\n-------------------------------\n")
+			
 			dealer_infos = Utility_Obj.prepare_persistence(chat_id, context)
 			self.Dealer_Persistence_Obj.append_dealer_persistence(user_token, dealer_infos)
 			return ConversationHandler.END
@@ -258,7 +257,7 @@ class Shop_Window_Handler(object):
 
 	def dont_send_shopping_window_handler(self, update, context):
 		try:
-			print("\n6.3: " + update.message.text)
+			print("\n10.3: " + update.message.text)
 			chat_id = update.message.chat.id
 			chat_message = update.message.text 		# "NO - Modifica Prodotti"
 
@@ -270,13 +269,13 @@ class Shop_Window_Handler(object):
 			
 			update.message.reply_text(bot_replies['edit_shopping_window'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
 
-			return 7 + 4
+			return 11
 		except Exception as e: 	print("Eccezione in dont_send_shopping_window_handler:",str(e))
 
 #---------[Edit or delete product]---------
 	def edit_your_products_main_handler(self, update, context):
 		try:
-			print("\n7: " + update.message.text)
+			print("\n11: " + update.message.text)
 			chat_id = update.message.chat.id
 			chat_message = update.message.text 		# all type of text
 
@@ -287,14 +286,14 @@ class Shop_Window_Handler(object):
 				this_product = self.Utils_Obj.get_product_infos(shopping_window, chat_message)
 				Utility_Obj.set_tmp_product(chat_id, context, this_product)
 				update.message.reply_text(bot_replies['edit_action'] % chat_message, parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
-				return 8 + 4
+				return 12
 			else:
 				return self.dont_send_shopping_window_handler(update, context)	# go back
 		except Exception as e: 	print("Eccezione in edit_your_products_main_handler:",str(e))
 
 	def edit_this_product_handler(self, update, context):
 		try:
-			print("\n8.1: " + update.message.text)
+			print("\n12.1: " + update.message.text)
 			chat_id = update.message.chat.id
 			chat_message = update.message.text 		#	"Modificare il Prezzo"
 
@@ -303,13 +302,13 @@ class Shop_Window_Handler(object):
 			
 			keyboard_to_show = ReplyKeyboardRemove()
 			update.message.reply_text(bot_replies['edit_product_price'] % (tmp_product['unit'], tmp_product['name']), parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
-			return 10 + 4
+			return 14
 		except Exception as e: 	print("Eccezione in edit_this_product_handler:",str(e))
 
 
 	def delete_product_handler(self, update, context):
 		try:
-			print("\n8.2: " + update.message.text)
+			print("\n12.2: " + update.message.text)
 			chat_id = update.message.chat.id
 			chat_message = update.message.text 		#	"Eliminare il Prodotto",
 
@@ -317,14 +316,14 @@ class Shop_Window_Handler(object):
 			tmp_product_name = tmp_product['name']
 			keyboard_to_show = delete_product_sure_keyboard
 			update.message.reply_text(bot_replies['sure_delete_product'] % tmp_product_name, parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
-			return 9 + 4
+			return 13
 		except Exception as e: 	print("Eccezione in delete_product_handler:",str(e))
 
 
 
 	def delete_product_done_handler(self, update, context):
 		try:
-			print("\n9.1: " + update.message.text)
+			print("\n13.1: " + update.message.text)
 			chat_id = update.message.chat.id
 			chat_message = update.message.text
 
@@ -341,7 +340,7 @@ class Shop_Window_Handler(object):
 
 	def dont_delete_product_handler(self, update, context):
 		try:
-			print("\n9.2: " + update.message.text)
+			print("\n13.2: " + update.message.text)
 			chat_id = update.message.chat.id
 			chat_message = update.message.text
 
@@ -353,12 +352,12 @@ class Shop_Window_Handler(object):
 			
 			update.message.reply_text(bot_replies['edit_shopping_window'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
 
-			return 7 + 4
+			return 11
 		except Exception as e: 	print("Eccezione in dont_delete_product_handler:",str(e))
 
 	def back_to_are_you_sure_delete_product_handler(self, update, context):
 		try:
-			print("\n9.3: " + update.message.text)
+			print("\n13.3: " + update.message.text)
 			return self.delete_product_handler(update, context)	# some text (different from "Si elimina proddotto" and ...)
 		except Exception as e: 	print("Eccezione in back_to_are_you_sure_delete_product_handler:",str(e))
 
@@ -367,7 +366,7 @@ class Shop_Window_Handler(object):
 
 	def set_new_product_price_handler(self, update, context):
 		try:
-			print("\n10: " + update.message.text)	# some text, I hope it's a price
+			print("\n14: " + update.message.text)	# some text, I hope it's a price
 			chat_id = update.message.chat.id
 			chat_message = update.message.text
 			if self.Utils_Obj.isDigit(chat_message):
@@ -378,7 +377,7 @@ class Shop_Window_Handler(object):
 				#shopping_window = self.Utils_Obj.edit_shopping_window_price(self, shopping_window, tmp_product['name'], new_price)
 				keyboard_to_show = edit_product_price_keyboard
 				update.message.reply_text(bot_replies['sure_edit_price'] % (tmp_product['name'],new_price), parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
-				return 11 + 4
+				return 15
 			else:
 				return self.edit_this_product_handler(update, context) 
 		except Exception as e: 	print("Eccezione in set_new_product_price_handler:",str(e))
@@ -387,7 +386,7 @@ class Shop_Window_Handler(object):
 
 	def edit_product_price_done_handler(self, update, context):
 		try:
-			print("\n11.1: " + update.message.text)	# some text, I hope it's a price
+			print("\n15.1: " + update.message.text)	# some text, I hope it's a price
 			chat_id = update.message.chat.id
 			chat_message = update.message.text
 
@@ -406,7 +405,7 @@ class Shop_Window_Handler(object):
 
 	def dont_edit_price_handler(self, update, context):
 		try:
-			print("\n11.2: " + update.message.text)	# some text, I hope it's a price
+			print("\n15.2: " + update.message.text)	# some text, I hope it's a price
 			return self.dont_send_shopping_window_handler(update, context)
 		except Exception as e: 	print("Eccezione in dont_edit_price_handler:",str(e))
 

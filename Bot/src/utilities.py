@@ -65,9 +65,18 @@ class Utility(object):
 				"tmp_price": 0, 	# to add temp product price
 				"shopping_window_list": [], 	# shopping_window_list structure: [{'name': 'Nepi', 'price': 10.0, 'units':'1.5L'}, {...}]
 				"shopping_window_date": None,	# this will contains the in which that we have stored the shopping window
+				"messages_to_delete":[],
 			}
 
 	#---------[SHOPPING WINDOW PERSISTENCE]---------
+	def get_messages_to_delete(self, chat_id, context):	# list of messages to delete
+		return context.user_data[chat_id]['messages_to_delete']
+	def append_messages_to_delete(self, chat_id, context, message_id):
+		context.user_data[chat_id]['messages_to_delete'].append(message_id)
+	def reset_messages_to_delete(self, chat_id, context):
+		context.user_data[chat_id]['messages_to_delete'] = []
+
+
 	def format_datetime(self, datetime_obj):
 		return datetime_obj.strftime("%d/%m/%YCOLLIGO%H:%M")
 	
