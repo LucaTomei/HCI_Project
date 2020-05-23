@@ -1,9 +1,14 @@
 [Unit]
-Description=The bulb server
+Description=Amazon Changes Daemon
 After=network-online.target
+Wants=network-online.target systemd-networkd-wait-online.service
+
+StartLimitIntervalSec=500
+StartLimitBurst=5
 
 [Service]
-ExecStart=/bin/bash /home/pi/HCI_Project/Bot/launcher.sh
+Restart=on-failure
+ExecStart=/bin/bash /home/pi/HCI_Project/Bot/files/launcher.sh
 User=pi
 
 [Install]
