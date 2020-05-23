@@ -6,8 +6,8 @@ from Dealer_Interaction.src import dealer_persistence
 class Utils(object):
 	def __init__(self):
 		self.back_button = "🔙Indietro🔙"
-		try:	self.categories_file = "Dealer_Interaction/src/files/_categories.json"
-		except:	self.categories_file = "files/_categories.json"	#<--- only for test and __main__
+		try:	self.categories_file = "Dealer_Interaction/src/files/categories.json"
+		except:	self.categories_file = "files/categories.json"	#<--- only for test and __main__
 
 
 	def isDigit(self, string):

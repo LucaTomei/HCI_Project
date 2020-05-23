@@ -1,5 +1,6 @@
 import json
 from datetime import datetime
+from datetime import timedelta
 from collections import defaultdict
 class Dealer_Persistence(object):
 	def __init__(self):
@@ -119,28 +120,23 @@ class Dealer_Persistence(object):
 		content = self.read_persistence()
 		return content[token]['group_title']
 
+	def reset_date_by_token(self, token):
+		content = self.read_persistence()
+		old_date = content[token]['shopping_window_date']
+		old_date_datetime = datetime.strptime(old_date, "%d/%m/%YCOLLIGO%H:%M")
 
+		new_datetime = old_date_datetime - timedelta(days=1)
+		new_date_datetime = self.format_datetime(new_datetime)
+		content[token]['shopping_window_date'] = new_date_datetime
+		self.write_persistence(content)
+
+	def remove_user_by_token(self, token):
+		content = self.read_persistence()
+		del content[token]
+		self.write_persistence(content)
+		
 
 if __name__ == '__main__':
 	Dealer_Persistence_Obj = Dealer_Persistence()
-	shopping_window_list = [{'name': "La Trappe Isid'or", 'price': 5, 'unit': '0.33l'}, {'name': 'Panna', 'price': 2.0, 'unit': '1.5L'}, {'name': 'Krab', 'price': 10.0, 'unit': '0.33l'}, {'name': "La Trappe Isid'or", 'price': 5.0, 'unit': '0.33l'}, {'name': "La Trappe Isid'or", 'price': 5.0, 'unit': '0.33l'}]
-	x = Dealer_Persistence_Obj.sum_up_all_shopping_window_prices(shopping_window_list)
-	print(x)
-
-	# new_shopping_window_list = [{'name': "La Trappe Isid'or", 'price': 15.0}, {'name': 'Panna', 'price': 2.0}, {'name': 'Krab', 'price': 10.0}]
-	# Dealer_Persistence_Obj.how_many_units(new_shopping_window_list)
-
-
-
-# if __name__ == '__main__':
-# 	Dealer_Persistence_Obj = Dealer_Persistence()
-# 	print(Dealer_Persistence_Obj.read_persistence())
-
-# 	dealer_token = "eJzTNTQwMDQ0M7W0NDA0MAYAFHACwg=="
-# 	dealer_infos = {
-# 		"shopping_window_list":[{'name': 'Nepi', 'price': 10.0, 'units':'1.5L'}],
-# 		"shopping_window_date": Dealer_Persistence_Obj.format_datetime(datetime(2020, 5, 12, 18, 53, 48, 314241))
-# 	}
-
-# 	Dealer_Persistence_Obj.append_dealer_persistence(dealer_token, dealer_infos)
-# 	print(Dealer_Persistence_Obj.read_persistence())
+	token = "eJzTNTG0MDA3MDM0AwAK3QH/"
+	Dealer_Persistence_Obj.remove_user_by_token(token)

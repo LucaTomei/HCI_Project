@@ -20,11 +20,37 @@ class Bot(object):
 			context.bot.send_message(chat_id=update.effective_chat.id, text = bot_replies['dealer_welcome_message'] % (first_name, group_title), reply_markup=yes_no_keyboard,  parse_mode = ParseMode.MARKDOWN)
 		else:
 			context.bot.send_message(chat_id=chat_id, text = bot_replies['insert_token'] % first_name, reply_markup=ReplyKeyboardRemove(),  parse_mode = ParseMode.MARKDOWN)
-		
+	
+
+	def allow_mod(self, update, context):
+		try:
+			Dealer_Persistence_Obj = self.Dealer_Handlers_Obj.Shop_Window_Handler_Obj.Dealer_Persistence_Obj
+			token = context.args[0]
+			Dealer_Persistence_Obj.reset_date_by_token(token)
+			update.message.reply_text("Ora puoi effettuare modifiche della vetrina")
+		except Exception as e:
+			update.message.reply_text("Errore. Token ricevuto: " + token)
+			print(e)
+
+	def unregister(self, update, context):
+		try:
+			Dealer_Persistence_Obj = self.Dealer_Handlers_Obj.Shop_Window_Handler_Obj.Dealer_Persistence_Obj
+			token = context.args[0]
+			Dealer_Persistence_Obj.remove_user_by_token(token)
+			update.message.reply_text("I dati relativi a quel token sono stati completamente cancellati")
+		except Exception as e:
+			update.message.reply_text("Errore. Token ricevuto: " + token)
+			print(e)
 
 	
 	def register_all_handlers(self, dp):
 		dp.add_handler(CommandHandler('start', self.start))
+
+		#####	HANDLERS ONLY FOR TEST
+		dp.add_handler(CommandHandler('mod_date', self.allow_mod))
+		dp.add_handler(CommandHandler('unregister', self.unregister))
+		####
+
 		dp.add_handler(MessageHandler(Filters.status_update, self.start))
 		dp.add_handler(self.Dealer_Handlers_Obj.preamble_register_shop_handler())
 		
