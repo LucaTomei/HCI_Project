@@ -53,16 +53,7 @@ class Dealer_Handlers(object):
 			return ConversationHandler.END
 
 
-	def deleteMessages(self, context):
-		chat_id, messages_to_delete = context.job.context
-		for message_id in messages_to_delete:
-			try:	context.bot.delete_message(chat_id=chat_id, message_id=message_id)
-			except Exception as e:	continue
-
-		
-		
-
-
+	
 	def category_main_handler(self, update, context):
 		print("-1 (category_main_handler) : ", update.message.text)
 		chat_id = update.message.chat.id
@@ -115,11 +106,11 @@ class Dealer_Handlers(object):
 			
 
 			# Remove old messages
-			job = context.job_queue.run_once(self.deleteMessages, 2, context=update.message)
+			job = context.job_queue.run_once(deleteMessages, 2, context=update.message)
 			messages_to_delete = Utility_Obj.get_messages_to_delete(chat_id, context)
 			job.context = (chat_id, messages_to_delete)
 			Utility_Obj.reset_messages_to_delete(chat_id, context)
-			return self.Shop_Window_Handler_Obj.test_entry_point_main_handler(update, context)#return 4#ConversationHandler.END
+			return self.Shop_Window_Handler_Obj.new_entry_point_main_handler(update, context)#return 4#ConversationHandler.END
 			
 
 	def add_category_handler(self, update, context):
@@ -159,11 +150,11 @@ class Dealer_Handlers(object):
 
 
 			# Remove old messages
-			job = context.job_queue.run_once(self.deleteMessages, 2, context=update.message)
+			job = context.job_queue.run_once(deleteMessages, 2, context=update.message)
 			messages_to_delete = Utility_Obj.get_messages_to_delete(chat_id, context)
 			job.context = (chat_id, messages_to_delete)
 			Utility_Obj.reset_messages_to_delete(chat_id, context)
-			return self.Shop_Window_Handler_Obj.test_entry_point_main_handler(update, context)#return 4#ConversationHandler.END
+			return self.Shop_Window_Handler_Obj.new_entry_point_main_handler(update, context)#return 4#ConversationHandler.END
 
 
 	def check_user_categories_handler(self, update, context):
@@ -198,11 +189,11 @@ class Dealer_Handlers(object):
 
 
 					# Remove messages
-					job = context.job_queue.run_once(self.deleteMessages, 2, context=update.message)
+					job = context.job_queue.run_once(deleteMessages, 2, context=update.message)
 					messages_to_delete = Utility_Obj.get_messages_to_delete(chat_id, context)
 					job.context = (chat_id, messages_to_delete)
 					Utility_Obj.reset_messages_to_delete(chat_id, context)
-					return self.Shop_Window_Handler_Obj.test_entry_point_main_handler(update, context)#return 4#ConversationHandler.END
+					return self.Shop_Window_Handler_Obj.new_entry_point_main_handler(update, context)#return 4#ConversationHandler.END
 				else:
 					return ConversationHandler.END
 			else:
@@ -257,11 +248,11 @@ class Dealer_Handlers(object):
 
 
 				# Remove old messages
-				job = context.job_queue.run_once(self.deleteMessages, 2, context=update.message)
+				job = context.job_queue.run_once(deleteMessages, 2, context=update.message)
 				messages_to_delete = Utility_Obj.get_messages_to_delete(chat_id, context)
 				job.context = (chat_id, messages_to_delete)
 				Utility_Obj.reset_messages_to_delete(chat_id, context)
-				return self.Shop_Window_Handler_Obj.test_entry_point_main_handler(update, context)#4#ConversationHandler.END
+				return self.Shop_Window_Handler_Obj.new_entry_point_main_handler(update, context)#4#ConversationHandler.END
 			else:
 				reply_message = update.message.reply_text(bot_replies['location_error_message'], parse_mode=ParseMode.MARKDOWN, reply_markup = ReplyKeyboardRemove(), disable_web_page_preview=True)
 				Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
@@ -304,11 +295,11 @@ class Dealer_Handlers(object):
 			
 
 			# Remove old messages
-			job = context.job_queue.run_once(self.deleteMessages, 2, context=update.message)
+			job = context.job_queue.run_once(deleteMessages, 2, context=update.message)
 			messages_to_delete = Utility_Obj.get_messages_to_delete(chat_id, context)
 			job.context = (chat_id, messages_to_delete)
 			Utility_Obj.reset_messages_to_delete(chat_id, context)
-			return self.Shop_Window_Handler_Obj.test_entry_point_main_handler(update, context)#return 4#ConversationHandler.END
+			return self.Shop_Window_Handler_Obj.new_entry_point_main_handler(update, context)#return 4#ConversationHandler.END
 		except Exception as e:	# cannot retrieve tupla_location text
 			print(str(e))
 			reply_message = update.message.reply_text(bot_replies['location_error_message'], parse_mode=ParseMode.MARKDOWN, reply_markup = ReplyKeyboardRemove(), disable_web_page_preview=True)
@@ -321,6 +312,8 @@ class Dealer_Handlers(object):
             	MessageHandler(Filters.regex('^' + bot_buttons['category'] +'$') & (Filters.group),self.category_main_handler),
             	MessageHandler(Filters.regex('^' + bot_buttons['location'] +'$') & (Filters.group),self.location_main_handler),
         		#MessageHandler(Filters.group & Filters.text,unknown_function_for_groups),
+        		MessageHandler(Filters.regex('^' + bot_buttons['edit_shopping_window'] +'$') & (Filters.group),self.Edit_Shop_Window_Handler_Obj.add_some_products_main_handler),
+        		MessageHandler(Filters.regex('^' + bot_buttons['stop_button'] +'$') & (Filters.group),self.Edit_Shop_Window_Handler_Obj.dont_edit_shopping_window),
         		MessageHandler(Filters.group & Filters.location,self.set_user_location_handler),
             ], 
             {
@@ -390,75 +383,12 @@ class Dealer_Handlers(object):
             	14:[	# edit product price
             		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.set_new_product_price_handler),
             	],
-            	15: [	# Set editedp product price
+            	15: [	# Set edited product price
             		MessageHandler(Filters.regex('^' + bot_buttons['yes_edit_price'] +'$'),self.Shop_Window_Handler_Obj.edit_product_price_done_handler),
             		MessageHandler(Filters.regex('^' + bot_buttons['not_sure_delete_product'] +'$'),self.Shop_Window_Handler_Obj.dont_edit_price_handler),
-            	]
+            	],
             },[], map_to_parent= ConversationHandler.END)
 		return register_shop_handler
-
-	
-	# def register_shop_handler_test(self):
-	# 	register_shop_handler = ConversationHandler(
- #            [	# Entry Points
- #            	MessageHandler(Filters.regex('^' + bot_buttons['category'] +'$') & (Filters.group),self.Shop_Window_Handler_Obj.test_entry_point_main_handler),
- #            	MessageHandler(Filters.regex('^' + bot_buttons['location'] +'$') & (Filters.group),self.Shop_Window_Handler_Obj.test_entry_point_main_handler),
- #        		MessageHandler(Filters.text,unknown_function_for_groups),
- #            ], 
- #            {
- #            	0: [ # Choice sub category
- #            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.choice_your_subcategory_handler),
- #            	],
- #            	1: [ # Choice Product
- #            		MessageHandler(Filters.regex('^' + bot_buttons['back_button'] +'$'),self.Shop_Window_Handler_Obj.choice_your_subcategory_handler),
- #            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.choice_your_product_handler),
- #            	],
- #            	2: [
- #            		MessageHandler(Filters.regex('^' + bot_buttons['back_button'] +'$'),self.Shop_Window_Handler_Obj.choice_your_product_handler),
- #            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.pre_insert_product_price_handler),
- #            	],
- #            	3: [	# insert product price
- #            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.insert_product_price_handler),
- #            	],
- #            	4: [	# yes no insert product price
- #            		MessageHandler(Filters.regex('^' + bot_buttons['no_sure_price'] +'$'),self.Shop_Window_Handler_Obj.no_back_to_shopping_window_handler),
- #            		MessageHandler(Filters.regex('^' + bot_buttons['yes_sure_price'] +'$'),self.Shop_Window_Handler_Obj.yes_insert_other_products_handler),
- #            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.loop_in_yes_no_sure_price_handler),
- #            	],
- #            	5:[
- #            		MessageHandler(Filters.regex('^' + bot_buttons['no_show_shop_window'] +'$'),self.Shop_Window_Handler_Obj.show_shopping_window_handler),
- #            		MessageHandler(Filters.regex('^' + bot_buttons['yes_insert_new_product'] +'$'),self.Shop_Window_Handler_Obj.insert_new_products_handler),
- #            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.loop_in_shopping_window_go_end_handler),
- #            	],
- #            	6:[
- #            		MessageHandler(Filters.regex('^' + bot_buttons['no_send_shop_window'] +'$'),self.Shop_Window_Handler_Obj.dont_send_shopping_window_handler),
- #            		MessageHandler(Filters.regex('^' + bot_buttons['yes_send_shop_window'] +'$'),self.Shop_Window_Handler_Obj.yes_send_shopping_window_handler),
- #            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.loop_in_end_shopping_window_handler),
- #            	],
- #            	7:[
- #            		MessageHandler(Filters.regex('^' + bot_buttons['back_button'] +'$'),self.Shop_Window_Handler_Obj.loop_in_end_shopping_window_handler),
- #            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.edit_your_products_main_handler),
- #            	],
- #            	8:[
- #            		MessageHandler(Filters.regex('^' + bot_buttons['edit_product_price'] +'$'),self.Shop_Window_Handler_Obj.edit_this_product_handler),
- #            		MessageHandler(Filters.regex('^' + bot_buttons['delete_product'] +'$'),self.Shop_Window_Handler_Obj.delete_product_handler),
- #            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.edit_your_products_main_handler),
- #            	],
- #            	9:[	# delete product
- #            		MessageHandler(Filters.regex('^' + bot_buttons['sure_delete_product'] +'$'),self.Shop_Window_Handler_Obj.delete_product_done_handler),
- #            		MessageHandler(Filters.regex('^' + bot_buttons['not_sure_delete_product'] +'$'),self.Shop_Window_Handler_Obj.dont_delete_product_handler),
- #            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.back_to_are_you_sure_delete_product_handler),
- #            	],
- #            	10:[	# edit product price
- #            		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.set_new_product_price_handler),
- #            	],
- #            	11: [	# Set editedp product price
- #            		MessageHandler(Filters.regex('^' + bot_buttons['yes_edit_price'] +'$'),self.Shop_Window_Handler_Obj.edit_product_price_done_handler),
- #            		MessageHandler(Filters.regex('^' + bot_buttons['not_sure_delete_product'] +'$'),self.Shop_Window_Handler_Obj.dont_edit_price_handler),
- #            	]
- #            },[], Filters.group)
-	# 	return register_shop_handler
-
 
 
 

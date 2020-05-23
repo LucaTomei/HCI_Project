@@ -20,7 +20,8 @@ class User_Handlers(object):
 
 				formatted_shopping_window = Utility_Obj.format_shopping_window(dealer_shopping_window)
 				
-				update.message.reply_text(bot_replies['shop_window_customer'] %("nomeNegozio", formatted_shopping_window), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+				dealer_name = self.Dealer_Persistence_Obj.get_group_tytle_by_token(token)
+				update.message.reply_text(bot_replies['shop_window_customer'] %(dealer_name, formatted_shopping_window), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
 				
 				keyboard_to_show = add_product_show_shopping_cart_keyboard
 				update.message.reply_text(bot_replies['show_shopping_window_customer'], parse_mode=ParseMode.MARKDOWN, reply_markup=keyboard_to_show)
@@ -40,7 +41,9 @@ class User_Handlers(object):
 			dealer_shopping_window_names = self.Dealer_Persistence_Obj.extract_names_from_shopping_window(dealer_shopping_window)
 			
 			keyboard_to_show = makeAKeyboard(dealer_shopping_window_names, 2)	# keyboard with only product names
-			update.message.reply_text(bot_replies['show_shopping_window_buttons'] %("nomeNegozio"), parse_mode=ParseMode.MARKDOWN, reply_markup=keyboard_to_show)
+
+			dealer_name = self.Dealer_Persistence_Obj.get_group_tytle_by_token(token)
+			update.message.reply_text(bot_replies['show_shopping_window_buttons'] %(dealer_name), parse_mode=ParseMode.MARKDOWN, reply_markup=keyboard_to_show)
 			return 1
 		except Exception as e:	print(str(e)) 
 
@@ -76,7 +79,8 @@ class User_Handlers(object):
 			dealer_shopping_window = self.Dealer_Persistence_Obj.get_shopping_window_by_token(token)
 			formatted_shopping_window = Utility_Obj.format_shopping_window(dealer_shopping_window)
 			
-			update.message.reply_text(bot_replies['shop_window_customer'] %("nomeNegozio", formatted_shopping_window), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+			dealer_name = self.Dealer_Persistence_Obj.get_group_tytle_by_token(token)
+			update.message.reply_text(bot_replies['shop_window_customer'] %(dealer_name, formatted_shopping_window), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
 			
 			keyboard_to_show = add_product_show_shopping_cart_keyboard
 			update.message.reply_text(bot_replies['show_shopping_window_customer'], parse_mode=ParseMode.MARKDOWN, reply_markup=keyboard_to_show)
@@ -183,7 +187,10 @@ class User_Handlers(object):
 			chat_id = update.message.chat.id
 
 			keyboard_to_show = delete_or_send_keyboard
-			update.message.reply_text(bot_replies['checkout_main'] % ("nomeNegozio"), parse_mode=ParseMode.MARKDOWN, reply_markup=keyboard_to_show)
+
+			token = self.User_Utils_obj.get_used_token(chat_id, context)
+			dealer_name = self.Dealer_Persistence_Obj.get_group_tytle_by_token(token)
+			update.message.reply_text(bot_replies['checkout_main'] % (dealer_name), parse_mode=ParseMode.MARKDOWN, reply_markup=keyboard_to_show)
 			return 5
 		except Exception as e:	print(str(e)) 
 
@@ -197,20 +204,29 @@ class User_Handlers(object):
 			token = self.User_Utils_obj.get_used_token(chat_id, context)
 			dealer_chat_id = self.User_Utils_obj.decrypt_token(token)
 			
-			update.message.reply_text("*Lista della spesa inviata con successo*",parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+			update.message.reply_text(bot_replies['send_shopping_cart_done'],parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
 
-			message = bot_replies['arrived_new_shopping_cart'] % update.message.chat.first_name
-			context.bot.send_message(chat_id=dealer_chat_id, text = message, reply_markup=ReplyKeyboardRemove(),  parse_mode = ParseMode.MARKDOWN)
-			
 
 			shopping_cart = self.User_Utils_obj.get_shopping_cart(chat_id, context)
 			products_sum = self.Dealer_Persistence_Obj.sum_up_all_shopping_window_prices(shopping_cart)
 			total = str(self.User_Utils_obj.make_total(products_sum))
 			formatted_cart = self.User_Utils_obj.better_print_shopping_cart(products_sum)
 
-			message = formatted_cart + bot_replies['show_shopping_cart'] % ("", str(total))
+			message = bot_replies['arrived_new_shopping_cart'] % (update.message.chat.first_name, formatted_cart, str(total))
 			context.bot.send_message(chat_id=dealer_chat_id, text = message, reply_markup=ReplyKeyboardRemove(),  parse_mode = ParseMode.MARKDOWN)
 			
+
+			########
+			# AUTOMATIZZAZIONE INVIO MESSAGGIO
+			########
+			job = context.job_queue.run_once(automatize_message, 10, context=update.message)	# after 10 secs
+			
+			my_name = update.message.chat.first_name
+			merchant_name = self.Dealer_Persistence_Obj.get_group_tytle_by_token(token)
+			job.context = chat_id, my_name, merchant_name
+
+
+			return ConversationHandler.END
 		except Exception as e:	print("Eccezione: " + str(e)) 
 
 	def delete_product_main_handler(self, update, context):

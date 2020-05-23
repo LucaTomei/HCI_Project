@@ -1,3 +1,32 @@
 {
-   
+    "eJzTNTG0MDA3MDM0AwAK3QH/": {
+        "group_title": "Birroteca da Maurizio",
+        "categories_list": [
+            "Birroteca",
+            "Alimentari"
+        ],
+        "shopping_window_list": [
+            {
+                "name": "Pilsner Urquell",
+                "price": 2.1,
+                "unit": "0.33l"
+            },
+            {
+                "name": "Amstel",
+                "price": 3.2,
+                "unit": "0.33l"
+            },
+            {
+                "name": "Panna",
+                "price": 1.2,
+                "unit": "1.5L"
+            },
+            {
+                "name": "Lilia",
+                "price": 1.23,
+                "unit": "1.5L"
+            }
+        ],
+        "shopping_window_date": "23/05/2020COLLIGO14:23"
+    }
 }

@@ -57,7 +57,7 @@ bot_replies = {
 	"insert_price": "*Inserisci ora il prezzo a cui desideri vendere %s di %s*",
 	"are_you_sure_price":"*Sei sicuro di voler vendere %s a %s€?*",
 	"shop_window": "*%s* inserito correttamente nella tua vetrina. Desideri inserire altro o visionare la tua vetrina?",
-	"shop_window_done": "Questa è la vetrina della tua bottega con il riepilogo dei prodotti:\n\n%s",
+	"shop_window_done": "*Questa è la vetrina della tua bottega con il riepilogo dei prodotti*:\n\n%s",
 	"want_to_send": "*Vuoi che la invio ai tuoi clienti o desideri apportare ulteriori modifiche?*",
 
 	"shop_window_send": "*La vetrina del tuo negozio è stata inoltrata correttamente a tutti i tuoi clienti.\nDi seguito ti invio il token di accesso che i tuoi clienti dovranno inserire nella chat privata con ColliGo al fine di poter visualizzare la tua vetrina e cominciare così a creare la propria lista della spesa.*",
@@ -76,11 +76,13 @@ bot_replies = {
 	"edit_product_price_done": "*Prodotto modificato correttamente.*",
 
 
+	"cart_successfully_created":"*%s ti informo che '%s' ha ultimato la creazione della tua lista della spesa, pertanto ti invito a ritirarla al più presto.*",
+
 
 	#---------[Customer Replies]---------
 	#"pre_insert_token": "*Ciao %s, per visualizzare la vetrina del tuo negoziante di fiducia, utilizza la tastiera sottostante per inserire il token fornito dal gruppo del negoziante*",
 	"insert_token": "*Ciao %s, per visualizzare la vetrina del tuo negoziante di fiducia, per favore inserisci il Token di accesso fornito nel gruppo del negozio.*",
-	"shop_window_customer":"*Questa è la vetrina della bottega %s con il riepilogo dei prodotti:\n%s*",
+	"shop_window_customer":"*Questa è la vetrina della bottega '%s' con il riepilogo dei prodotti:\n%s*",
 	"show_shopping_window_customer":"*Vuoi aggiungere prodotti al tuo carrello oppure visualizzare il suo contenuto?*",
 	"empty_shopping_cart":"*Il tuo carrello è attualmente vuoto.\n\nÈ il momento di fare la spesa*",
 	"show_shopping_window_buttons": "*La vetrina del negozio %s è riportata di seguito. Scegli i prodotti che desideri acquistare e conferma di volerli inserire nel carrello.*",
@@ -92,20 +94,22 @@ bot_replies = {
 	"cart_content":"*Questo è il contenuto del tuo carrello:\n\n%s\n\nIl costo complessivo è pari a: %s€*",
 	"process_checkout":"*Vuoi procedere al checkout o aggiungere altri prodotti?*",
 
-	"checkout_main":"*Prima di inviare la tua lista della spesa al negozio %s, controlla che ci sia tutto.\n\nVuoi eliminare alcuni prodotti dal tuo carrello della spesa o desideri procedere all'invio della lista della spesa?*",
+	"checkout_main":"*Prima di inviare la tua lista della spesa al negozio '%s', controlla che ci sia tutto.\n\nVuoi eliminare alcuni prodotti dal tuo carrello della spesa o desideri procedere all'invio della lista della spesa?*",
 
 	"delete_product":"*Seleziona il prodotto che desideri eliminare dal tuo carrello*",
 	"sure_delete_product_in_cart": "*Sei sicuro di voler eliminare %s di %s?*",
 	"delete_product_success": "*Prodotto correttamente eliminato dal tuo carrello*",
 
-	"arrived_new_shopping_cart":"*È arrivata una nuova lista della spesa dal cliente %s.*",
-	"show_shopping_cart": "*%s\n\nIl costo complessivo è pari a: %s€*",
+	"arrived_new_shopping_cart":"*È arrivata una nuova lista della spesa dal cliente %s.\n%s\nIl costo complessivo è pari a: %s€*",
+
+	"send_shopping_cart_done": "*Lista della spesa inviata con successo*",
 
 
 
 	#---------[Editing shopping window]--------
 	"edit_old_shopping_window": "*Questa è l'ultima vetrina presente:\n%s\n\nDesideri modificarla?*",
-	"what_do_you_want": "Cosa desideri effettuare?"
+	"what_do_you_want": "Cosa desideri effettuare?",
+	"choice_your_category_edit": "*Attraverso i pannelli sottostanti potrai selezionare la categoria di prodotti per effettuare una modifica sulla tua vetrina.*",
 
 }
 
@@ -305,45 +309,6 @@ categories_names_list = Utility_Obj.get_all_merchant_categories()	# Contains all
 
 categories_keyboard = makeAKeyboard(categories_names_list, 5)
 
-## ---------[Useful Functions]---------
-# def unknown_function(update, context):
-# 	try:
-# 		chat_id = update.message.chat_id
-# 		first_name = update.message.chat.first_name
-# 		first_name = first_name if first_name != None else update.message.from_user.first_name
-# 		group_title = update.message.chat.title
-		
-# 		#print("has_done", Utility_Obj.check_if_user_has_done(chat_id, context))
-# 		if not Utility_Obj.check_if_user_has_done(chat_id, context):
-# 			if 'group' in update.message.chat.type:
-# 				Utility_Obj.set_user_data(chat_id, context, main_keyboard, group_title)
-# 				telegram_link = Utility_Obj.set_telegram_link(update, context)
-# 				# Verify if is passed a day
-# 				group_token = Utils_Obj.make_token(chat_id)
-# 				#group_token = group_token.replace('=', "god")	# @ForTest
-# 				#print(Dealer_Persistence_Obj.is_token_in_persistence(group_token))
-# 				if Dealer_Persistence_Obj.is_token_in_persistence(group_token):
-# 					if Dealer_Persistence_Obj.get_shopping_window_date_day_by_token(group_token) == datetime.now().day:
-# 						message = bot_replies['all_done_shopping_window']
-# 						keyboard = ReplyKeyboardRemove()
-# 					else:
-# 						message = bot_replies['main_message']
-# 						keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
-# 					context.bot.send_message(chat_id=chat_id, text = message, reply_markup=keyboard,  parse_mode = ParseMode.MARKDOWN)
-# 				else:	#if dealer is not in persistence file
-# 					keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
-# 					message = bot_replies['main_message']
-# 					context.bot.send_message(chat_id=chat_id, text = message, reply_markup=keyboard,  parse_mode = ParseMode.MARKDOWN)
-					
-# 			else:	# if i'm an User and not a customer
-				
-# 				context.bot.send_message(chat_id=chat_id, text = bot_replies['insert_token'] % first_name, reply_markup=ReplyKeyboardRemove(),  parse_mode = ParseMode.MARKDOWN)
-# 			return ConversationHandler.END
-# 		else:
-# 			return ConversationHandler.END
-# 	except Exception as e:	print(str(e))
-
-
 
 def unknown_function(update, context):
 	try:
@@ -353,6 +318,19 @@ def unknown_function(update, context):
 		group_title = update.message.chat.title
 		context.bot.send_message(chat_id=chat_id, text = bot_replies['insert_token'] % first_name, reply_markup=ReplyKeyboardRemove(),  parse_mode = ParseMode.MARKDOWN)
 	except Exception as e:	print(str(e))
+
+def deleteMessages(context):
+	chat_id, messages_to_delete = context.job.context
+	for message_id in messages_to_delete:
+		try:	context.bot.delete_message(chat_id=chat_id, message_id=message_id)
+		except Exception as e:	continue
+
+
+def automatize_message(context):
+	chat_id, my_name, merchant_name = context.job.context
+
+	message = bot_replies['cart_successfully_created'] %(my_name, merchant_name)
+	context.bot.send_message(chat_id=chat_id, text = message,  parse_mode = ParseMode.MARKDOWN)
 
 def unknown_function_for_groups(update, context):
 	try:
@@ -381,8 +359,17 @@ def unknown_function_for_groups(update, context):
 					keyboard = edit_shopping_window_keyboard#Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)
 					Utility_Obj.set_main_keyboard_by_chat_id(chat_id, keyboard, context)
 				
+
+
 				reply_message = update.message.reply_text(message, parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard)
 				Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+
+				
+				if message == bot_replies['all_done_shopping_window']:
+					job = context.job_queue.run_once(deleteMessages, 1, context=update.message)
+					messages_to_delete = Utility_Obj.get_messages_to_delete(chat_id, context)
+					job.context = (chat_id, messages_to_delete)
+					Utility_Obj.reset_messages_to_delete(chat_id, context)
 				return ConversationHandler.END
 			else:	#if dealer is not in persistence file
 				keyboard = Utility_Obj.get_main_keyboard_by_chat_id(chat_id, context)

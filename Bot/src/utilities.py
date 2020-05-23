@@ -153,6 +153,9 @@ class Utility(object):
 
 	def get_shopping_window_list_by_chat_id(self, chat_id, context):
 		return context.user_data[chat_id]['shopping_window_list']
+	def set_shopping_window_list_by_chat_id(self, chat_id, context, shopping_window_list):
+		context.user_data[chat_id]['shopping_window_list'] = shopping_window_list
+
 
 	def format_shopping_window(self, a_list):	#a_list = [{'name': 'Amstel', 'price': 12.0, 'unit': '0.33l'}, ...]
 		to_ret = ''

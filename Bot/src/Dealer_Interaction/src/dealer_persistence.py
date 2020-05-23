@@ -23,7 +23,6 @@ class Dealer_Persistence(object):
 	def append_dealer_persistence(self, dealer_token, dealer_infos):
 		content = self.read_persistence()
 		content[dealer_token] = dealer_infos
-
 		self.write_persistence(content)
 
 
@@ -105,6 +104,21 @@ class Dealer_Persistence(object):
 				how_many_units = int(product_price / original_price)
 				item.update({"unit":original_product_details['unit'], "quantity":how_many_units})
 		return shopping_window_list
+
+
+	def get_categories_list_by_token(self, token):
+		content = self.read_persistence()
+		return content[token]['categories_list']
+	def set_categories_list_by_token(self, token, categories_list):
+		content = self.read_persistence()
+		content[token]['categories_list'] = categories_list
+		self.write_persistence(content)
+
+
+	def get_group_tytle_by_token(self, token):
+		content = self.read_persistence()
+		return content[token]['group_title']
+
 
 
 if __name__ == '__main__':

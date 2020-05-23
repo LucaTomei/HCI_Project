@@ -19,9 +19,7 @@ class Bot(object):
 			Utility_Obj.set_telegram_link(update, context)
 			context.bot.send_message(chat_id=update.effective_chat.id, text = bot_replies['dealer_welcome_message'] % (first_name, group_title), reply_markup=yes_no_keyboard,  parse_mode = ParseMode.MARKDOWN)
 		else:
-			context.bot.send_message(chat_id=chat_id, text = bot_replies['pre_insert_token'] % first_name, reply_markup=ReplyKeyboardRemove(),  parse_mode = ParseMode.MARKDOWN)
-
-			#context.bot.send_message(chat_id=update.effective_chat.id, text = bot_replies['no_access_here'], reply_markup=ReplyKeyboardRemove(),  parse_mode = ParseMode.MARKDOWN)
+			context.bot.send_message(chat_id=chat_id, text = bot_replies['insert_token'] % first_name, reply_markup=ReplyKeyboardRemove(),  parse_mode = ParseMode.MARKDOWN)
 		
 
 	
@@ -33,7 +31,7 @@ class Bot(object):
 		dp.add_handler(self.Dealer_Handlers_Obj.register_shop_handler())
 		dp.add_handler(self.User_Handlers_Obj.register_user_handlers())
 		
-		dp.add_handler(self.Dealer_Handlers_Obj.Edit_Shop_Window_Handler_Obj.edit_shop_handler())
+#		dp.add_handler(self.Dealer_Handlers_Obj.Edit_Shop_Window_Handler_Obj.edit_shop_handler())
 
 
 		#dp.add_handler(self.Dealer_Handlers_Obj.register_shop_handler_test())	# to merge with the upper line

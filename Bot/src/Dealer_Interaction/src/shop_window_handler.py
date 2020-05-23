@@ -7,42 +7,39 @@ class Shop_Window_Handler(object):
 		self.Utils_Obj = Utils()
 		self.Dealer_Persistence_Obj = Dealer_Persistence()
 
-	def deleteMessages(self, context):
-		chat_id, messages_to_delete = context.job.context
-		for message_id in messages_to_delete:
-			try:	context.bot.delete_message(chat_id=chat_id, message_id=message_id)
-			except Exception as e:	continue
-
-		
 	
-	def test_entry_point_main_handler(self, update, context):
+	
+	def new_entry_point_main_handler(self, update, context):
 		try:
-			print("test_entry_point_main_handler:",update.message.text)
-			# ## TEST - TO REMOVE
-			# chat_id = update.message.chat.id
-			# print("-1: " + update.message.text)
-			# tmp_category = "alimentari"		# TAKE THEM FROM get_user_categories IN UTILS
-			# Utility_Obj.set_user_category(chat_id, tmp_category, context)
-			# tmp_category = "birroteca" 	# TAKE THEM FROM get_user_categories IN UTILS
-			# Utility_Obj.set_user_category(chat_id, tmp_category, context)
-			# # END TEST - TO REMOVE
+			print("new_entry_point_main_handler:",update.message.text)
 			
-
 
 			chat_id = update.message.chat.id
 			Utility_Obj.append_messages_to_delete(chat_id, context, update.message.message_id)
 
 			user_categories = Utility_Obj.get_user_categories(chat_id, context)
+		
+			group_token = self.Utils_Obj.make_token(chat_id)
+
+			message_to_send = ""
+			if len(user_categories) == 0 and Dealer_Persistence_Obj.is_token_in_persistence(group_token):		
+				user_categories = self.Dealer_Persistence_Obj.get_categories_list_by_token(group_token)
+				shopping_window_in_file = self.Dealer_Persistence_Obj.get_shopping_window_by_token(group_token)
+
+				Utility_Obj.set_shopping_window_list_by_chat_id(chat_id, context, shopping_window_in_file)
+				message_to_send = bot_replies['choice_your_category_edit']
+
 			keyboard_to_show = self.Utils_Obj.make_keyboard(user_categories, 1)
 
 			Utility_Obj.set_categories_keyboard_by_chat_id(chat_id, context, keyboard_to_show)
 			
-			reply_message = update.message.reply_text(bot_replies['choice_your_category'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
+			if message_to_send == "": 	message_to_send = bot_replies['choice_your_category']
+			reply_message = update.message.reply_text(message_to_send, parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
 			
 			Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
 			
 			return 4
-		except Exception as e: 	print("Eccezione in test_entry_point_main_handler :",str(e))
+		except Exception as e: 	print("Eccezione in new_entry_point_main_handler :",str(e))
 	
 	def choice_your_subcategory_handler(self, update, context):
 		try:
@@ -256,6 +253,9 @@ class Shop_Window_Handler(object):
 			chat_message = update.message.text 		# Fine - vedi vetrina
 			
 			shopping_window = Utility_Obj.get_shopping_window_list_by_chat_id(chat_id, context)
+			group_token = self.Utils_Obj.make_token(chat_id)
+			
+			
 			formatted_shopping_window = Utility_Obj.format_shopping_window(shopping_window)	# this is a string and not a list
 			
 			keyboard_to_show = send_shop_window_keyboard
@@ -310,12 +310,19 @@ class Shop_Window_Handler(object):
 			Utility_Obj.set_main_keyboard_by_chat_id(chat_id, keyboard_to_show, context)
 			Utility_Obj.set_shopping_window_date(chat_id, context, datetime.now())
 			
+			#user_categories = self.Dealer_Persistence_Obj.get_categories_list_by_token(user_token)
+			
 			dealer_infos = Utility_Obj.prepare_persistence(chat_id, context)
+
+
 			self.Dealer_Persistence_Obj.append_dealer_persistence(user_token, dealer_infos)
 
+			if len(dealer_infos['categories_list']) == 0:
+				user_categories = self.Dealer_Persistence_Obj.get_categories_list_by_token(user_token)
+				self.Dealer_Persistence_Obj.set_categories_list_by_token(user_token, user_categories)
 
 			# Remove old messages
-			job = context.job_queue.run_once(self.deleteMessages, 2, context=update.message)
+			job = context.job_queue.run_once(deleteMessages, 2, context=update.message)
 			messages_to_delete = Utility_Obj.get_messages_to_delete(chat_id, context)
 			job.context = (chat_id, messages_to_delete)
 			Utility_Obj.reset_messages_to_delete(chat_id, context)
