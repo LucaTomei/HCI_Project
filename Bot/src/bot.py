@@ -41,18 +41,6 @@ class Bot(object):
 		except Exception as e:
 			update.message.reply_text("Errore. Token ricevuto: " + token)
 			print(e)
-
-"""
-Ragazzi ora il bot è finalmente online e pronto per qualsiasi tipo di teststati aggiunti due comandi utili per effettuare azioni che servono per testare tutte le sue funzionalita.
-
-• /mod_date TOKEN_COMMERCIANTE
-• /unregister TOKEN_COMMERCIANTE
-
-Il primo comando serve a decrementare la data di registrazione della vetrina di una unità per quel negozio (per questo dovete passare il token) in modo tale che potete testare anche la modifica della vetrina.
-
-Il secondo comando invece serve ad eliminare qualsiasi traccia del commerciante (per questo dovete passare come secondo argomento il token) cosicché possiate effettuare i test anche ripartendo da capo senza creare un unlteriore gruppo.
-Spero di essere stato chiaro e buon lavoro!"
-"""
 	
 	def register_all_handlers(self, dp):
 		dp.add_handler(CommandHandler('start', self.start))

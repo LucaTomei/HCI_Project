@@ -1,5 +1,5 @@
 [Unit]
-Description=Amazon Changes Daemon
+Description=HCI Daemon
 After=network-online.target
 Wants=network-online.target systemd-networkd-wait-online.service
 
