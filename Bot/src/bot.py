@@ -48,7 +48,7 @@ class Bot(object):
 
 		#####	HANDLERS ONLY FOR TEST
 		dp.add_handler(CommandHandler('mod_date', self.allow_mod))
-		dp.add_handler(CommandHandler('unregister', self.unregister))
+		dp.add_handler(CommandHandler('unregister', self.unregister)) 
 		####
 
 		dp.add_handler(MessageHandler(Filters.status_update, self.start))
