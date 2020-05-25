@@ -76,7 +76,7 @@ bot_replies = {
 	"edit_product_price_done": "*Prodotto modificato correttamente.*",
 
 
-	"cart_successfully_created":"*%s ti informo che '%s' ha completato la creazione della tua lista della spesa, pertanto ti invito a ritirarla al più presto.*",
+	"cart_successfully_created":"*%s ti informo che '%s' ha completato la creazione della tua lista della spesa, pertanto ti invito a ritirarla al più presto.\n%s\n\nIl costo complessivo è pari a %s€.*",
 
 
 	#---------[Customer Replies]---------
@@ -183,6 +183,10 @@ def makeAKeyboard(alist, parti):
     keyboard.append([bot_buttons['stop_button']])
     return ReplyKeyboardMarkup(keyboard)
 
+def make_keyboard(alist, parti):
+    length = len(alist)
+    keyboard =  [alist[i*length // parti: (i+1)*length // parti] for i in range(parti)]
+    return ReplyKeyboardMarkup(keyboard)
 
 def make_back_keyboard(alist, parti):
 	length = len(alist)
@@ -195,6 +199,14 @@ def make_upper_back_keyboard(alist, parti):
    	keyboard = []
    	keyboard.append([bot_buttons['back_button']])
    	keyboard =  keyboard + [alist[i*length // parti: (i+1)*length // parti] for i in range(parti)]
+   	return ReplyKeyboardMarkup(keyboard)
+
+def make_upper_end_back_keyboard(alist, parti): 
+   	length = len(alist)
+   	keyboard = []
+   	keyboard.append([bot_buttons['back_button']])
+   	keyboard =  keyboard + [alist[i*length // parti: (i+1)*length // parti] for i in range(parti)]
+   	keyboard.append([bot_buttons['stop_button']])
    	return ReplyKeyboardMarkup(keyboard)
 
 
@@ -327,9 +339,9 @@ def deleteMessages(context):
 
 
 def automatize_message(context):
-	chat_id, my_name, merchant_name = context.job.context
+	chat_id, my_name, merchant_name, formatted_cart, total = context.job.context
 
-	message = bot_replies['cart_successfully_created'] %(my_name, merchant_name)
+	message = bot_replies['cart_successfully_created'] %(my_name, merchant_name, formatted_cart, total)
 	context.bot.send_message(chat_id=chat_id, text = message,  parse_mode = ParseMode.MARKDOWN)
 
 def unknown_function_for_groups(update, context):

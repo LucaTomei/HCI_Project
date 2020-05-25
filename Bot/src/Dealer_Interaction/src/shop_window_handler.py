@@ -29,7 +29,7 @@ class Shop_Window_Handler(object):
 				Utility_Obj.set_shopping_window_list_by_chat_id(chat_id, context, shopping_window_in_file)
 				message_to_send = bot_replies['choice_your_category_edit']
 
-			keyboard_to_show = self.Utils_Obj.make_keyboard(user_categories, 1)
+			keyboard_to_show = make_keyboard(user_categories, 1)
 
 			Utility_Obj.set_categories_keyboard_by_chat_id(chat_id, context, keyboard_to_show)
 			
@@ -50,7 +50,9 @@ class Shop_Window_Handler(object):
 			chat_message = this_category = update.message.text 		# Category name (eg. alimentari)
 			if self.Utils_Obj.is_category_in_file(this_category):
 				subcategories_list = self.Utils_Obj.get_subcategories_name_by_category(this_category)
-				keyboard_to_show = self.Utils_Obj.make_upper_back_keyboard(subcategories_list, 3)
+				
+				keyboard_to_show = make_upper_end_back_keyboard(subcategories_list, 3)
+				
 				Utility_Obj.set_tmp_category(chat_id, chat_message, context)
 				Utility_Obj.set_subcategories_keyboard_by_chat_id(chat_id, context, keyboard_to_show)
 				
@@ -82,7 +84,7 @@ class Shop_Window_Handler(object):
 				products_by_subcategory = self.Utils_Obj.get_subcategory_products(category_name, this_subcategory)
 
 				(product_names, product_units) = self.Utils_Obj.from_subcat_prod_dict_to_list(products_by_subcategory)
-				keyboard_to_show = self.Utils_Obj.make_upper_back_keyboard(product_names, 3)
+				keyboard_to_show = make_upper_back_keyboard(product_names, 3)
 				Utility_Obj.set_products_keyboard_by_chat_id(chat_id, context, keyboard_to_show)
 				
 				reply_message = update.message.reply_text(bot_replies['insert_product'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
@@ -253,6 +255,9 @@ class Shop_Window_Handler(object):
 			chat_message = update.message.text 		# Fine - vedi vetrina
 			
 			shopping_window = Utility_Obj.get_shopping_window_list_by_chat_id(chat_id, context)
+			if len(shopping_window) == 0:
+				return self.new_entry_point_main_handler(update, context)
+
 			group_token = self.Utils_Obj.make_token(chat_id)
 			
 			
@@ -298,7 +303,7 @@ class Shop_Window_Handler(object):
 			user_token = self.Utils_Obj.make_token(chat_id)
 
 			reply_message = update.message.reply_text(bot_replies['shop_window_send'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
-			Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+			#Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
 			reply_message = update.message.reply_text(bot_replies['shop_window_send_token'] %(user_token), parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
 			#Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
 			reply_message = update.message.reply_text(bot_replies['shop_window_send_done'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
@@ -341,7 +346,7 @@ class Shop_Window_Handler(object):
 			shopping_window = Utility_Obj.get_shopping_window_list_by_chat_id(chat_id, context)
 			shopping_window_names_list = Utility_Obj.get_all_shopping_window_names(shopping_window)
 
-			keyboard_to_show = self.Utils_Obj.make_upper_back_keyboard(shopping_window_names_list, 3)
+			keyboard_to_show = make_upper_back_keyboard(shopping_window_names_list, 3)
 			Utility_Obj.set_shopping_window_keyboard(chat_id, context, keyboard_to_show)	# store shopping_window keyboard products 
 			
 			reply_message = update.message.reply_text(bot_replies['edit_shopping_window'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
@@ -441,7 +446,7 @@ class Shop_Window_Handler(object):
 			shopping_window = Utility_Obj.get_shopping_window_list_by_chat_id(chat_id, context)
 			shopping_window_names_list = Utility_Obj.get_all_shopping_window_names(shopping_window)
 
-			keyboard_to_show = self.Utils_Obj.make_upper_back_keyboard(shopping_window_names_list, 3)
+			keyboard_to_show = make_upper_back_keyboard(shopping_window_names_list, 3)
 			Utility_Obj.set_shopping_window_keyboard(chat_id, context, keyboard_to_show)	# store shopping_window keyboard products 
 			
 			reply_message = update.message.reply_text(bot_replies['edit_shopping_window'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)

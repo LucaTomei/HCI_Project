@@ -58,7 +58,9 @@ class User_Handlers(object):
 				return self.add_product_main_handler(update, context)
 			else:
 				self.User_Utils_obj = user_utils.User_Utils()
-				products_sum = self.Dealer_Persistence_Obj.sum_up_all_shopping_window_prices(shopping_cart)
+
+				token = self.User_Utils_obj.get_used_token(chat_id, context)
+				products_sum = self.Dealer_Persistence_Obj.sum_up_all_shopping_window_prices(shopping_cart, token)
 				self.User_Utils_obj.set_shopping_cart(chat_id, context, products_sum)
 				total = str(self.User_Utils_obj.make_total(products_sum))
 				formatted_cart = self.User_Utils_obj.better_print_shopping_cart(products_sum)
@@ -208,7 +210,7 @@ class User_Handlers(object):
 
 
 			shopping_cart = self.User_Utils_obj.get_shopping_cart(chat_id, context)
-			products_sum = self.Dealer_Persistence_Obj.sum_up_all_shopping_window_prices(shopping_cart)
+			products_sum = self.Dealer_Persistence_Obj.sum_up_all_shopping_window_prices(shopping_cart, token)
 			total = str(self.User_Utils_obj.make_total(products_sum))
 			formatted_cart = self.User_Utils_obj.better_print_shopping_cart(products_sum)
 
@@ -223,7 +225,7 @@ class User_Handlers(object):
 			
 			my_name = update.message.chat.first_name
 			merchant_name = self.Dealer_Persistence_Obj.get_group_tytle_by_token(token)
-			job.context = chat_id, my_name, merchant_name
+			job.context = chat_id, my_name, merchant_name, formatted_cart, total
 
 
 			return ConversationHandler.END
@@ -255,7 +257,11 @@ class User_Handlers(object):
 				product_name = chat_message
 				self.User_Utils_obj.set_tmp_product(chat_id, context, product_name)
 				keyboard_to_show = delete_product_or_back_keyboard
-				product_details = self.Dealer_Persistence_Obj.get_original_product_details(product_name)
+
+
+				token = self.User_Utils_obj.get_used_token(chat_id, context)
+
+				product_details = self.Dealer_Persistence_Obj.get_original_product_details(product_name, token)
 				unit, name = product_details['unit'], product_details['name']
 				update.message.reply_text(bot_replies['sure_delete_product_in_cart'] %(unit, name), parse_mode=ParseMode.MARKDOWN, reply_markup=keyboard_to_show)
 				return 7
@@ -271,7 +277,10 @@ class User_Handlers(object):
 			chat_id = update.message.chat.id
 			product_name = self.User_Utils_obj.get_tmp_product(chat_id, context)
 			shopping_cart = self.User_Utils_obj.get_shopping_cart(chat_id, context)
-			shopping_cart = self.Dealer_Persistence_Obj.decrement_quantity(shopping_cart, product_name)
+
+
+			token = self.User_Utils_obj.get_used_token(chat_id, context)
+			shopping_cart = self.Dealer_Persistence_Obj.decrement_quantity(shopping_cart, product_name, token)
 			# # side effect in context
 			self.User_Utils_obj.set_shopping_cart(chat_id, context, shopping_cart)
 

@@ -55,6 +55,7 @@ class Dealer_Persistence(object):
 		for item in shopping_window_list:
 			if item['name'] == product_name:	return True
 		return False
+	
 	def get_product_details_by_product_name(self, shopping_window_list, product_name):
 		for item in shopping_window_list:
 			if item['name'] == product_name: return item
@@ -65,7 +66,7 @@ class Dealer_Persistence(object):
 
 
 	# [{'name': "La Trappe Isid'or", 'price': 15.0, 'unit': '0.33l', 'quantity': 3}, ...]	<--- added quantity
-	def sum_up_all_shopping_window_prices(self, shopping_window_list):
+	def sum_up_all_shopping_window_prices(self, shopping_window_list, token):
 		c = defaultdict(int)
 		c.clear()
 		
@@ -74,30 +75,31 @@ class Dealer_Persistence(object):
 		
 		new_shopping_window_list = [{'name': name, 'price': price} for name, price in c.items()]
 		c.clear()
-		to_ret = self.how_many_units(new_shopping_window_list)
+
+		to_ret = self.how_many_units(new_shopping_window_list, token)
 		return to_ret
 	
-	def get_original_product_details(self, product_name):	# pass its token
+	def get_original_product_details(self, product_name, token):	# pass its token
 		content = self.read_persistence()
-		for item in content:
-			for item in content[item]['shopping_window_list']:
+		if token in content:
+			for item in content[token]['shopping_window_list']:
 				if item['name'] == product_name:	return item
 		return {}
 
-	def decrement_quantity(self, shopping_cart, product_name):
+	def decrement_quantity(self, shopping_cart, product_name, token):
 		for item in shopping_cart:
 			if item['name'] == product_name:
 				item['quantity'] -= 1
-				original_product_details = self.get_original_product_details(product_name)
+				original_product_details = self.get_original_product_details(product_name, token)
 				original_price = original_product_details['price']
 				item['price'] -= original_price
 			if item['quantity'] == 0:	shopping_cart.remove(item)
 		return shopping_cart # remember to do side effect
 
-	def how_many_units(self, shopping_window_list):
+	def how_many_units(self, shopping_window_list, token):
 		for item in shopping_window_list:
 			product_name, product_price = item['name'], item['price']
-			original_product_details = self.get_original_product_details(product_name)
+			original_product_details = self.get_original_product_details(product_name, token)
 			original_price, original_unit = original_product_details['price'], original_product_details['unit']
 			if original_price == product_price:
 				item.update({"unit":original_product_details['unit'], "quantity":1})
@@ -138,5 +140,7 @@ class Dealer_Persistence(object):
 
 if __name__ == '__main__':
 	Dealer_Persistence_Obj = Dealer_Persistence()
-	token = "eJzTNTG0MDA3MDM0AwAK3QH/"
-	Dealer_Persistence_Obj.remove_user_by_token(token)
+	# token = "eJzTNTG0MDA3MDM0AwAK3QH/"
+	# Dealer_Persistence_Obj.remove_user_by_token(token)
+
+	Dealer_Persistence_Obj.get_original_product_details("Ferrarelle", "eJzTNTG0MDA3MDM0AwAK3QH/")

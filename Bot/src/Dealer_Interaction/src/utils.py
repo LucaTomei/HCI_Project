@@ -85,24 +85,7 @@ class Utils(object):
 			if names[i].lower() == product_name.lower():	return units[i]
 		return ''
 
-	def make_keyboard(self, alist, parti): 
-	    length = len(alist)
-	    keyboard =  [alist[i*length // parti: (i+1)*length // parti] for i in range(parti)]
-	    return ReplyKeyboardMarkup(keyboard)
 
-
-	def make_back_keyboard(self, alist, parti): 
-	    length = len(alist)
-	    keyboard =  [alist[i*length // parti: (i+1)*length // parti] for i in range(parti)]
-	    keyboard.append([self.back_button])
-	    return ReplyKeyboardMarkup(keyboard)
-
-	def make_upper_back_keyboard(self, alist, parti): 
-	   	length = len(alist)
-	   	keyboard = []
-	   	keyboard.append([self.back_button])
-	   	keyboard =  keyboard + [alist[i*length // parti: (i+1)*length // parti] for i in range(parti)]
-	   	return ReplyKeyboardMarkup(keyboard)
 
 
 	def make_token(self, chat_id):	# make token by group chat_id

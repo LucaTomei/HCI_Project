@@ -342,6 +342,7 @@ class Dealer_Handlers(object):
             	],
             	5: [ # Choice Product
             		MessageHandler(Filters.regex('^' + bot_buttons['back_button'] +'$'),self.Shop_Window_Handler_Obj.choice_your_subcategory_handler),
+            		MessageHandler(Filters.regex('^' + bot_buttons['stop_button'] +'$'),self.Shop_Window_Handler_Obj.show_shopping_window_handler),
             		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.choice_your_product_handler),
             	],
             	6: [
