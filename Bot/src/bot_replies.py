@@ -32,7 +32,7 @@ bot_replies = {
 	"location_error_message" : "Non è stato possibile salvare la posizione del tuo negozio.\nInseriscila manualmente attenendoti al seguente formato: *via*, *CAP*, *città*.\nEsempio: *Via corcolle 30, 00131, Roma*",
 	
 	"description_message": "*Attraverso i pannelli sottostanti potrai selezionare le categorie che descrivono il tuo negozio e condividere la tua posizione con i clienti.*",
-	"dealer_welcome_message": "Benvenuto *%s*  del negozio *%s* sono ColliGo, il bot che ti accompagnerà nella vendita online della tua attività.\nHai un sito web del negozio?",
+	"dealer_welcome_message": "Benvenuto *%s*  del negozio *%s* sono ColliGo, il bot che ti aiuterà a promuovere la tua attività online.\nHai un sito web del negozio?",
 
 	"catagories_done": "Ecco le categorie che hai impostato\n*%s*",
 	"catagory_added": "Categoria *%s* aggiunta con successo.\n*[Premere il pulsante Fine per terminare la selezione]*",
@@ -41,7 +41,7 @@ bot_replies = {
 	"location_done": "Posizione Registrata: *[%s, %s]*",
 	"website_added": "*Sito Web %s impostato con successo*",
 	"insert_website": "*Inserisci il link al tuo sito web*",
-	"website_error": "*Il sito %s non rispecchia lo schema di un sito web: Sei sicuro che il messaggio contenga 'http://'?\nInserisci di nuovo il link al tuo sito web [q per uscire].*",
+	"website_error": "*Il sito %s non rispecchia il classico format di un sito web: Sei sicuro che il messaggio contenga 'http://'?\nInserisci di nuovo il link al tuo sito web [premi q per uscire].*",
 	"website_not_insert": "*Sito web non inserito.*",
 
 	"all_done": "*Registrazione del negozio completata con successo*:\nCategorie del negozio: *%s*\nPosizione del negozio: *%s*.",
@@ -52,15 +52,15 @@ bot_replies = {
 
 	#---------[After Registration Show Categories]---------
 	"choice_your_category": "*Attraverso i pannelli sottostanti potrai selezionare la categoria di prodotti da inserire in vetrina per i tuoi clienti*",
-	"choice_your_subcategory": "*Inserisci ora la sotto-categoria di prodotti*",
-	"insert_product": "*Inserisci ora il prodotto che desideri far visionare ai tuoi clienti*",
-	"insert_price": "*Inserisci ora il prezzo a cui desideri vendere %s di %s*",
-	"are_you_sure_price":"*Sei sicuro di voler vendere %s a %s€?*",
+	"choice_your_subcategory": "*Inserisci la sotto-categoria di prodotti*",
+	"insert_product": "*Inserisci il prodotto che desideri far visionare ai tuoi clienti*",
+	"insert_price": "*Inserisci il prezzo a cui desideri vendere %s di %s*",
+	"are_you_sure_price":"*Sei sicuro di voler inserire in vetrina %s a %s€?*",
 	"shop_window": "*%s* inserito correttamente nella tua vetrina. Desideri inserire altro o visionare la tua vetrina?",
 	"shop_window_done": "*Questa è la vetrina della tua bottega con il riepilogo dei prodotti*:\n\n%s",
-	"want_to_send": "*Vuoi che la invio ai tuoi clienti o desideri apportare ulteriori modifiche?*",
+	"want_to_send": "*Vuoi che la invio ai tuoi clienti o desideri effettuare ulteriori modifiche?*",
 
-	"shop_window_send": "*La vetrina del tuo negozio è stata inoltrata correttamente a tutti i tuoi clienti.\nDi seguito ti invio il token di accesso che i tuoi clienti dovranno inserire nella chat privata con ColliGo al fine di poter visualizzare la tua vetrina e cominciare così a creare la propria lista della spesa.*",
+	"shop_window_send": "*La vetrina del tuo negozio è pronta per essere visionata dai tuoi clienti.\nDi seguito ti invio il token di accesso che i tuoi clienti dovranno inserire nella chat privata con ColliGo al fine di poter visualizzare la tua vetrina e cominciare così a creare la propria lista della spesa.*",
 	"shop_window_send_token": "*Il token di accesso è il seguente:*\n`%s`",
 	"shop_window_send_done": "*Il mio compito per oggi è terminato.\nDomani potrai effettuare nuove modifiche oppure allestire una nuova vetrina per la tua bottega!*",
 	"all_done_shopping_window": "*Tutto impostato con successo*",
@@ -72,11 +72,11 @@ bot_replies = {
 	"deletion_done": "*Prodotto %s eliminato correttamente*",
 
 	"edit_product_price": "*Modifica ora il prezzo a cui desideri vendere %s di %s*", # %(size, product_name)
-	"sure_edit_price": "*Sei sicuro di voler inserire %s al prezzo di %s€?*",
+	"sure_edit_price": "*Sei sicuro di voler inserire in vetrina %s al prezzo di %s€?*",
 	"edit_product_price_done": "*Prodotto modificato correttamente.*",
 
 
-	"cart_successfully_created":"*%s ti informo che '%s' ha ultimato la creazione della tua lista della spesa, pertanto ti invito a ritirarla al più presto.*",
+	"cart_successfully_created":"*%s ti informo che '%s' ha completato la creazione della tua lista della spesa, pertanto ti invito a ritirarla al più presto.*",
 
 
 	#---------[Customer Replies]---------
@@ -84,17 +84,17 @@ bot_replies = {
 	"insert_token": "*Ciao %s, per visualizzare la vetrina del tuo negoziante di fiducia, per favore inserisci il Token di accesso fornito nel gruppo del negozio.*",
 	"shop_window_customer":"*Questa è la vetrina della bottega '%s' con il riepilogo dei prodotti:\n%s*",
 	"show_shopping_window_customer":"*Vuoi aggiungere prodotti al tuo carrello oppure visualizzare il suo contenuto?*",
-	"empty_shopping_cart":"*Il tuo carrello è attualmente vuoto.\n\nÈ il momento di fare la spesa*",
+	"empty_shopping_cart":"*Il tuo carrello è attualmente vuoto.\n\nÈ il momento di comprare qualcosa.*",
 	"show_shopping_window_buttons": "*La vetrina del negozio %s è riportata di seguito. Scegli i prodotti che desideri acquistare e conferma di volerli inserire nel carrello.*",
 	"add_product_shopping_cart":"*Il costo di %s di %s è pari a %s€*",
-	"sure_add_product_cart": "*Sei sicuro di voler aggiungere questo prodotto al tuo carrello o desideri selezionare un altro prodotto?*",
-	"add_to_cart_done": "*Prodotto inserito correttamente nel tuo carrello.\nVuoi continuare ad inserire prodotti o visionare cosa contiene il tuo carrello?*",
+	"sure_add_product_cart": "*Sei sicuro di voler aggiungere questo prodotto al tuo carrello o desideri selezionarne un altro?*",
+	"add_to_cart_done": "*Prodotto inserito correttamente nel tuo carrello.\nVuoi continuare ad inserire prodotti o vedere il contenuto del tuo carrello?*",
 
 
 	"cart_content":"*Questo è il contenuto del tuo carrello:\n\n%s\n\nIl costo complessivo è pari a: %s€*",
 	"process_checkout":"*Vuoi procedere al checkout o aggiungere altri prodotti?*",
 
-	"checkout_main":"*Prima di inviare la tua lista della spesa al negozio '%s', controlla che ci sia tutto.\n\nVuoi eliminare alcuni prodotti dal tuo carrello della spesa o desideri procedere all'invio della lista della spesa?*",
+	"checkout_main":"*Prima di inviare la tua lista della spesa al negozio '%s', controlla che tu non abbia scordato nulla.\n\nVuoi eliminare alcuni prodotti dal tuo carrello o desideri procedere all'invio della lista della spesa?*",
 
 	"delete_product":"*Seleziona il prodotto che desideri eliminare dal tuo carrello*",
 	"sure_delete_product_in_cart": "*Sei sicuro di voler eliminare %s di %s?*",
@@ -107,7 +107,7 @@ bot_replies = {
 
 
 	#---------[Editing shopping window]--------
-	"edit_old_shopping_window": "*Questa è l'ultima vetrina presente:\n%s\n\nDesideri modificarla?*",
+	"edit_old_shopping_window": "*Questa è l'ultima vetrina che hai inserito:\n%s\n\nDesideri modificarla?*",
 	"what_do_you_want": "Cosa desideri effettuare?",
 	"choice_your_category_edit": "*Attraverso i pannelli sottostanti potrai selezionare la categoria di prodotti per effettuare una modifica sulla tua vetrina.*",
 
@@ -132,20 +132,20 @@ bot_buttons = {
 
 	#---------[Message: shop_window]---------
 	"yes_insert_new_product": "Inserisci nuovo prodotto",
-	"no_show_shop_window": "Fine - vedi vetrina",
+	"no_show_shop_window": "Fine - vedi la vetrina",
 
 	#---------[Message: shop_window_done]---------
 	"yes_send_shop_window": "SI - Invia ai clienti",
-	"no_send_shop_window": "NO - Modifica Prodotti",
+	"no_send_shop_window": "NO - Modifica i Prodotti",
 
 	#---------[Message: edit_action]---------
 	"delete_product":"Eliminare il Prodotto",
 	"edit_product_price": "Modificare il Prezzo",
 
-	"sure_delete_product": "Si - Elimina Prodotto",
-	"not_sure_delete_product": "No - Torna a Vetrina",
+	"sure_delete_product": "Si - Elimina il Prodotto",
+	"not_sure_delete_product": "No - Torna alla Vetrina",
 
-	"yes_edit_price": "Si - Modifica Prezzo",
+	"yes_edit_price": "Si - Modifica il Prezzo",
 
 	"back_button":"🔙Indietro🔙",
 
@@ -153,8 +153,8 @@ bot_buttons = {
 	#---------[Customer Buttons]---------
 	"insert_token": "Inserisci il Token",
 
-	"add_product": "AGGIUNGI PRODOTTO",
-	"show_shopping_cart": "VISUALIZZA CARRELLO",
+	"add_product": "AGGIUNGI UN PRODOTTO",
+	"show_shopping_cart": "VISUALIZZA IL CARRELLO",
 
 	"add_product_done": "AGGIUNGI",
 	"select_other_product": "SELEZIONA UN ALTRO PRODOTTO",
@@ -164,16 +164,16 @@ bot_buttons = {
 	"checkout": "CHECKOUT",
 	"add_again":"AGGIUNGI ANCORA",
 
-	"delete_product":"ELIMINA PRODOTTO",
+	"delete_product":"ELIMINA IL PRODOTTO",
 	"send_shopping_cart": "INVIA LISTA DELLA SPESA",
 
 
 	#---------[New Buttons - Editing shopping window]---------
-	"edit_shopping_window":"MODIFICA VETRINA",
+	"edit_shopping_window":"MODIFICA LA VETRINA",
 	
 	"add_some_products": "INSERISCI NUOVI PRODOTTI",
-	"delete_some_products":"ELIMINA PRODOTTI",
-	"edit_shopping_window_prices": "MODIFICA PREZZI",
+	"delete_some_products":"ELIMINA I PRODOTTI",
+	"edit_shopping_window_prices": "MODIFICA I PREZZI",
 
 }
 
