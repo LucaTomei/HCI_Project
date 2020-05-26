@@ -88,10 +88,7 @@
     },
     "eJzTNbEwMzYyNTa2BAALEgIJ": {
         "group_title": "Macelleria di zio Carlo",
-        "categories_list": [
-            "Alimentari",
-            "Enoteca"
-        ],
+        "categories_list": [],
         "shopping_window_list": [
             {
                 "name": "Panna",
@@ -107,8 +104,63 @@
                 "name": "Illy",
                 "price": 5.0,
                 "unit": "250g"
+            },
+            {
+                "name": "Nesquik",
+                "price": 5.0,
+                "unit": "950g"
             }
         ],
-        "shopping_window_date": "25/05/2020COLLIGO12:16"
+        "shopping_window_date": "26/05/2020COLLIGO10:19"
+    },
+    "eJzTNbQ0MzYxMbc0BgALFwIM": {
+        "group_title": "Alimentari da Silvia",
+        "categories_list": [
+            "Alimentari",
+            "Panificio"
+        ],
+        "shopping_window_list": [
+            {
+                "name": "Lavazza Q. Rossa",
+                "price": 4.9,
+                "unit": "250g"
+            },
+            {
+                "name": "Lavazza Crema e Gusto",
+                "price": 5.0,
+                "unit": "250g"
+            },
+            {
+                "name": "Nepi",
+                "price": 0.6,
+                "unit": "1.5L"
+            }
+        ],
+        "shopping_window_date": "25/05/2020COLLIGO16:55"
+    },
+    "eJzTNTYxNzA3Mjc2AgAK8AIB": {
+        "group_title": "Alimentari di Lucia",
+        "categories_list": [
+            "Panificio",
+            "Alimentari"
+        ],
+        "shopping_window_list": [
+            {
+                "name": "Nepi",
+                "price": 2.0,
+                "unit": "1.5L"
+            },
+            {
+                "name": "Panna",
+                "price": 3.0,
+                "unit": "1.5L"
+            },
+            {
+                "name": "Ferrarelle",
+                "price": 4.0,
+                "unit": "1.5L"
+            }
+        ],
+        "shopping_window_date": "26/05/2020COLLIGO10:18"
     }
 }

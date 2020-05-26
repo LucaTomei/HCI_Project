@@ -336,6 +336,5 @@ class User_Handlers(object):
 					MessageHandler(Filters.regex('^' + bot_buttons['delete_product'] +'$'),self.really_delete_product_handler),
 
 				],
-
-			},[])
+			},[], persistent=True, name='register_user_handlers')
 		return register_user_handlers

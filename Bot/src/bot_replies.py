@@ -9,6 +9,9 @@ from utilities import Utility
 from Dealer_Interaction.src import utils
 from Dealer_Interaction.src import dealer_persistence
 
+
+persistence_filename = "bot_persistence"
+
 Utility_Obj = Utility()
 Utils_Obj = utils.Utils()
 Dealer_Persistence_Obj = dealer_persistence.Dealer_Persistence()

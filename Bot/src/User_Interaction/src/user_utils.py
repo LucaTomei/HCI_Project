@@ -26,6 +26,7 @@ class User_Utils(object):
 		return context.user_data[chat_id]["used_token"]
 	def set_used_token(self, chat_id, context, used_token):
 		context.user_data[chat_id]["used_token"] = used_token
+	
 
 	def set_tmp_product(self, chat_id, context, product):
 		context.user_data[chat_id]["tmp_product"] = product
