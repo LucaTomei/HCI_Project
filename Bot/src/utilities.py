@@ -4,7 +4,8 @@ from geopy.geocoders import Nominatim
 
 class Utility(object):
 	def __init__(self):
-		self.base_request_url = "https://api.colligo.shop/"
+		#self.base_request_url = "https://api.colligo.shop/"
+		self.base_request_url = "https://boiling-beyond-07880.herokuapp.com/"
 
 	def is_really_a_website(self, url):
 	    regex = re.compile(

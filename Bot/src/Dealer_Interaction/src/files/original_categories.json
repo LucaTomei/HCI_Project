@@ -1,0 +1,92 @@
+[
+    {
+        "id": 151,
+        "natural_key": "alimentari",
+        "name": "Alimentari"
+    },
+    {
+        "id": 161,
+        "natural_key": "altro",
+        "name": "Altro"
+    },
+    {
+        "id": 131,
+        "natural_key": "bioequo",
+        "name": "Bio & Equo"
+    },
+    {
+        "id": 11,
+        "natural_key": "birroteca",
+        "name": "Birroteca"
+    },
+    {
+        "id": 101,
+        "natural_key": "cioccolateria",
+        "name": "Cioccolateria"
+    },
+    {
+        "id": 1,
+        "natural_key": "enoteca",
+        "name": "Enoteca"
+    },
+    {
+        "id": 81,
+        "natural_key": "formaggeria",
+        "name": "Formaggeria"
+    },
+    {
+        "id": 141,
+        "natural_key": "frutteria",
+        "name": "Frutteria"
+    },
+    {
+        "id": 31,
+        "natural_key": "gastronomia",
+        "name": "Gastronomia"
+    },
+    {
+        "id": 171,
+        "natural_key": "gelateria",
+        "name": "Gelateria"
+    },
+    {
+        "id": 61,
+        "natural_key": "macelleria",
+        "name": "Macelleria"
+    },
+    {
+        "id": 21,
+        "natural_key": "oleoteca",
+        "name": "Oleoteca"
+    },
+    {
+        "id": 41,
+        "natural_key": "panificio",
+        "name": "Panificio"
+    },
+    {
+        "id": 91,
+        "natural_key": "pasticceria",
+        "name": "Pasticceria"
+    },
+    {
+        "id": 51,
+        "natural_key": "pastificio",
+        "name": "Pastificio"
+    },
+    {
+        "id": 71,
+        "natural_key": "pescheria",
+        "name": "Pescheria"
+    },
+    {
+        "id": 111,
+        "natural_key": "teeria",
+        "name": "Teeria"
+    },
+    {
+        "id": 121,
+        "natural_key": "torrefazione",
+        "name": "Torrefazione"
+    }
+]

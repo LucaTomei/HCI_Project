@@ -162,5 +162,30 @@
             }
         ],
         "shopping_window_date": "26/05/2020COLLIGO10:18"
+    },
+    "eJzTNTE1MbQwMzGzAAALCgIM": {
+        "group_title": "Negozio Alimentari",
+        "categories_list": [
+            "Birroteca",
+            "Alimentari"
+        ],
+        "shopping_window_list": [
+            {
+                "name": "Brio Blu",
+                "price": 2.2,
+                "unit": "1.5L"
+            },
+            {
+                "name": "Illy",
+                "price": 1.1,
+                "unit": "250g"
+            },
+            {
+                "name": "HB",
+                "price": 3.5,
+                "unit": "0.33l"
+            }
+        ],
+        "shopping_window_date": "29/05/2020COLLIGO19:09"
     }
 }
