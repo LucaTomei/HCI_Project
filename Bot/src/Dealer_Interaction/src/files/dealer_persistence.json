@@ -1,1 +1,54 @@
-{}
+{
+    "eJzTNTE2MTEwtbSwAAAK8wIL": {
+        "group_title": "Alimentari da Giovanni",
+        "shop_location": [
+            "via Federico Delpino 23",
+            " 00171",
+            " Roma"
+        ],
+        "categories_list": [
+            "Alimentari"
+        ],
+        "shopping_window_list": [
+            {
+                "name": "Nepi",
+                "price": 2.0,
+                "unit": "1.5L"
+            },
+            {
+                "name": "Levissima",
+                "price": 2.0,
+                "unit": "1.5L"
+            },
+            {
+                "name": "Brio Blu",
+                "price": 3.0,
+                "unit": "1.5L"
+            }
+        ],
+        "shopping_window_date": "11/06/2020COLLIGO14:00"
+    },
+    "eJzTNTE2NzIwM7cwAgAK9AIF": {
+        "group_title": "Birroteca Maurizi",
+        "shop_location": [
+            41.80954,
+            12.946986
+        ],
+        "categories_list": [
+            "Birroteca"
+        ],
+        "shopping_window_list": [
+            {
+                "name": "Pilsner Urquell",
+                "price": 3.45,
+                "unit": "0.33l"
+            },
+            {
+                "name": "Paulaner",
+                "price": 2.23,
+                "unit": "0.33l"
+            }
+        ],
+        "shopping_window_date": "11/06/2020COLLIGO14:17"
+    }
+}

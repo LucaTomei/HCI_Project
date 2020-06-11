@@ -85,7 +85,10 @@ bot_replies = {
 
 	#---------[Customer Replies]---------
 	#"pre_insert_token": "*Ciao %s, per visualizzare la vetrina del tuo negoziante di fiducia, utilizza la tastiera sottostante per inserire il token fornito dal gruppo del negoziante*",
-	"insert_token": "*Ciao %s, per visualizzare la vetrina del tuo negoziante di fiducia, per favore inserisci il Token di accesso fornito nel gruppo del negozio.*",
+	#"insert_token": "*Ciao %s, per visualizzare la vetrina del tuo negoziante di fiducia, per favore inserisci il Token di accesso fornito nel gruppo del negozio.*",
+	"insert_token": "Ciao *%s*, questo è l'elenco dei *negozi registrati*:\n%s",
+	"copy_token": "*Copia il token del negozio mostrato nella lista precedente ed incollalo per iniziare ad acquistare prodotti dalla bottega selezionata.*",
+
 	"shop_window_customer":"Questa è la vetrina della bottega *'%s'*, situata in *%s* con il riepilogo dei prodotti:\n*%s*",
 	"show_shopping_window_customer":"*Vuoi aggiungere prodotti al tuo carrello oppure visualizzare il suo contenuto?*",
 	"empty_shopping_cart":"*Il tuo carrello è attualmente vuoto.\n\nÈ il momento di comprare qualcosa.*",

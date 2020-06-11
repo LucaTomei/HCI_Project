@@ -9,6 +9,25 @@ class Dealer_Persistence(object):
 			self.read_persistence()
 		except:	self.persistence_filename = "files/dealer_persistence.json"	#<--- only for test and __main__
 
+
+	def get_all_merchant_name_token(self):	# Return list of tuples: (token, shop_name)
+		content = self.read_persistence()
+		token_list = []
+		to_ret = []
+		for token in content:
+			token_list.append(token)
+		for token in token_list:
+			shop_name = content[token]['group_title']
+			to_ret.append((token, shop_name))
+		return to_ret
+	def get_formatted_token_merchant_list(self):
+		token_merchant_list = self.get_all_merchant_name_token()
+		to_ret = ''
+		for item in token_merchant_list:
+			token, shop_name = item #'`'
+			to_ret += ' ◦ *' + shop_name + '*: ' + '`' + token + '`\n'
+		return to_ret
+
 	
 	def write_persistence(self, content):
 		file = open(self.persistence_filename, 'w')
@@ -150,4 +169,6 @@ if __name__ == '__main__':
 	# token = "eJzTNTG0MDA3MDM0AwAK3QH/"
 	# Dealer_Persistence_Obj.remove_user_by_token(token)
 
-	Dealer_Persistence_Obj.get_original_product_details("Ferrarelle", "eJzTNTG0MDA3MDM0AwAK3QH/")
+	#Dealer_Persistence_Obj.get_original_product_details("Ferrarelle", "eJzTNTG0MDA3MDM0AwAK3QH/")
+	x = Dealer_Persistence_Obj.get_formatted_token_merchant_list()
+	print(x)
