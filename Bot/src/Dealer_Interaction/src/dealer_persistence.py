@@ -122,6 +122,13 @@ class Dealer_Persistence(object):
 		content = self.read_persistence()
 		return content[token]['group_title']
 
+	def get_shop_location(self, token):
+		content = self.read_persistence()
+		shop_location_list = content[token]['shop_location']
+		if len(shop_location_list) != 2:
+			return shop_location_list[0] + " (" + shop_location_list[1] + " - " + shop_location_list[2] + ")"
+		else:	return shop_location_list
+
 	def reset_date_by_token(self, token):
 		content = self.read_persistence()
 		old_date = content[token]['shopping_window_date']

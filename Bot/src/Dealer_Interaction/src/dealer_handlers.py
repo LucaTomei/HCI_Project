@@ -8,14 +8,21 @@ class Dealer_Handlers(object):
 
 	#---------[You have pressed YES WEBSITE BUTTON]---------
 	def you_have_website(self, update, context):
-		chat_id = update.message.chat_id
-		Utility_Obj.append_messages_to_delete(chat_id, context, update.message.message_id)
+		try:
+			chat_id = update.message.chat_id
+			Utility_Obj.append_messages_to_delete(chat_id, context, update.message.message_id)
 
-		Utility_Obj.set_telegram_link(update, context)
-		
-		reply_message = update.message.reply_text(bot_replies['insert_website'], parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove(), disable_web_page_preview=True)
-		Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
-		return 1
+			Utility_Obj.set_telegram_link(update, context)
+			
+			# reply_message = update.message.reply_text(bot_replies['insert_website'], parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove(), disable_web_page_preview=True)
+			# Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+
+			keyboard = [[InlineKeyboardButton("Annulla Operazione", callback_data='-1')]]
+			reply_markup = InlineKeyboardMarkup(keyboard)
+			reply_message = update.message.reply_text(bot_replies['insert_website'], reply_markup=reply_markup,  parse_mode=ParseMode.MARKDOWN)
+			Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+			return 1
+		except Exception as e:	print(str(e))
 	
 	#---------[You have pressed NO WEBSITE BUTTON]---------
 	def yout_dont_have_website(self, update, context):	# if you don't have website return 2
@@ -34,23 +41,20 @@ class Dealer_Handlers(object):
 		Utility_Obj.append_messages_to_delete(chat_id, context, update.message.message_id)
 
 		website = update.message.text
-		if website.lower() != 'q': 
-			if Utility_Obj.is_really_a_website(website):
-				Utility_Obj.set_user_website(chat_id, website, context)	# Save user website in user_data
-				
-				reply_message = update.message.reply_text(bot_replies['website_added'] % (website), parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard, disable_web_page_preview=True)
-				Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
-				reply_message = update.message.reply_text(bot_replies['description_message'], parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard, disable_web_page_preview=True)
-				Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
-				return ConversationHandler.END
-			else:
-				reply_message = update.message.reply_text(bot_replies['website_error'] % website, parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove(), disable_web_page_preview=True)
-				Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
-				return 1	# loop until you add a valid website
-		else:
-			reply_message = update.message.reply_text(bot_replies['website_not_insert'], parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard, disable_web_page_preview=True)
+		if Utility_Obj.is_really_a_website(website):
+			Utility_Obj.set_user_website(chat_id, website, context)	# Save user website in user_data
+			
+			reply_message = update.message.reply_text(bot_replies['website_added'] % (website), parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard, disable_web_page_preview=True)
+			Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+			reply_message = update.message.reply_text(bot_replies['description_message'], parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard, disable_web_page_preview=True)
 			Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
 			return ConversationHandler.END
+		else:
+			keyboard = [[InlineKeyboardButton("Annulla Operazione", callback_data='-1')]]
+			reply_markup = InlineKeyboardMarkup(keyboard)
+			reply_message = update.message.reply_text(bot_replies['website_error'] % website, reply_markup=reply_markup,  parse_mode=ParseMode.MARKDOWN)
+			Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+			return 1	# loop until you add a valid website
 
 
 	
@@ -382,6 +386,7 @@ class Dealer_Handlers(object):
             		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.back_to_are_you_sure_delete_product_handler),
             	],
             	14:[	# edit product price
+            		CallbackQueryHandler(self.Shop_Window_Handler_Obj.inline_button_handler),
             		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.set_new_product_price_handler),
             	],
             	15: [	# Set edited product price
@@ -391,7 +396,21 @@ class Dealer_Handlers(object):
             },[], map_to_parent= ConversationHandler.END, persistent=True, name='register_shop_handler')
 		return register_shop_handler
 
+	
 
+	def inline_button_handler(self, update, context):
+		try:
+		    query = update.callback_query
+		    chat_id = update.callback_query.message.chat.id
+		    query.answer()
+
+		    reply_message = query.edit_message_text(text="*Operazione annullata con successo.*", parse_mode=ParseMode.MARKDOWN)
+		    Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+		    reply_message = update.callback_query.message.reply_text(bot_replies['website_not_insert'], parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard)
+		    Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+		    return ConversationHandler.END
+		except Exception as e:
+			print(str(e))
 
 	def preamble_register_shop_handler(self):
 		preamble_register_shop_handler = ConversationHandler(
@@ -404,8 +423,9 @@ class Dealer_Handlers(object):
             		MessageHandler(Filters.text,unknown_function_for_groups),
             	],
             	1:[	# state for register website
-            		MessageHandler(Filters.text,self.register_website_handler)
-            	]   	
+            		MessageHandler(Filters.text,self.register_website_handler),
+            		CallbackQueryHandler(self.inline_button_handler)
+            	]	
             },[], persistent=True, name='preamble_register_shop_handler')
 		return preamble_register_shop_handler
 

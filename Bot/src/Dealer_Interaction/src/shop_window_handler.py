@@ -337,19 +337,18 @@ class Shop_Window_Handler(object):
 
 	def dont_send_shopping_window_handler(self, update, context):
 		try:
-			print("\n10.3: " + update.message.text)
-			chat_id = update.message.chat.id
-			Utility_Obj.append_messages_to_delete(chat_id, context, update.message.message_id)
-
-			chat_message = update.message.text 		# "NO - Modifica Prodotti"
-
+			chat_id = update.effective_message.chat.id
+			chat_message = update.effective_message.text
+			print("10.3: " + chat_message)
+			Utility_Obj.append_messages_to_delete(chat_id, context, update.effective_message.message_id)
+			
 			shopping_window = Utility_Obj.get_shopping_window_list_by_chat_id(chat_id, context)
 			shopping_window_names_list = Utility_Obj.get_all_shopping_window_names(shopping_window)
 
 			keyboard_to_show = make_upper_back_keyboard(shopping_window_names_list, 3)
 			Utility_Obj.set_shopping_window_keyboard(chat_id, context, keyboard_to_show)	# store shopping_window keyboard products 
 			
-			reply_message = update.message.reply_text(bot_replies['edit_shopping_window'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
+			reply_message = update.effective_message.reply_text(bot_replies['edit_shopping_window'], parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
 			Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
 			return 11
 		except Exception as e: 	print("Eccezione in dont_send_shopping_window_handler:",str(e))
@@ -377,6 +376,18 @@ class Shop_Window_Handler(object):
 				return self.dont_send_shopping_window_handler(update, context)	# go back
 		except Exception as e: 	print("Eccezione in edit_your_products_main_handler:",str(e))
 
+	def inline_button_handler(self, update, context):
+		try:
+		    query = update.callback_query
+		    chat_id = update.callback_query.message.chat.id
+		    query.answer()
+
+		    reply_message = query.edit_message_text(text="*Operazione annullata con successo.*", parse_mode=ParseMode.MARKDOWN)
+		    Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+		    return self.dont_send_shopping_window_handler(update, context)
+		except Exception as e:
+			print(str(e))
+
 	def edit_this_product_handler(self, update, context):
 		try:
 			print("\n12.1: " + update.message.text)
@@ -389,9 +400,14 @@ class Shop_Window_Handler(object):
 			shopping_window = Utility_Obj.get_shopping_window_list_by_chat_id(chat_id, context)
 			tmp_product  = Utility_Obj.get_tmp_product(chat_id, context)	#	 {'name': 'Blanche de Namur', 'price': 1.0, 'unit': '0.33l'}
 			
-			keyboard_to_show = ReplyKeyboardRemove()
+			# keyboard_to_show = ReplyKeyboardRemove()
 			
-			reply_message = update.message.reply_text(bot_replies['edit_product_price'] % (tmp_product['unit'], tmp_product['name']), parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
+			# reply_message = update.message.reply_text(bot_replies['edit_product_price'] % (tmp_product['unit'], tmp_product['name']), parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard_to_show, disable_web_page_preview=True)
+			# Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+			
+			keyboard_to_show = [[InlineKeyboardButton("Annulla Operazione", callback_data='-1')]]
+			reply_markup = InlineKeyboardMarkup(keyboard_to_show)
+			reply_message = update.message.reply_text(bot_replies['edit_product_price'] % (tmp_product['unit'], tmp_product['name']), reply_markup=reply_markup,  parse_mode=ParseMode.MARKDOWN)
 			Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
 			return 14
 		except Exception as e: 	print("Eccezione in edit_this_product_handler:",str(e))

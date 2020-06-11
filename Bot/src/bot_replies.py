@@ -1,4 +1,5 @@
 from telegram import ReplyKeyboardMarkup, ReplyKeyboardRemove, ParseMode, ChatAction, MessageEntity, Bot
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, ConversationHandler, MessageHandler, Filters, PicklePersistence, PrefixHandler, CallbackQueryHandler
 
 import re, os, requests, sys, time, json
@@ -32,7 +33,7 @@ bot_replies = {
 
 	"category_error_message": "*Inserire almeno una tra le categorie elencate*",
 	"registration_error_message": "*Qualcosa è andato storto con la registrazione del tuo negozio\nRicominciamo la registrazione dall'inizio.*",
-	"location_error_message" : "Non è stato possibile salvare la posizione del tuo negozio.\nInseriscila manualmente attenendoti al seguente formato: *via*, *CAP*, *città*.\nEsempio: *Via corcolle 30, 00131, Roma*",
+	"location_error_message" : "Non è stato possibile salvare la posizione del tuo negozio.\nInseriscila manualmente attenendoti al seguente formato: *via*, *CAP*, *città*.\nEsempio: *Via Federico Delpino 23, 00171, Roma*",
 	
 	"description_message": "*Attraverso i pannelli sottostanti potrai selezionare le categorie che descrivono il tuo negozio e condividere la tua posizione con i clienti.*",
 	"dealer_welcome_message": "Benvenuto *%s*  del negozio *%s* sono ColliGo, il bot che ti aiuterà a promuovere la tua attività online.\nHai un sito web del negozio?",
@@ -44,7 +45,7 @@ bot_replies = {
 	"location_done": "Posizione Registrata: *[%s, %s]*",
 	"website_added": "*Sito Web %s impostato con successo*",
 	"insert_website": "*Inserisci il link al tuo sito web*",
-	"website_error": "*Il sito %s non rispecchia il classico format di un sito web: Sei sicuro che il messaggio contenga 'http://'?\nInserisci di nuovo il link al tuo sito web [premi q per uscire].*",
+	"website_error": "*Il sito %s non rispecchia il classico formato di un sito web: Sei sicuro che il messaggio contenga 'http://'?\nInserisci di nuovo il link al tuo sito web.*",
 	"website_not_insert": "*Sito web non inserito.*",
 
 	"all_done": "*Registrazione del negozio completata con successo*:\nCategorie del negozio: *%s*\nPosizione del negozio: *%s*.",
@@ -74,18 +75,18 @@ bot_replies = {
 	"sure_delete_product": "*Sei sicuro di voler eleminare %s dalla tua vetrina?*",
 	"deletion_done": "*Prodotto %s eliminato correttamente*",
 
-	"edit_product_price": "*Modifica ora il prezzo a cui desideri vendere %s di %s*", # %(size, product_name)
+	"edit_product_price": "*Modifica ora il prezzo a cui desideri vendere %s di %s oppure clicca il bottone sottostante per annullare l'operazione.*", # %(size, product_name)
 	"sure_edit_price": "*Sei sicuro di voler inserire in vetrina %s al prezzo di %s€?*",
 	"edit_product_price_done": "*Prodotto modificato correttamente.*",
 
 
-	"cart_successfully_created":"*%s ti informo che '%s' ha completato la creazione della tua lista della spesa, pertanto ti invito a ritirarla al più presto.\n%s\n\nIl costo complessivo è pari a %s€.*",
+	"cart_successfully_created":"*%s ti informo che '%s' ha completato la creazione della tua lista della spesa, pertanto ti invito a ritirarla al più presto.\n%s\nIl costo complessivo è pari a %s€.*",
 
 
 	#---------[Customer Replies]---------
 	#"pre_insert_token": "*Ciao %s, per visualizzare la vetrina del tuo negoziante di fiducia, utilizza la tastiera sottostante per inserire il token fornito dal gruppo del negoziante*",
 	"insert_token": "*Ciao %s, per visualizzare la vetrina del tuo negoziante di fiducia, per favore inserisci il Token di accesso fornito nel gruppo del negozio.*",
-	"shop_window_customer":"*Questa è la vetrina della bottega '%s' con il riepilogo dei prodotti:\n%s*",
+	"shop_window_customer":"Questa è la vetrina della bottega *'%s'*, situata in *%s* con il riepilogo dei prodotti:\n*%s*",
 	"show_shopping_window_customer":"*Vuoi aggiungere prodotti al tuo carrello oppure visualizzare il suo contenuto?*",
 	"empty_shopping_cart":"*Il tuo carrello è attualmente vuoto.\n\nÈ il momento di comprare qualcosa.*",
 	"show_shopping_window_buttons": "*La vetrina del negozio %s è riportata di seguito. Scegli i prodotti che desideri acquistare e conferma di volerli inserire nel carrello.*",
@@ -95,7 +96,7 @@ bot_replies = {
 
 
 	"cart_content":"*Questo è il contenuto del tuo carrello:\n\n%s\n\nIl costo complessivo è pari a: %s€*",
-	"process_checkout":"*Vuoi procedere al checkout o aggiungere altri prodotti?*",
+	"process_checkout":"*Desideri andare alla cassa o aggiungere altri prodotti?*",
 
 	"checkout_main":"*Prima di inviare la tua lista della spesa al negozio '%s', controlla che tu non abbia scordato nulla.\n\nVuoi eliminare alcuni prodotti dal tuo carrello o desideri procedere all'invio della lista della spesa?*",
 
@@ -143,7 +144,7 @@ bot_buttons = {
 
 	#---------[Message: edit_action]---------
 	"delete_product":"Eliminare il Prodotto",
-	"edit_product_price": "Modificare il Prezzo",
+	"edit_product_price": "MODIFICARE IL PREZZO",
 
 	"sure_delete_product": "Si - Elimina il Prodotto",
 	"not_sure_delete_product": "No - Torna alla Vetrina",
@@ -164,7 +165,7 @@ bot_buttons = {
 
 	"add_other_products": "AGGIUNGI ALTRI PRODOTTI",
 
-	"checkout": "CHECKOUT",
+	"checkout": "CASSA",
 	"add_again":"AGGIUNGI ANCORA",
 
 	"delete_product":"ELIMINA IL PRODOTTO",
@@ -277,7 +278,7 @@ delete_product_sure_keyboard = ReplyKeyboardMarkup([
 delete_edit_keyboard = ReplyKeyboardMarkup([
 	[bot_buttons['edit_product_price']],
 	[bot_buttons['delete_product']]
-])
+], one_time_keyboard = True, resize_keyboard = True)
 
 send_shop_window_keyboard = ReplyKeyboardMarkup([
 	[bot_buttons['yes_send_shop_window']],
@@ -312,7 +313,7 @@ main_keyboard_empty = ReplyKeyboardRemove()
 yes_no_keyboard = ReplyKeyboardMarkup([
 	[bot_buttons['yes']],
 	[bot_buttons['no']]
-])
+], one_time_keyboard = True, resize_keyboard = True)
 
 yes_no_categories_keyboard = ReplyKeyboardMarkup([
 	[bot_buttons['yes_category']],

@@ -21,14 +21,18 @@ class User_Handlers(object):
 				formatted_shopping_window = Utility_Obj.format_shopping_window(dealer_shopping_window)
 				
 				dealer_name = self.Dealer_Persistence_Obj.get_group_tytle_by_token(token)
-				update.message.reply_text(bot_replies['shop_window_customer'] %(dealer_name, formatted_shopping_window), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+				shop_location = self.Dealer_Persistence_Obj.get_shop_location(token)
+				if all(isinstance(x, (int, float)) for x in shop_location):
+					shop_location_list = city, address, cap = Utility_Obj.reverse_location(*shop_location)
+					shop_location = shop_location_list[0] + " (" + shop_location_list[1] + " - " + shop_location_list[2] + ")"
+				update.message.reply_text(bot_replies['shop_window_customer'] %(dealer_name, shop_location, formatted_shopping_window), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
 				
 				keyboard_to_show = add_product_show_shopping_cart_keyboard
 				update.message.reply_text(bot_replies['show_shopping_window_customer'], parse_mode=ParseMode.MARKDOWN, reply_markup=keyboard_to_show)
 			else:	# not valid token
 				return unknown_function(update, context)
 			return 0
-		except Exception as e:	print(str(e)) 
+		except Exception as e:	print("Eccezione in insert_token_main_handler: ",str(e)) 
 
 	def add_product_main_handler(self, update, context):
 		try:
@@ -69,7 +73,7 @@ class User_Handlers(object):
 				keyboard_to_show = checkout_or_add_adain_keyboard
 				update.message.reply_text(bot_replies['process_checkout'], parse_mode=ParseMode.MARKDOWN, reply_markup=keyboard_to_show)
 			return 2
-		except Exception as e:	print(str(e)) 
+		except Exception as e:	print("Eccezione in show_shopping_cart_main_handler :",str(e)) 
 
 	def back_to_main_handler(self, update, context):
 		try:
@@ -82,12 +86,16 @@ class User_Handlers(object):
 			formatted_shopping_window = Utility_Obj.format_shopping_window(dealer_shopping_window)
 			
 			dealer_name = self.Dealer_Persistence_Obj.get_group_tytle_by_token(token)
-			update.message.reply_text(bot_replies['shop_window_customer'] %(dealer_name, formatted_shopping_window), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
+			shop_location = self.Dealer_Persistence_Obj.get_shop_location(token)
+			if all(isinstance(x, (int, float)) for x in shop_location) and len(shop_location) == 2:
+				shop_location_list = city, address, cap = Utility_Obj.reverse_location(*shop_location)
+				shop_location = shop_location_list[0] + " (" + shop_location_list[1] + " - " + shop_location_list[2] + ")"
+			update.message.reply_text(bot_replies['shop_window_customer'] %(dealer_name, shop_location, formatted_shopping_window), parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove())
 			
 			keyboard_to_show = add_product_show_shopping_cart_keyboard
 			update.message.reply_text(bot_replies['show_shopping_window_customer'], parse_mode=ParseMode.MARKDOWN, reply_markup=keyboard_to_show)
 			return 0
-		except Exception as e:	print(str(e)) 
+		except Exception as e:	print("Eccezione in back_to_main_handler: ", str(e)) 
 
 
 	def pre_add_product_handler(self, update, context):

@@ -4,7 +4,9 @@ from geopy.geocoders import Nominatim
 
 class Utility(object):
 	def __init__(self):
-		self.base_request_url = "https://api.colligo.shop/"
+		#self.base_request_url = "https://api.colligo.shop/"
+		self.base_request_url = "https://boiling-beyond-07880.herokuapp.com/"
+		self.colligo_categories_fileName = "files/original_categories.json"
 
 	def is_really_a_website(self, url):
 	    regex = re.compile(
@@ -17,10 +19,17 @@ class Utility(object):
 	    return url is not None and regex.search(url)
 	
 	#---------[CATEGORIES FUNCTIONS]---------
-	def retrieve_merchant_categories(self):
+	def retrieve_merchant_categories_online(self):
 		url = self.base_request_url + '/categories'
 		response = requests.get(url = url)
 		return response.json()
+
+	""" Without connection"""
+	def retrieve_merchant_categories(self):
+		file = open(self.colligo_categories_fileName)
+		content = json.load(file)
+		file.close()
+		return content
 	
 	def get_all_merchant_categories(self):
 		json_content = self.retrieve_merchant_categories()
@@ -86,6 +95,7 @@ class Utility(object):
 	def prepare_persistence(self, chat_id, context):
 		dealer_infos = {
 			"group_title": self.get_group_title(chat_id, context),
+			"shop_location": self.get_user_location(chat_id, context),
 			"categories_list": self.get_user_categories(chat_id, context),
 			"shopping_window_list": self.get_shopping_window_list_by_chat_id(chat_id, context),
 			"shopping_window_date": self.format_datetime(self.get_shopping_window_date(chat_id, context))
@@ -310,4 +320,7 @@ class Utility(object):
 
 if __name__ == '__main__':
 	Utility_Obj = Utility()
-	Utility_Obj.post_shop_details("1221", {})
+	x = Utility_Obj.retrieve_merchant_categories()	
+	print(x)
+
+
