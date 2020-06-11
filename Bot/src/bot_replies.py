@@ -139,12 +139,12 @@ bot_buttons = {
 	"no_show_shop_window": "Fine - vedi la vetrina",
 
 	#---------[Message: shop_window_done]---------
-	"yes_send_shop_window": "SI - Invia ai clienti",
-	"no_send_shop_window": "NO - Modifica i Prodotti",
+	"yes_send_shop_window": "Si - Invia ai clienti",
+	"no_send_shop_window": "No - Modifica i Prodotti",
 
 	#---------[Message: edit_action]---------
 	"delete_product":"Eliminare il Prodotto",
-	"edit_product_price": "MODIFICARE IL PREZZO",
+	"edit_product_price": "Modificare il prezzo",
 
 	"sure_delete_product": "Si - Elimina il Prodotto",
 	"not_sure_delete_product": "No - Torna alla Vetrina",
@@ -157,27 +157,27 @@ bot_buttons = {
 	#---------[Customer Buttons]---------
 	"insert_token": "Inserisci il Token",
 
-	"add_product": "AGGIUNGI UN PRODOTTO",
-	"show_shopping_cart": "VISUALIZZA IL CARRELLO",
+	"add_product": "Aggiungi un prodotto",
+	"show_shopping_cart": "Visualizza il carrello",
 
-	"add_product_done": "AGGIUNGI",
-	"select_other_product": "SELEZIONA UN ALTRO PRODOTTO",
+	"add_product_done": "Aggiungi",
+	"select_other_product": "Seleziona un altro prodotto",
 
-	"add_other_products": "AGGIUNGI ALTRI PRODOTTI",
+	"add_other_products": "Aggiungi altri prodotti",
 
-	"checkout": "CASSA",
-	"add_again":"AGGIUNGI ANCORA",
+	"checkout": "Cassa",
+	"add_again":"Aggiungi ancora",
 
-	"delete_product":"ELIMINA IL PRODOTTO",
-	"send_shopping_cart": "INVIA LISTA DELLA SPESA",
+	"delete_product":"Elimina prodotto",
+	"send_shopping_cart": "Invia lista della spesa",
 
 
 	#---------[New Buttons - Editing shopping window]---------
-	"edit_shopping_window":"MODIFICA LA VETRINA",
+	"edit_shopping_window":"Modifica la vetrina",
 	
-	"add_some_products": "INSERISCI NUOVI PRODOTTI",
-	"delete_some_products":"ELIMINA I PRODOTTI",
-	"edit_shopping_window_prices": "MODIFICA I PREZZI",
+	"add_some_products": "Inserisci nuovi prodotti",
+	"delete_some_products":"Elimina i prodotti",
+	"edit_shopping_window_prices": "Modifica i prezzi",
 
 }
 
