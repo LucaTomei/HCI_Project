@@ -18,10 +18,10 @@ Utils_Obj = utils.Utils()
 Dealer_Persistence_Obj = dealer_persistence.Dealer_Persistence()
 
 BOT_TOKEN = ""		# t.me/ColligoBot
-#BOT_DEV_TOKEN = "1140474924:AAEEt2LD6Hg0TRXZDZU7HoHullUtEqNQAPc"	# t.me/Colligo_Development_Bot
-BOT_DEV_TOKEN = "1224954876:AAFKhsKMrWM7qcLaIAWxPiCk4WF1FL_eXtA"
+BOT_DEV_TOKEN = "1140474924:AAEEt2LD6Hg0TRXZDZU7HoHullUtEqNQAPc"	# t.me/Colligo_Development_Bot
+#BOT_DEV_TOKEN = "1224954876:AAFKhsKMrWM7qcLaIAWxPiCk4WF1FL_eXtA"
 
-NO_PERSISTENCE_FLAG = True
+NO_PERSISTENCE_FLAG = False
 if NO_PERSISTENCE_FLAG == True and os.path.exists(persistence_filename):	os.remove(persistence_filename)
 
 BOT_TOKEN = BOT_DEV_TOKEN	# Development mode
