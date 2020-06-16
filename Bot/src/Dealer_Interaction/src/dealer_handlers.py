@@ -12,6 +12,7 @@ class Dealer_Handlers(object):
 			chat_id = update.message.chat_id
 			Utility_Obj.append_messages_to_delete(chat_id, context, update.message.message_id)
 
+			print("you_have_website: ", update.message.text)
 			Utility_Obj.set_telegram_link(update, context)
 			
 			# reply_message = update.message.reply_text(bot_replies['insert_website'], parse_mode=ParseMode.MARKDOWN, reply_markup=ReplyKeyboardRemove(), disable_web_page_preview=True)
@@ -28,9 +29,16 @@ class Dealer_Handlers(object):
 	def yout_dont_have_website(self, update, context):	# if you don't have website return 2
 		chat_id = update.message.chat_id
 		Utility_Obj.append_messages_to_delete(chat_id, context, update.message.message_id)
-
+		print("yout_dont_have_website: ", update.message.text)
 		Utility_Obj.set_telegram_link(update, context)
 		
+		keyboard = [[InlineKeyboardButton("Video Tutorial", callback_data='-1')]]
+		reply_markup = InlineKeyboardMarkup(keyboard)
+		reply_message = update.message.reply_text(bot_replies['first_tutorial'], parse_mode=ParseMode.MARKDOWN, reply_markup=reply_markup, disable_web_page_preview=True)
+		Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+
+
+
 		reply_message = update.message.reply_text(bot_replies['description_message'], parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard, disable_web_page_preview=True)
 		Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
 		return ConversationHandler.END
@@ -46,6 +54,14 @@ class Dealer_Handlers(object):
 			
 			reply_message = update.message.reply_text(bot_replies['website_added'] % (website), parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard, disable_web_page_preview=True)
 			Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+			
+
+			keyboard = [[InlineKeyboardButton("Video Tutorial", callback_data='-1')]]
+			reply_markup = InlineKeyboardMarkup(keyboard)
+			reply_message = update.message.reply_text(bot_replies['first_tutorial'], parse_mode=ParseMode.MARKDOWN, reply_markup=reply_markup, disable_web_page_preview=True)
+			Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+
+
 			reply_message = update.message.reply_text(bot_replies['description_message'], parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard, disable_web_page_preview=True)
 			Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
 			return ConversationHandler.END
@@ -408,9 +424,33 @@ class Dealer_Handlers(object):
 		    Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
 		    reply_message = update.callback_query.message.reply_text(bot_replies['website_not_insert'], parse_mode=ParseMode.MARKDOWN, reply_markup=main_keyboard)
 		    Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+
+		    keyboard = [[InlineKeyboardButton("Video Tutorial", callback_data='-1')]]
+		    reply_markup = InlineKeyboardMarkup(keyboard)
+		    reply_message = update.callback_query.message.reply_text(bot_replies['first_tutorial'], parse_mode=ParseMode.MARKDOWN, reply_markup=reply_markup, disable_web_page_preview=True)
+		    Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+
 		    return ConversationHandler.END
 		except Exception as e:
 			print(str(e))
+
+	def inline_tutorial_handler(self, update, context):
+		try:
+		    query = update.callback_query
+		    chat_id = update.callback_query.message.chat.id
+		    query.answer()
+
+		    #print(update.callback_query)
+		    reply_message = query.edit_message_text(text="*Visualizza il video di registrazione*", parse_mode=ParseMode.MARKDOWN)
+		    Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+
+		    Bot_Obj.send_chat_action(chat_id, 'upload_video')
+
+		    reply_message = Bot_Obj.send_video(chat_id=chat_id, video=open(video_tutorials['first_tutorial'], 'rb'), supports_streaming=True)
+		    Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
+		   
+		except Exception as e:
+			print("inline_tutorial_handler: ", str(e))
 
 	def preamble_register_shop_handler(self):
 		preamble_register_shop_handler = ConversationHandler(

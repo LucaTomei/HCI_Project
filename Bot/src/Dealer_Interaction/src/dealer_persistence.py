@@ -24,9 +24,30 @@ class Dealer_Persistence(object):
 		token_merchant_list = self.get_all_merchant_name_token()
 		to_ret = ''
 		for item in token_merchant_list:
-			token, shop_name = item #'`'
+			token, shop_name = item
 			to_ret += ' ◦ *' + shop_name + '*: ' + '`' + token + '`\n'
 		return to_ret
+	def get_formatted_shop_names(self):
+		token_merchant_list = self.get_all_merchant_name_token()
+		to_ret = ''
+		for item in token_merchant_list:
+			token, shop_name = item
+			to_ret += ' ◦ *' + shop_name + '*\n'
+		return to_ret
+
+	def get_all_merchant_names(self):	# return only mercant names
+		name_token_list = self.get_all_merchant_name_token()
+		to_ret = []
+		for item in name_token_list:
+			token, shop_name = item
+			to_ret.append(shop_name)
+		return to_ret
+	def from_merchant_name_to_token(self, merchant_name):	# return token by merchant name
+		name_token_list = self.get_all_merchant_name_token()
+		for item in name_token_list:
+			token, shop_name = item
+			if merchant_name == shop_name:	return token
+		return None
 
 	
 	def write_persistence(self, content):
@@ -170,5 +191,8 @@ if __name__ == '__main__':
 	# Dealer_Persistence_Obj.remove_user_by_token(token)
 
 	#Dealer_Persistence_Obj.get_original_product_details("Ferrarelle", "eJzTNTG0MDA3MDM0AwAK3QH/")
-	x = Dealer_Persistence_Obj.get_formatted_token_merchant_list()
-	print(x)
+	x = Dealer_Persistence_Obj.get_all_merchant_names()
+	a_name = x[1]
+	print(a_name)
+	z = Dealer_Persistence_Obj.from_merchant_name_to_token(a_name)
+	print(z)

@@ -18,12 +18,19 @@ Utils_Obj = utils.Utils()
 Dealer_Persistence_Obj = dealer_persistence.Dealer_Persistence()
 
 BOT_TOKEN = ""		# t.me/ColligoBot
-BOT_DEV_TOKEN = "1140474924:AAEEt2LD6Hg0TRXZDZU7HoHullUtEqNQAPc"	# t.me/Colligo_Development_Bot
+#BOT_DEV_TOKEN = "1140474924:AAEEt2LD6Hg0TRXZDZU7HoHullUtEqNQAPc"	# t.me/Colligo_Development_Bot
+BOT_DEV_TOKEN = "1224954876:AAFKhsKMrWM7qcLaIAWxPiCk4WF1FL_eXtA"
 
+NO_PERSISTENCE_FLAG = True
+if NO_PERSISTENCE_FLAG == True and os.path.exists(persistence_filename):	os.remove(persistence_filename)
 
 BOT_TOKEN = BOT_DEV_TOKEN	# Development mode
 
 Bot_Obj = Bot(BOT_TOKEN)
+
+video_tutorials = {
+	"first_tutorial":"../files/video/firts_tutorial.mp4",
+}
 
 #---------[Some Strings]---------
 bot_replies = {
@@ -86,8 +93,17 @@ bot_replies = {
 	#---------[Customer Replies]---------
 	#"pre_insert_token": "*Ciao %s, per visualizzare la vetrina del tuo negoziante di fiducia, utilizza la tastiera sottostante per inserire il token fornito dal gruppo del negoziante*",
 	#"insert_token": "*Ciao %s, per visualizzare la vetrina del tuo negoziante di fiducia, per favore inserisci il Token di accesso fornito nel gruppo del negozio.*",
+	
+
 	"insert_token": "Ciao *%s*, questo è l'elenco dei *negozi registrati*:\n%s",
-	"copy_token": "*Copia il token del negozio mostrato nella lista precedente ed incollalo per iniziare ad acquistare prodotti dalla bottega selezionata.*",
+	
+
+
+	#"copy_token": "*Copia il token del negozio mostrato nella lista precedente ed incollalo per iniziare ad acquistare prodotti dalla bottega selezionata.*",
+	"want_to_buy":"*Desideri acquistare presso uno dei seguenti venditori?*",
+	"show_shops":"*La tastiera sottostante mostra tutti i negozi registrati a ColliGo. Se ne conosci uno selezionalo per iniziare a fare la spesa.*",
+
+	"no_dont_buy":"*Mi dispiace che hai deciso di non acquistare nessun prodotto. Qui troverai comunque l'elenco dei negozi registrati.*",
 
 	"shop_window_customer":"Questa è la vetrina della bottega *'%s'*, situata in *%s* con il riepilogo dei prodotti:\n*%s*",
 	"show_shopping_window_customer":"*Vuoi aggiungere prodotti al tuo carrello oppure visualizzare il suo contenuto?*",
@@ -98,7 +114,7 @@ bot_replies = {
 	"add_to_cart_done": "*Prodotto inserito correttamente nel tuo carrello.\nVuoi continuare ad inserire prodotti o vedere il contenuto del tuo carrello?*",
 
 
-	"cart_content":"*Questo è il contenuto del tuo carrello:\n\n%s\n\nIl costo complessivo è pari a: %s€*",
+	"cart_content":"*Questo è il contenuto del tuo carrello:\n%s\n\nIl costo complessivo è pari a: %s€*",
 	"process_checkout":"*Desideri andare alla cassa o aggiungere altri prodotti?*",
 
 	"checkout_main":"*Prima di inviare la tua lista della spesa al negozio '%s', controlla che tu non abbia scordato nulla.\n\nVuoi eliminare alcuni prodotti dal tuo carrello o desideri procedere all'invio della lista della spesa?*",
@@ -118,6 +134,7 @@ bot_replies = {
 	"what_do_you_want": "Cosa desideri effettuare?",
 	"choice_your_category_edit": "*Attraverso i pannelli sottostanti potrai selezionare la categoria di prodotti per effettuare una modifica sulla tua vetrina.*",
 
+	"first_tutorial":"*Se desideri ricevere un video tutorial su come effettuare la registrazione del tuo negozio clicca il seguente bottone*",
 }
 
 #---------[Keyboard Buttons]---------
@@ -182,6 +199,10 @@ bot_buttons = {
 	"delete_some_products":"Elimina i prodotti",
 	"edit_shopping_window_prices": "Modifica i prezzi",
 
+	#---------[New Buttons - Pre Customer Shopping]---------
+	"want_to_buy_yes": "SI - Mostra i Negozi",
+	"want_to_buy_no": "NO - Aggiorna lista Negozi",
+	"update_shop_list": "Aggiorna Lista"
 }
 
 def makeAKeyboard(alist, parti):
@@ -323,20 +344,22 @@ yes_no_categories_keyboard = ReplyKeyboardMarkup([
 	[bot_buttons['no_category']]
 ])
 
+want_to_buy_keyboard = ReplyKeyboardMarkup([
+	[bot_buttons['want_to_buy_yes']],
+	[bot_buttons['want_to_buy_no']]
+])
+
+update_shop_list_keyboard = ReplyKeyboardMarkup([
+	[bot_buttons['update_shop_list']]
+])
+
+
 categories_names_list = Utility_Obj.get_all_merchant_categories()	# Contains all categories names
 
 
 categories_keyboard = makeAKeyboard(categories_names_list, 5)
 
 
-def unknown_function(update, context):
-	try:
-		chat_id = update.message.chat_id
-		first_name = update.message.chat.first_name
-		first_name = first_name if first_name != None else update.message.from_user.first_name
-		group_title = update.message.chat.title
-		context.bot.send_message(chat_id=chat_id, text = bot_replies['insert_token'] % first_name, reply_markup=ReplyKeyboardRemove(),  parse_mode = ParseMode.MARKDOWN)
-	except Exception as e:	print(str(e))
 
 def deleteMessages(context):
 	chat_id, messages_to_delete = context.job.context
@@ -397,7 +420,7 @@ def unknown_function_for_groups(update, context):
 				reply_message = update.message.reply_text(message, parse_mode=ParseMode.MARKDOWN, reply_markup = keyboard)
 				Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)
 				return ConversationHandler.END
-	except Exception as e:	print("Quiiii:", str(e))
+	except Exception as e:	print("unknown_function_for_groups:", str(e))
 
 
 

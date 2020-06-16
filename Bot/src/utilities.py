@@ -1,4 +1,4 @@
-import requests, json, geopy, googlemaps, re
+import requests, json, geopy, googlemaps, re, pickle, os
 from geopy.geocoders import Nominatim
 
 
@@ -7,6 +7,7 @@ class Utility(object):
 		#self.base_request_url = "https://api.colligo.shop/"
 		self.base_request_url = "https://boiling-beyond-07880.herokuapp.com/"
 		self.colligo_categories_fileName = "files/original_categories.json"
+		self.persistence_filename = "bot_persistence"
 
 	def is_really_a_website(self, url):
 	    regex = re.compile(
@@ -316,11 +317,45 @@ class Utility(object):
 		pass
 
 	#---------[END SAVING DATA TO BACKAND]---------
+	
+	def reset_user_in_pickle(self, chat_id, context):	# not used
+		if os.path.exists(self.persistence_filename):
+			file = open(self.persistence_filename, 'rb')
+			content = pickle.load(file)
+			file.close()
+			for keys in content:
+				if keys == 'conversations':
+					for item in content[keys]:
+						tmp = content[keys][item]
+						new_dict = {}
+						for i in tmp:
+							value = tmp[i]
+							i = list(i)
+							if int(chat_id) in i:
+								i.remove(int(chat_id))
+							i = tuple(i)
+							new_dict.update({i:value})
+						content[keys][item] = new_dict
+			
+			if chat_id in content['user_data'] and chat_id in content['user_data'][chat_id]:
+				content['user_data'][chat_id][chat_id]['used_token'] = ""
+			
+			content['user_data'][chat_id] = {}
+			file.close()
+			
+			file = open(self.persistence_filename, 'wb')
+			pickle.dump(content, file)
+			file.close()
+			
 
 
 if __name__ == '__main__':
 	Utility_Obj = Utility()
-	x = Utility_Obj.retrieve_merchant_categories()	
-	print(x)
+	# x = Utility_Obj.retrieve_merchant_categories()	
+	# print(x)
+	chat_id = 303679205
+	context = {}
+	x = Utility_Obj.reset_user_in_pickle(chat_id, context)
+
 
 
