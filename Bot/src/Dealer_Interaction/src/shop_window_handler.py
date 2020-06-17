@@ -376,11 +376,12 @@ class Shop_Window_Handler(object):
 				return self.dont_send_shopping_window_handler(update, context)	# go back
 		except Exception as e: 	print("Eccezione in edit_your_products_main_handler:",str(e))
 
-	def inline_button_handler(self, update, context):
+	def inline_dont_edit(self, update, context):
 		try:
 		    query = update.callback_query
 		    chat_id = update.callback_query.message.chat.id
 		    query.answer()
+		    print("Sono qui finalmente")
 
 		    reply_message = query.edit_message_text(text="*Operazione annullata con successo.*", parse_mode=ParseMode.MARKDOWN)
 		    Utility_Obj.append_messages_to_delete(chat_id, context, reply_message.message_id)

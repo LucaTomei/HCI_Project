@@ -402,7 +402,7 @@ class Dealer_Handlers(object):
             		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.back_to_are_you_sure_delete_product_handler),
             	],
             	14:[	# edit product price
-            		CallbackQueryHandler(self.Shop_Window_Handler_Obj.inline_button_handler),
+            		CallbackQueryHandler(self.Shop_Window_Handler_Obj.inline_dont_edit),
             		MessageHandler(Filters.text, self.Shop_Window_Handler_Obj.set_new_product_price_handler),
             	],
             	15: [	# Set edited product price
@@ -465,7 +465,7 @@ class Dealer_Handlers(object):
             	1:[	# state for register website
             		MessageHandler(Filters.text,self.register_website_handler),
             		CallbackQueryHandler(self.inline_button_handler)
-            	]	
+            	]
             },[], persistent=True, name='preamble_register_shop_handler')
 		return preamble_register_shop_handler
 
